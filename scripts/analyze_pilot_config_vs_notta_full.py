@@ -416,46 +416,6 @@ def build_report(
                 )
         lines.append("")
 
-        # Task 2c — full 2x2: each routing objective's paired gain vs NOTTA on BOTH metrics
-        if has_notta:
-            notta_psnr = metric_maps["psnr"].get(NOTTA_RUN_ID, {})
-            notta_vb = metric_maps["vbench"].get(NOTTA_RUN_ID, {})
-            lines += [
-                "## Task 2c — Per-quintile routing gain vs NOTTA (2×2: objective × metric)",
-                "",
-                "Paired mean(routed − NOTTA) over videos in each quintile with both "
-                "scores. `PSNR-route` = per-video best-PSNR config; `VBench-route` = "
-                "per-video best-VBench config. Each routing is reported on BOTH metrics "
-                "(diagonal = own objective; off-diagonal = cross-objective side-effect). "
-                "Oracle upper bound; the 9-d OOF router realizes ~7.2% (PSNR) / ~20.8% "
-                "(VBench) of these gaps.",
-                "",
-                "| Quintile | N | ΔPSNR · PSNR-route | ΔVBench · PSNR-route | "
-                "ΔPSNR · VBench-route | ΔVBench · VBench-route |",
-                "|---|---:|---:|---:|---:|---:|",
-            ]
-            for q in quintiles:
-                qv = q_vids[q]
-                d_pp = _paired_delta(realized_psnr["psnr"], notta_psnr, qv)
-                d_pv = _paired_delta(realized_psnr["vbench"], notta_vb, qv)
-                d_vp = _paired_delta(realized_vbench["psnr"], notta_psnr, qv)
-                d_vv = _paired_delta(realized_vbench["vbench"], notta_vb, qv)
-                lines.append(
-                    f"| Q{q} | {len(qv)} | {_fmt_delta(d_pp,'psnr')} | "
-                    f"{_fmt_delta(d_pv,'vbench')} | {_fmt_delta(d_vp,'psnr')} | "
-                    f"{_fmt_delta(d_vv,'vbench')} |"
-                )
-            d_pp = _paired_delta(realized_psnr["psnr"], notta_psnr, vids)
-            d_pv = _paired_delta(realized_psnr["vbench"], notta_vb, vids)
-            d_vp = _paired_delta(realized_vbench["psnr"], notta_psnr, vids)
-            d_vv = _paired_delta(realized_vbench["vbench"], notta_vb, vids)
-            lines.append(
-                f"| **All** | {len(vids)} | {_fmt_delta(d_pp,'psnr')} | "
-                f"{_fmt_delta(d_pv,'vbench')} | {_fmt_delta(d_vp,'psnr')} | "
-                f"{_fmt_delta(d_vv,'vbench')} |"
-            )
-            lines.append("")
-
     lines += [
         "## Notes",
         "",

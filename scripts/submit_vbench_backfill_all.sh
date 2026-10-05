@@ -26,9 +26,12 @@ set -euo pipefail
 
 TARGETS_FILE="${TARGETS_FILE:-sweep_experiment/reports/vbench_backfill_targets.tsv}"
 ACCOUNT="${ACCOUNT:-torch_pr_36_mren}"
+PARTITION="${PARTITION:-}"
 MAX_PARALLEL="${MAX_PARALLEL:-8}"
 DRY_RUN="${DRY_RUN:-0}"
 SBATCH_SCRIPT="sweep_experiment/sbatch/run_vbench_backfill.sbatch"
+PROJECT_ROOT="${PROJECT_ROOT:-/scratch/${USER}/longcat-video-tta}"
+VBENCH_PYTHON="${VBENCH_PYTHON:-/scratch/${USER}/conda-envs/vbench-backfill/bin/python}"
 
 if [ ! -f "${TARGETS_FILE}" ]; then
     echo "ERROR: ${TARGETS_FILE} not found." >&2
@@ -47,7 +50,9 @@ echo "==========================================================================
 echo "VBench backfill mass-submission"
 echo "=============================================================================="
 echo "  Targets file : ${TARGETS_FILE}"
+echo "  Project root : ${PROJECT_ROOT}"
 echo "  Account      : ${ACCOUNT}"
+echo "  Partition    : ${PARTITION:-<sbatch default — do not pass h200_cour>}"
 echo "  Max parallel : ${MAX_PARALLEL}"
 echo "  Dry run      : ${DRY_RUN}"
 echo "=============================================================================="
@@ -87,12 +92,18 @@ while IFS=$'\t' read -r method_dir n_chunks n_with_videos total_videos existing 
         sleep 60
     done
 
+  method_dir_abs="${method_dir}"
+  if [[ "${method_dir_abs}" != /* ]]; then
+      method_dir_abs="${PROJECT_ROOT}/${method_dir_abs}"
+  fi
+
     cmd=(sbatch
+        --chdir="${PROJECT_ROOT}"
         --account="${ACCOUNT}"
         --job-name="${job_name}"
-        --export="ALL,METHOD_DIR=${method_dir},DIMS=${dims_space}"
+        --export="ALL,METHOD_DIR=${method_dir_abs},DIMS=${dims_space},VBENCH_PYTHON=${VBENCH_PYTHON}"
     )
-    if [ -n "${PARTITION:-}" ]; then
+    if [ -n "${PARTITION}" ]; then
         cmd+=(--partition="${PARTITION}")
     fi
     cmd+=("${SBATCH_SCRIPT}")

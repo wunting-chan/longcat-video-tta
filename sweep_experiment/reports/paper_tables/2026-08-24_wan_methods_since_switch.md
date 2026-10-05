@@ -37,7 +37,7 @@ if the freeze were real*.
 | Word | Meaning |
 |---|---|
 | **Self-Forcing (SF)** | The student we treat as the paper baseline. Writes in 21-latent chunks. |
-| **Rolling Forcing (RF)** | A different student + a rolling sampler. Already beats SF do-nothing by ~31% tail. Someone else’s host. |
+| **Rolling Forcing (RF)** | A different student + a rolling sampler. Caption official: tail +22%, IQ **70.22 vs SF 71.54** (fails −1). Someone else’s host. |
 | **Prefix** | First 9 latents (~2.1 s) from a real Panda clip. Never searched. |
 | **k** | How many alternate futures we try before picking one. k=4 is the family width and CachedSearch’s cheap best-of-4. |
 | **Gate** | A cheap check that decides whether to spend those k tries. |

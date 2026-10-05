@@ -1,0 +1,13 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+\method shows that pretrained modulation pathways are a useful substrate for
+efficient test-time adaptation of large video diffusion transformers. By
+sharing a single \dimt-dimensional residual across all \nblocks blocks and
+letting the frozen adaLN projections supply the per-block de-tying, \method
+adapts denoising behavior with a tiny trainable surface, no new layers, and
+no source-data access at adaptation time. The broader lesson is that
+behavior-level adaptation through pretrained conditioning interfaces is
+preferable to adding large free adapter subspaces when the adaptation signal
+is itself small. Pushing the same interface to long-horizon video generation
+is the most natural next direction.

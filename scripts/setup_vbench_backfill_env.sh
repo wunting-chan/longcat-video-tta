@@ -95,9 +95,17 @@ conda activate "${ENV_NAME}"
 
 # Sanity-print: confirm Python is on /scratch, not /home
 PY_PATH="$(which python)"
+PIP_CMD=(python -m pip)
 echo ""
 echo "  Active env path : ${CONDA_PREFIX}"
 echo "  Python binary   : ${PY_PATH}"
+if [[ "${PY_PATH}" != "${CONDA_PREFIX}/bin/python" ]]; then
+    echo "ERROR: 'python' is not the conda env interpreter." >&2
+    echo "       expected: ${CONDA_PREFIX}/bin/python" >&2
+    echo "       got:      ${PY_PATH}" >&2
+    echo "       Re-run: module load anaconda3/2025.06 && source .../conda.sh && conda activate ${ENV_NAME}" >&2
+    exit 1
+fi
 case "${CONDA_PREFIX}" in
     /scratch/*)  echo "  (env is on /scratch — good)";;
     *)           echo "  WARN: env is NOT on /scratch — pip wheels may fill /home";;
@@ -108,7 +116,7 @@ echo ""
 echo "[2/3] Installing pinned dependencies for VBench 0.1.5 ..."
 echo "       (wheels download to ${PIP_CACHE_DIR}, extract in ${TMPDIR})"
 
-pip install \
+"${PIP_CMD[@]}" install \
     --cache-dir "${PIP_CACHE_DIR}" \
     'setuptools>=70,<80' \
     'numpy==1.26.4' \
@@ -128,16 +136,25 @@ pip install \
 # Belt-and-suspenders: if a transitive dep dragged opencv-python (with libGL
 # requirement) onto the env, replace it with the headless variant which
 # provides the same cv2 API but no system-libGL dependency.
-if pip show opencv-python >/dev/null 2>&1; then
+if "${PIP_CMD[@]}" show opencv-python >/dev/null 2>&1; then
     echo "  [fix] removing opencv-python (libGL-dependent) ..."
-    pip uninstall -y opencv-python
-    pip install --cache-dir "${PIP_CACHE_DIR}" 'opencv-python-headless==4.11.0.86'
+    "${PIP_CMD[@]}" uninstall -y opencv-python
+    "${PIP_CMD[@]}" install --cache-dir "${PIP_CACHE_DIR}" 'opencv-python-headless==4.11.0.86'
 fi
 
 # Belt-and-suspenders #2: opencv-python-headless 4.13+ requires numpy>=2,
 # which conflicts with vbench 0.1.5's numpy<2 pin. Re-pin numpy if anything
 # upgraded it during the install.
-pip install --cache-dir "${PIP_CACHE_DIR}" 'numpy==1.26.4'
+"${PIP_CMD[@]}" install --cache-dir "${PIP_CACHE_DIR}" 'numpy==1.26.4'
+
+# Always ensure headless opencv is present. Use --no-deps so pip cannot
+# upgrade numpy to 2.x when reinstalling opencv (breaks pyiqa/imgaug/vbench).
+"${PIP_CMD[@]}" install --cache-dir "${PIP_CACHE_DIR}" --no-deps \
+    'opencv-python-headless==4.11.0.86'
+if ! python -c "import cv2; print('  cv2 =', cv2.__version__)"; then
+    echo "ERROR: opencv-python-headless install failed — cv2 still missing." >&2
+    exit 1
+fi
 
 # ---- Verify all 7 dimensions import cleanly --------------------------------
 echo "[3/3] Verifying dimension imports + pre-downloading checkpoints ..."
@@ -163,8 +180,8 @@ for dim in DIMS:
         print(f"  vbench.{dim} -> FAIL: {type(e).__name__}: {e}")
 
 if len(ok) < 7:
-    print(f"\n[warn] {len(ok)}/7 dimensions importable.")
-    sys.exit(0)
+    print(f"\n[error] {len(ok)}/7 dimensions importable — fix deps before backfill.")
+    sys.exit(1)
 
 print("\n===== Instantiating VBench (triggers checkpoint downloads) =====")
 import torch, vbench as _v

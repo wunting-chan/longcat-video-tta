@@ -101,35 +101,3 @@ taking a max over noisy per-config measurements. For VBench specifically, per-vi
 (MUSIQ, no-reference) is scoring noise (no-TTA↔config corr = 0.05 vs PSNR's 0.998). This is a
 clean negative result that supports shipping a single fixed config (≈ no-TTA) rather than a
 per-video router.
-
----
-
-## Per-VBench-dimension routability (short-horizon 1000v, N=898)
-
-`scripts/diagnose_routability_per_vbench_dim.py`. Paired pool per dim (all 12 configs + NO-TTA scored). OOF = out-of-fold 5-fold ridge (leakage-free). Routable requires R2(gain) > 0 AND corr(NO-TTA,cfg) high.
-
-| VBench dim | within-cfg sigma | corr(NO-TTA,cfg) | oracle gain/fixed | R2(gain) | routable? |
-|---|---:|---:|---:|---:|:--:|
-| imaging_quality | 0.397 | 0.053 | 0.666 | -0.080 | no (max-of-noise) |
-| dynamic_degree | 0.021 | 0.092 | 0.027 | -0.004 | no (least-dead) |
-| aesthetic_quality | 0.004 | 0.042 | 0.006 | -0.094 | no |
-| subject_consistency | 0.0025 | 0.034 | 0.0035 | -0.048 | no |
-| background_consistency | 0.0023 | 0.018 | 0.0035 | -0.011 | no |
-| temporal_flickering | 0.0006 | 0.022 | 0.0009 | -0.016 | no |
-| motion_smoothness | 0.0004 | 0.012 | 0.0006 | -0.010 | no |
-
-**Conclusion:** No single VBench dimension is routable. R2(gain) <= 0 for all 7 dims; corr(NO-TTA,cfg) ~ 0 everywhere (NO-TTA = independent noise draw per dim). imaging_quality carries ~all config movement and drives VBench-total's apparent headroom, but is max-over-noise. subject_consistency is flat on this short-horizon in-domain pool (long-context regime untested). Per-dim routing is a dead end here; real signal lives in the long-horizon drift regime and in diverse candidate generation (seed/noise), per 2026 literature (SAVi-DNO seed-oracle real +1.18 dB; TANGO -28% FVD; Video-T1 semantic-dim gains).
-
----
-
-## FVD (distribution-level) — matched-FVD @ 1000v preview
-
-FVD has no per-video score (no per-video oracle). Pooled FVD per policy, one GT cache, one protocol. Lower = better.
-
-| Policy | N | FVD |
-|---|---:|---:|
-| always_notta | 898 | **81.52** (best) |
-| oracle_best_psnr (PSNR-routed) | 998 | 168.68 |
-| fixed_S10_LR5e3 | 998 | 198.20 (worst) |
-
-**Caveat:** N mismatch (898 vs 998); matched-set rerun via `--intersect-with-notta` pending. **Reading:** AdaSteer TTA degrades FVD ~2.4x vs no-TTA (no-fidelity-gain, realism-loss tradeoff — same as SAVi-DNO's pixel-loss variant). Routing recovers ~30 FVD pts vs a fixed config but stays far above no-TTA. On short-horizon in-domain, the FVD-optimal policy is NO-TTA.

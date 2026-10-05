@@ -1,0 +1,2013 @@
+{
+  "n": 8,
+  "n_ok": 8,
+  "task": "v2v",
+  "method": "rolling_look",
+  "host": "rolling",
+  "live_min": 0.012,
+  "horizon_s": 30.0,
+  "prefix_latents": 9,
+  "n_gen_latent": 126,
+  "chunk_latents": 21,
+  "n_chunks": 6,
+  "n_pix": 537,
+  "search_k": 4,
+  "seed": 0,
+  "shard_id": 0,
+  "num_shards": 1,
+  "video_workers": 1,
+  "video_worker_id": null,
+  "video_dir": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p",
+  "sampling_hooks": {
+    "scheduler.shift": 5.0,
+    "args.guidance_scale": 3.0
+  },
+  "shift_live": null,
+  "cfg_live": null,
+  "rows": [
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0000.mp4",
+      "file_name": "panda_0000.mp4",
+      "stem": "panda_0000",
+      "prompt": "A close up of a truck with its hood open.",
+      "prompt_source": "metadata_csv",
+      "item_index": 0,
+      "seconds": 328.63,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/000_panda_0000_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.018643755465745926,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=0",
+          "prefix_motion": 0.006380189210176468,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.4429173469543457,
+                0.366803914308548,
+                0.40873801708221436,
+                0.4701736271381378
+              ],
+              "seams": [
+                0.3328387141227722,
+                0.3300009071826935,
+                0.37865784764289856,
+                0.3537839651107788
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.46258190274238586,
+                0.45882031321525574,
+                0.45531800389289856,
+                0.4973357319831848
+              ],
+              "seams": [
+                0.3623619079589844,
+                0.3505775034427643,
+                0.35532909631729126,
+                0.35441598296165466
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.39748668670654297,
+                0.40059134364128113,
+                0.3931978642940521,
+                0.43591099977493286
+              ],
+              "seams": [
+                0.37544211745262146,
+                0.37636563181877136,
+                0.37599214911460876,
+                0.37603282928466797
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.3332752287387848,
+                0.33515071868896484,
+                0.3415144383907318,
+                0.3439759910106659
+              ],
+              "seams": [
+                0.397794634103775,
+                0.39685896039009094,
+                0.39718103408813477,
+                0.3971993923187256
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.28706300258636475,
+                0.28075939416885376,
+                0.2903468906879425,
+                0.30596795678138733
+              ],
+              "seams": [
+                0.39943626523017883,
+                0.39912208914756775,
+                0.39876875281333923,
+                0.39866024255752563
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.11757310479879379,
+                0.1164897084236145,
+                0.12117689102888107,
+                0.1389712244272232
+              ],
+              "seams": [
+                0.10672969371080399,
+                0.10677264630794525,
+                0.10679294168949127,
+                0.10651924461126328
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.2968796491622925,
+                0.2615290880203247,
+                0.2686994671821594,
+                0.2670474052429199
+              ],
+              "seams": [
+                0.14809398353099823,
+                0.14778536558151245,
+                0.14768894016742706,
+                0.1476389467716217
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.1860915720462799,
+                0.1776222586631775,
+                0.18404127657413483,
+                0.1915736198425293
+              ],
+              "seams": [
+                0.1964120715856552,
+                0.19675181806087494,
+                0.1967668980360031,
+                0.19647139310836792
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.17528417706489563,
+                0.17166826128959656,
+                0.17087353765964508,
+                0.17601047456264496
+              ],
+              "seams": [
+                0.19002580642700195,
+                0.18978682160377502,
+                0.18996965885162354,
+                0.18982136249542236
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.10774814337491989,
+                0.10525263845920563,
+                0.11453019082546234,
+                0.09835225343704224
+              ],
+              "seams": [
+                0.263324499130249,
+                0.2629466652870178,
+                0.26334577798843384,
+                0.2631828784942627
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0001.mp4",
+      "file_name": "panda_0001.mp4",
+      "stem": "panda_0001",
+      "prompt": "A young woman is standing in front of a kitchen counter. she has tattoos on her arms and is wearing a black tank top.",
+      "prompt_source": "metadata_csv",
+      "item_index": 1,
+      "seconds": 316.79,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/001_panda_0001_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 1,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.012546325102448463,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 7,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=7",
+          "prefix_motion": 0.02160470560193062,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.20151793956756592,
+                0.1813766211271286,
+                0.20259897410869598,
+                0.13715620338916779
+              ],
+              "seams": [
+                0.2202712744474411,
+                0.220395028591156,
+                0.2152356654405594,
+                0.20767009258270264
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.15765850245952606,
+                0.1747318059206009,
+                0.1634901612997055,
+                0.16872364282608032
+              ],
+              "seams": [
+                0.22448670864105225,
+                0.22556039690971375,
+                0.2254984825849533,
+                0.22525303065776825
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 1,
+              "reason": "look_seam",
+              "motions": [
+                0.15268546342849731,
+                0.14458803832530975,
+                0.14502103626728058,
+                0.15078561007976532
+              ],
+              "seams": [
+                0.2263382077217102,
+                0.22483360767364502,
+                0.22656981647014618,
+                0.22509890794754028
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.1404796987771988,
+                0.13095684349536896,
+                0.13456925749778748,
+                0.14615854620933533
+              ],
+              "seams": [
+                0.2230270504951477,
+                0.2233833223581314,
+                0.22330458462238312,
+                0.22309954464435577
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.12775838375091553,
+                0.12679627537727356,
+                0.1410238891839981,
+                0.13107989728450775
+              ],
+              "seams": [
+                0.23038078844547272,
+                0.23032356798648834,
+                0.23016999661922455,
+                0.2299044132232666
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 1,
+              "reason": "look_seam",
+              "motions": [
+                0.15235039591789246,
+                0.16549131274223328,
+                0.17972908914089203,
+                0.1373869925737381
+              ],
+              "seams": [
+                0.18821607530117035,
+                0.18801532685756683,
+                0.18823570013046265,
+                0.18822450935840607
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.1935391128063202,
+                0.17934513092041016,
+                0.22293585538864136,
+                0.1855057030916214
+              ],
+              "seams": [
+                0.3066747486591339,
+                0.3066818118095398,
+                0.30594658851623535,
+                0.30665498971939087
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.2059781402349472,
+                0.18953603506088257,
+                0.20247682929039001,
+                0.20312373340129852
+              ],
+              "seams": [
+                0.15505066514015198,
+                0.1554143875837326,
+                0.15535283088684082,
+                0.15551316738128662
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.16446633636951447,
+                0.17183108627796173,
+                0.16516268253326416,
+                0.17289409041404724
+              ],
+              "seams": [
+                0.15210799872875214,
+                0.15203912556171417,
+                0.15196344256401062,
+                0.15243016183376312
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.1466086357831955,
+                0.154863640666008,
+                0.13494616746902466,
+                0.1622837781906128
+              ],
+              "seams": [
+                0.15337511897087097,
+                0.15325528383255005,
+                0.15337137877941132,
+                0.1532464474439621
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0002.mp4",
+      "file_name": "panda_0002.mp4",
+      "stem": "panda_0002",
+      "prompt": "The room has a white wall and a bookshelf.",
+      "prompt_source": "metadata_csv",
+      "item_index": 2,
+      "seconds": 320.14,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/002_panda_0002_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.004389431327581406,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=0",
+          "prefix_motion": 0.0007879817858338356,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.6651390790939331,
+                0.6227491497993469,
+                0.5556107759475708,
+                0.6730586886405945
+              ],
+              "seams": [
+                0.206346794962883,
+                0.469364196062088,
+                0.580115020275116,
+                0.52736496925354
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.42050209641456604,
+                0.407300740480423,
+                0.38013795018196106,
+                0.404908150434494
+              ],
+              "seams": [
+                0.09504048526287079,
+                0.0988985225558281,
+                0.08882548660039902,
+                0.09748538583517075
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.29274338483810425,
+                0.2944089472293854,
+                0.29805850982666016,
+                0.2956213653087616
+              ],
+              "seams": [
+                0.05550714209675789,
+                0.05508715659379959,
+                0.05692629888653755,
+                0.05567276477813721
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.23129630088806152,
+                0.23069384694099426,
+                0.229426309466362,
+                0.23180091381072998
+              ],
+              "seams": [
+                0.05004378408193588,
+                0.05084989592432976,
+                0.05085126683115959,
+                0.05014219135046005
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.19284525513648987,
+                0.19217520952224731,
+                0.1942034512758255,
+                0.1931242048740387
+              ],
+              "seams": [
+                0.05298079177737236,
+                0.0527564138174057,
+                0.052667513489723206,
+                0.05284174531698227
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.04238427057862282,
+                0.043107498437166214,
+                0.04264282062649727,
+                0.04254188388586044
+              ],
+              "seams": [
+                0.06934627890586853,
+                0.06900855153799057,
+                0.06922078132629395,
+                0.06918921321630478
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.04552963376045227,
+                0.04531703144311905,
+                0.045386381447315216,
+                0.04534982517361641
+              ],
+              "seams": [
+                0.07321567088365555,
+                0.07290328294038773,
+                0.07273407280445099,
+                0.07326623052358627
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.044772256165742874,
+                0.044049251824617386,
+                0.044485077261924744,
+                0.044460736215114594
+              ],
+              "seams": [
+                0.07293862849473953,
+                0.07282257080078125,
+                0.07265099138021469,
+                0.07291433960199356
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.04500977322459221,
+                0.04453371465206146,
+                0.044339869171381,
+                0.043948352336883545
+              ],
+              "seams": [
+                0.07458852976560593,
+                0.07471370697021484,
+                0.07481852173805237,
+                0.07512721419334412
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.0615510568022728,
+                0.06042691692709923,
+                0.06330864131450653,
+                0.06200337037444115
+              ],
+              "seams": [
+                0.11637815833091736,
+                0.11595351994037628,
+                0.11602470278739929,
+                0.11630319803953171
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0003.mp4",
+      "file_name": "panda_0003.mp4",
+      "stem": "panda_0003",
+      "prompt": "A police officer in a video game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 3,
+      "seconds": 316.31,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/003_panda_0003_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02546757459640503,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=0",
+          "prefix_motion": 0.0009400062845088542,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.5995293259620667,
+                0.5854852199554443,
+                0.45263445377349854,
+                0.50023353099823
+              ],
+              "seams": [
+                0.24023045599460602,
+                0.2500331997871399,
+                0.5155391693115234,
+                0.26016706228256226
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.40022364258766174,
+                0.36964285373687744,
+                0.36580872535705566,
+                0.36703261733055115
+              ],
+              "seams": [
+                0.20869523286819458,
+                0.21211346983909607,
+                0.24570244550704956,
+                0.20006100833415985
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.30734559893608093,
+                0.29386135935783386,
+                0.3391589820384979,
+                0.33501189947128296
+              ],
+              "seams": [
+                0.2535691559314728,
+                0.25619038939476013,
+                0.25600293278694153,
+                0.2527589797973633
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.30267566442489624,
+                0.2743188440799713,
+                0.2854999005794525,
+                0.2807781994342804
+              ],
+              "seams": [
+                0.2801905870437622,
+                0.2800355553627014,
+                0.27987003326416016,
+                0.27914637327194214
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.2807467579841614,
+                0.29573240876197815,
+                0.3074948191642761,
+                0.2859935462474823
+              ],
+              "seams": [
+                0.3057084083557129,
+                0.30538779497146606,
+                0.30506303906440735,
+                0.3050977885723114
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.25623422861099243,
+                0.25399816036224365,
+                0.2804306447505951,
+                0.2755126655101776
+              ],
+              "seams": [
+                0.36388856172561646,
+                0.36438509821891785,
+                0.3640208840370178,
+                0.3647773563861847
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.39197903871536255,
+                0.3914078176021576,
+                0.3848610520362854,
+                0.38115647435188293
+              ],
+              "seams": [
+                0.43973222374916077,
+                0.43951666355133057,
+                0.43977534770965576,
+                0.44011324644088745
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.44356825947761536,
+                0.43363186717033386,
+                0.4272633492946625,
+                0.4344964623451233
+              ],
+              "seams": [
+                0.4489021897315979,
+                0.4497314989566803,
+                0.44960829615592957,
+                0.4496338665485382
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.3785025179386139,
+                0.3817521929740906,
+                0.35320693254470825,
+                0.35200560092926025
+              ],
+              "seams": [
+                0.5527727603912354,
+                0.5534139275550842,
+                0.5528001189231873,
+                0.5512510538101196
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.319839209318161,
+                0.35757315158843994,
+                0.3189074695110321,
+                0.33087262511253357
+              ],
+              "seams": [
+                0.4156642258167267,
+                0.41626137495040894,
+                0.41549474000930786,
+                0.41606172919273376
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0004.mp4",
+      "file_name": "panda_0004.mp4",
+      "stem": "panda_0004",
+      "prompt": "A black book with the words photo critique on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 4,
+      "seconds": 319.13,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/004_panda_0004_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.006156079936772585,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=0",
+          "prefix_motion": 0.005833710078150034,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.1639045625925064,
+                0.15604738891124725,
+                0.14705120027065277,
+                0.15184149146080017
+              ],
+              "seams": [
+                0.16271382570266724,
+                0.1640399545431137,
+                0.1594613790512085,
+                0.16322852671146393
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.14341048896312714,
+                0.1446402370929718,
+                0.16144151985645294,
+                0.1575169861316681
+              ],
+              "seams": [
+                0.17420487105846405,
+                0.17270547151565552,
+                0.17607451975345612,
+                0.1738111525774002
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.14531879127025604,
+                0.13929252326488495,
+                0.14459489285945892,
+                0.1426071971654892
+              ],
+              "seams": [
+                0.17155180871486664,
+                0.17152999341487885,
+                0.17131005227565765,
+                0.1725567728281021
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.12783180177211761,
+                0.1214820146560669,
+                0.11548713594675064,
+                0.11805373430252075
+              ],
+              "seams": [
+                0.17082329094409943,
+                0.17092160880565643,
+                0.17065607011318207,
+                0.17062264680862427
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.11179531365633011,
+                0.10982412844896317,
+                0.11175782233476639,
+                0.10840832442045212
+              ],
+              "seams": [
+                0.17076463997364044,
+                0.17067283391952515,
+                0.17021426558494568,
+                0.17074522376060486
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.09694012999534607,
+                0.09576114267110825,
+                0.09834550321102142,
+                0.09277748316526413
+              ],
+              "seams": [
+                0.12795639038085938,
+                0.127899631857872,
+                0.12794627249240875,
+                0.12808606028556824
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.06048247218132019,
+                0.05903629958629608,
+                0.05913286656141281,
+                0.057318877428770065
+              ],
+              "seams": [
+                0.09484634548425674,
+                0.0951681137084961,
+                0.09507563710212708,
+                0.09483760595321655
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.05069896578788757,
+                0.0457894466817379,
+                0.050469838082790375,
+                0.045960478484630585
+              ],
+              "seams": [
+                0.07215321063995361,
+                0.07237070053815842,
+                0.07213321328163147,
+                0.07263919711112976
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.037194885313510895,
+                0.04688726365566254,
+                0.03922902047634125,
+                0.03742630407214165
+              ],
+              "seams": [
+                0.06471432000398636,
+                0.06492234766483307,
+                0.06496351212263107,
+                0.06444326043128967
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.03878377377986908,
+                0.039030250161886215,
+                0.08326172828674316,
+                0.04194703325629234
+              ],
+              "seams": [
+                0.06375688314437866,
+                0.06380178034305573,
+                0.06332474946975708,
+                0.0642096996307373
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0005.mp4",
+      "file_name": "panda_0005.mp4",
+      "stem": "panda_0005",
+      "prompt": "The person is holding a plastic bowl filled with cherry tomatoes on a kitchen counter.",
+      "prompt_source": "metadata_csv",
+      "item_index": 5,
+      "seconds": 313.83,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/005_panda_0005_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01013382337987423,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=0",
+          "prefix_motion": 0.00524646881967783,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.2663111388683319,
+                0.2498522251844406,
+                0.23652419447898865,
+                0.24301287531852722
+              ],
+              "seams": [
+                0.2094709873199463,
+                0.18598178029060364,
+                0.20506228506565094,
+                0.18926341831684113
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.21747896075248718,
+                0.21302711963653564,
+                0.223965585231781,
+                0.2376595288515091
+              ],
+              "seams": [
+                0.2002369612455368,
+                0.19860073924064636,
+                0.19912779331207275,
+                0.20220842957496643
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.20909792184829712,
+                0.2065834254026413,
+                0.20612500607967377,
+                0.22708244621753693
+              ],
+              "seams": [
+                0.2008710652589798,
+                0.20258966088294983,
+                0.20163555443286896,
+                0.20123249292373657
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.18511109054088593,
+                0.1885581761598587,
+                0.18886157870292664,
+                0.1853116899728775
+              ],
+              "seams": [
+                0.20711295306682587,
+                0.20707237720489502,
+                0.20676158368587494,
+                0.2063858062028885
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.1767587661743164,
+                0.16443803906440735,
+                0.1809057891368866,
+                0.1763271987438202
+              ],
+              "seams": [
+                0.21292544901371002,
+                0.21273338794708252,
+                0.2126922309398651,
+                0.21292023360729218
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.1265517771244049,
+                0.15551818907260895,
+                0.11859822273254395,
+                0.11815628409385681
+              ],
+              "seams": [
+                0.15722349286079407,
+                0.15710130333900452,
+                0.15728990733623505,
+                0.15755422413349152
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.10970143973827362,
+                0.11036601662635803,
+                0.12778756022453308,
+                0.1121017336845398
+              ],
+              "seams": [
+                0.16522914171218872,
+                0.1647910177707672,
+                0.1648532748222351,
+                0.16475173830986023
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.15282224118709564,
+                0.1659398376941681,
+                0.1570403128862381,
+                0.15533782541751862
+              ],
+              "seams": [
+                0.20986062288284302,
+                0.2099703699350357,
+                0.2097763866186142,
+                0.21018967032432556
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.14909711480140686,
+                0.15581288933753967,
+                0.1506865918636322,
+                0.15338438749313354
+              ],
+              "seams": [
+                0.19608081877231598,
+                0.1962866485118866,
+                0.19614414870738983,
+                0.19620847702026367
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 0,
+              "reason": "look_skip_still",
+              "motions": [
+                0.12639407813549042,
+                0.12244056165218353,
+                0.14798380434513092,
+                0.12979841232299805
+              ],
+              "seams": [
+                0.18525303900241852,
+                0.18487077951431274,
+                0.1850244104862213,
+                0.1850159466266632
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0006.mp4",
+      "file_name": "panda_0006.mp4",
+      "stem": "panda_0006",
+      "prompt": "A small boat is sailing in the ocean, with mountains in the background.",
+      "prompt_source": "metadata_csv",
+      "item_index": 6,
+      "seconds": 319.45,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/006_panda_0006_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 1,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.011161834001541138,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 6,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=6",
+          "prefix_motion": 0.01921984925866127,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.2584412693977356,
+                0.24847771227359772,
+                0.24510784447193146,
+                0.2553769052028656
+              ],
+              "seams": [
+                0.29696252942085266,
+                0.308174192905426,
+                0.3010289967060089,
+                0.29722049832344055
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.22487977147102356,
+                0.22982579469680786,
+                0.2170429825782776,
+                0.23769570887088776
+              ],
+              "seams": [
+                0.3065539598464966,
+                0.30660346150398254,
+                0.30485761165618896,
+                0.3054351806640625
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.18639221787452698,
+                0.19075675308704376,
+                0.1945624053478241,
+                0.18684376776218414
+              ],
+              "seams": [
+                0.3082326650619507,
+                0.31017154455184937,
+                0.31057995557785034,
+                0.3099232614040375
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.17871232330799103,
+                0.171037957072258,
+                0.1724618822336197,
+                0.16982485353946686
+              ],
+              "seams": [
+                0.3096146285533905,
+                0.3100062608718872,
+                0.30897679924964905,
+                0.3097298741340637
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.1599057912826538,
+                0.15900041162967682,
+                0.16127750277519226,
+                0.15898719429969788
+              ],
+              "seams": [
+                0.30783605575561523,
+                0.3078670799732208,
+                0.3075174391269684,
+                0.30765390396118164
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.11507823318243027,
+                0.11678992211818695,
+                0.11372556537389755,
+                0.11509730666875839
+              ],
+              "seams": [
+                0.15573500096797943,
+                0.15588995814323425,
+                0.15579894185066223,
+                0.15606361627578735
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.11806513369083405,
+                0.1161494329571724,
+                0.11871518939733505,
+                0.11545420438051224
+              ],
+              "seams": [
+                0.14560525119304657,
+                0.14536841213703156,
+                0.14535456895828247,
+                0.14543603360652924
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.11159557849168777,
+                0.10544147342443466,
+                0.10506323724985123,
+                0.10981470346450806
+              ],
+              "seams": [
+                0.141448512673378,
+                0.14156362414360046,
+                0.14181065559387207,
+                0.1415266990661621
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 1,
+              "reason": "look_seam",
+              "motions": [
+                0.1016046330332756,
+                0.10561028122901917,
+                0.10234837979078293,
+                0.10033760964870453
+              ],
+              "seams": [
+                0.13157881796360016,
+                0.13140375912189484,
+                0.1314549595117569,
+                0.13142776489257812
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.10765787959098816,
+                0.10387948900461197,
+                0.11196210980415344,
+                0.10847989469766617
+              ],
+              "seams": [
+                0.1747255027294159,
+                0.17466576397418976,
+                0.17456141114234924,
+                0.17464162409305573
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_look",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0007.mp4",
+      "file_name": "panda_0007.mp4",
+      "stem": "panda_0007",
+      "prompt": "The new ford cars are on display at a car show.",
+      "prompt_source": "metadata_csv",
+      "item_index": 7,
+      "seconds": 322.63,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_leftovers_8v/rolling_look_h30s_shard0/007_panda_0007_h30s_rolling_look_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 4,
+      "n_divergent_chunks": 1,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.030917692929506302,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 9,
+          "search_k": 4,
+          "method": "rolling_look",
+          "searched": true,
+          "gate_reason": "rolling_look n_div=9",
+          "prefix_motion": 0.07013935595750809,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [
+            {
+              "window": 0,
+              "start_block": 0,
+              "chosen": 0,
+              "reason": "look_seam",
+              "motions": [
+                0.19433341920375824,
+                0.2819107472896576,
+                0.3985432982444763,
+                0.2752847671508789
+              ],
+              "seams": [
+                0.3091796636581421,
+                0.32151126861572266,
+                0.34301626682281494,
+                0.34154054522514343
+              ]
+            },
+            {
+              "window": 1,
+              "start_block": 0,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.18586008250713348,
+                0.12861725687980652,
+                0.2880633771419525,
+                0.17736230790615082
+              ],
+              "seams": [
+                0.2995515465736389,
+                0.2973395586013794,
+                0.2994668185710907,
+                0.2985633313655853
+              ]
+            },
+            {
+              "window": 2,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.19496311247348785,
+                0.2151462882757187,
+                0.22895708680152893,
+                0.22791250050067902
+              ],
+              "seams": [
+                0.2804400324821472,
+                0.2792016267776489,
+                0.27919062972068787,
+                0.27959027886390686
+              ]
+            },
+            {
+              "window": 3,
+              "start_block": 0,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.23182079195976257,
+                0.23165373504161835,
+                0.23303936421871185,
+                0.2064659744501114
+              ],
+              "seams": [
+                0.2609795331954956,
+                0.2609507441520691,
+                0.2615468502044678,
+                0.26094093918800354
+              ]
+            },
+            {
+              "window": 4,
+              "start_block": 0,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.1789397895336151,
+                0.18802835047245026,
+                0.17864742875099182,
+                0.19308757781982422
+              ],
+              "seams": [
+                0.2531837821006775,
+                0.2528035640716553,
+                0.25234898924827576,
+                0.2524586617946625
+              ]
+            },
+            {
+              "window": 11,
+              "start_block": 7,
+              "chosen": 1,
+              "reason": "look_seam",
+              "motions": [
+                0.12089654058218002,
+                0.1215648204088211,
+                0.10561731457710266,
+                0.10973146557807922
+              ],
+              "seams": [
+                0.10283663123846054,
+                0.10227561742067337,
+                0.10281900316476822,
+                0.10297321528196335
+              ]
+            },
+            {
+              "window": 18,
+              "start_block": 14,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.1378418207168579,
+                0.12753424048423767,
+                0.13165223598480225,
+                0.13362044095993042
+              ],
+              "seams": [
+                0.14840608835220337,
+                0.14783012866973877,
+                0.1478893756866455,
+                0.1476854830980301
+              ]
+            },
+            {
+              "window": 25,
+              "start_block": 21,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.15924741327762604,
+                0.16581785678863525,
+                0.15509462356567383,
+                0.16258923709392548
+              ],
+              "seams": [
+                0.1577066332101822,
+                0.15778347849845886,
+                0.15747976303100586,
+                0.15814168751239777
+              ]
+            },
+            {
+              "window": 32,
+              "start_block": 28,
+              "chosen": 2,
+              "reason": "look_seam",
+              "motions": [
+                0.11981676518917084,
+                0.13043731451034546,
+                0.13721852004528046,
+                0.11700401455163956
+              ],
+              "seams": [
+                0.12109379470348358,
+                0.12095736712217331,
+                0.12084140628576279,
+                0.12212780863046646
+              ]
+            },
+            {
+              "window": 39,
+              "start_block": 35,
+              "chosen": 3,
+              "reason": "look_seam",
+              "motions": [
+                0.20082584023475647,
+                0.2015623301267624,
+                0.19734907150268555,
+                0.19208692014217377
+              ],
+              "seams": [
+                0.21730820834636688,
+                0.2175435870885849,
+                0.21743308007717133,
+                0.2171415090560913
+              ]
+            }
+          ],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    }
+  ]
+}

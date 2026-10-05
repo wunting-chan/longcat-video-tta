@@ -1,0 +1,9 @@
+{
+  "always_notta": 155.944453,
+  "always_ada": 156.223002,
+  "always_lora": 158.854537,
+  "oracle_best_psnr": 149.573535,
+  "oracle_skip_ada_nonpos": 150.725656,
+  "oracle_skip_both_nonpos": 149.573535,
+  "oracle_top50_ada_dpsnr": 150.35357
+}

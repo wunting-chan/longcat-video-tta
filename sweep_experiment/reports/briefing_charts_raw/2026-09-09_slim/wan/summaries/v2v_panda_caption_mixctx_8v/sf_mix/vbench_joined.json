@@ -1,0 +1,181 @@
+{
+  "video_dir": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_mixctx_8v/sf_mix_h30s_shard0",
+  "score_dir": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_mixctx_8v/sf_mix_h30s_shard0",
+  "out_dir": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_mixctx_8v/sf_mix_h30s_shard0/vbench_full",
+  "clip": "full",
+  "mode": "custom_input",
+  "n_mp4": 8,
+  "n_joined": 8,
+  "dimensions": [
+    "subject_consistency",
+    "background_consistency",
+    "aesthetic_quality",
+    "imaging_quality",
+    "motion_smoothness",
+    "dynamic_degree",
+    "temporal_flickering"
+  ],
+  "population": {
+    "subject_consistency": {
+      "n": 8,
+      "mean": 0.6508553158058008,
+      "median": 0.6597378405380938
+    },
+    "background_consistency": {
+      "n": 8,
+      "mean": 0.8087523161475338,
+      "median": 0.8103141215310168
+    },
+    "aesthetic_quality": {
+      "n": 8,
+      "mean": 0.5020209653303027,
+      "median": 0.5144474804401398
+    },
+    "imaging_quality": {
+      "n": 8,
+      "mean": 67.56325620268532,
+      "median": 70.51178794644176
+    },
+    "motion_smoothness": {
+      "n": 8,
+      "mean": 0.9922761074963747,
+      "median": 0.9925392034557019
+    },
+    "dynamic_degree": {
+      "n": 8,
+      "mean": 0.25,
+      "median": 0.0
+    },
+    "temporal_flickering": {
+      "n": 8,
+      "mean": 0.9860650409086078,
+      "median": 0.9870103078729966
+    }
+  },
+  "ran": 7,
+  "skipped": 0,
+  "failed": 0,
+  "failures": [],
+  "per_video": [
+    {
+      "stem": "000_panda_0000_h30s_sf_mix_s0",
+      "file_name": "panda_0000.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.5395563938615865,
+        "background_consistency": 0.7916382746909981,
+        "aesthetic_quality": 0.49401527643203735,
+        "imaging_quality": 69.56879735658954,
+        "motion_smoothness": 0.9909918791122277,
+        "dynamic_degree": 1.0,
+        "temporal_flickering": 0.9832107282152363
+      }
+    },
+    {
+      "stem": "001_panda_0001_h30s_sf_mix_s0",
+      "file_name": "panda_0001.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.5510317045654893,
+        "background_consistency": 0.7506422355993471,
+        "aesthetic_quality": 0.6268024444580078,
+        "imaging_quality": 72.7027323099488,
+        "motion_smoothness": 0.9948849409054488,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.991006072362264
+      }
+    },
+    {
+      "stem": "002_panda_0002_h30s_sf_mix_s0",
+      "file_name": "panda_0002.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.6507933024567232,
+        "background_consistency": 0.8577416263409515,
+        "aesthetic_quality": 0.4924914240837097,
+        "imaging_quality": 69.37597747532793,
+        "motion_smoothness": 0.9926133210683675,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.9891994551116345
+      }
+    },
+    {
+      "stem": "003_panda_0003_h30s_sf_mix_s0",
+      "file_name": "panda_0003.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.5939863996733147,
+        "background_consistency": 0.7645680441785214,
+        "aesthetic_quality": 0.6508492231369019,
+        "imaging_quality": 65.40064337888465,
+        "motion_smoothness": 0.9924650858430362,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.98507926791322
+      }
+    },
+    {
+      "stem": "004_panda_0004_h30s_sf_mix_s0",
+      "file_name": "panda_0004.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.6935596669148376,
+        "background_consistency": 0.7610562452629431,
+        "aesthetic_quality": 0.05702649801969528,
+        "imaging_quality": 43.849418988218964,
+        "motion_smoothness": 0.9949143608922653,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.9929005552740658
+      }
+    },
+    {
+      "stem": "005_panda_0005_h30s_sf_mix_s0",
+      "file_name": "panda_0005.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.6735591283763078,
+        "background_consistency": 0.8341219318446829,
+        "aesthetic_quality": 0.6943999528884888,
+        "imaging_quality": 75.63938678620691,
+        "motion_smoothness": 0.993465115470481,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.9889413478327732
+      }
+    },
+    {
+      "stem": "006_panda_0006_h30s_sf_mix_s0",
+      "file_name": "panda_0006.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.6686823786194644,
+        "background_consistency": 0.8289899683710354,
+        "aesthetic_quality": 0.5348796844482422,
+        "imaging_quality": 71.45477853629399,
+        "motion_smoothness": 0.9915717076646603,
+        "dynamic_degree": 0.0,
+        "temporal_flickering": 0.9846650301241407
+      }
+    },
+    {
+      "stem": "007_panda_0007_h30s_sf_mix_s0",
+      "file_name": "panda_0007.mp4",
+      "last_chunk_score": null,
+      "method": "sf_mix",
+      "vbench": {
+        "subject_consistency": 0.8356735519786824,
+        "background_consistency": 0.8812602028917911,
+        "aesthetic_quality": 0.46570321917533875,
+        "imaging_quality": 72.51431479001178,
+        "motion_smoothness": 0.9873024490145115,
+        "dynamic_degree": 1.0,
+        "temporal_flickering": 0.9735178704355277
+      }
+    }
+  ]
+}

@@ -4,10 +4,6 @@
 Uses ``eval_fvd.py`` with the precomputed GT I3D cache so scores match the
 headline ``panda_1000v_standard`` online-FVD protocol (~154–158 for NOTTA).
 
-``eval_fvd`` auto-infers per-clip cond/gen layout from frame count and strips
-green/red visualization borders from legacy ``run_delta_a`` mp4s so disk FVD
-matches in-memory online I3D without re-inference.
-
 Usage:
     python sweep_experiment/scripts/run_phase1_oracle_fvd.py \\
         --gt-cache gt_caches/panda_1000_longcat.npz
@@ -25,12 +21,9 @@ from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_GT_CACHE = Path("gt_caches/panda_1000_longcat.npz")
-DEFAULT_DATA_DIR = Path("datasets/panda_1000_480p")
-# Matches panda_1000v_standard / submit_panda.sh headline sweeps.
-DEFAULT_GEN_START_FRAME = 48
-DEFAULT_NUM_GEN_FRAMES = 14
+# Matches panda_1000v_standard / online FVD accumulator in common.py.
 DEFAULT_NUM_COND_FRAMES = 14
+DEFAULT_NUM_GEN_FRAMES = 14
 
 DEFAULT_POLICIES = [
     "always_notta",
@@ -67,71 +60,6 @@ def _read_linked_count(output_root: Path, policy: str) -> int:
     return int(blob.get("linked_videos") or 0)
 
 
-def _precompute_command(
-    gt_cache: Path,
-    data_dir: Path,
-    *,
-    device: str = "cuda",
-) -> list:
-    return [
-        sys.executable,
-        str(_REPO_ROOT / "sweep_experiment/scripts/precompute_gt_features.py"),
-        "--data-dir", str(data_dir),
-        "--output", str(gt_cache),
-        "--mode", "longcat",
-        "--gen-start-frame", str(DEFAULT_GEN_START_FRAME),
-        "--num-gen-frames", str(DEFAULT_NUM_GEN_FRAMES),
-        "--num-cond-frames", str(DEFAULT_NUM_COND_FRAMES),
-        "--device", device,
-    ]
-
-
-def _print_precompute_help(gt_cache: Path, data_dir: Path, device: str) -> None:
-    cmd = _precompute_command(gt_cache, data_dir, device=device)
-    print(
-        "  One-time precompute (GPU, ~30-60 min for 999 videos):",
-        file=sys.stderr,
-    )
-    print("   ", " ".join(cmd), file=sys.stderr)
-    print(
-        "  Or sbatch:",
-        file=sys.stderr,
-    )
-    print(
-        "    sbatch --account=torch_pr_36_mren "
-        "sweep_experiment/sbatch/precompute_panda_gt_cache.sbatch",
-        file=sys.stderr,
-    )
-
-
-def _ensure_gt_cache(
-    gt_cache: Path,
-    data_dir: Path,
-    *,
-    auto_precompute: bool,
-    device: str,
-) -> bool:
-    if gt_cache.exists():
-        print(f"GT cache: {gt_cache} ({gt_cache.stat().st_size // (1024 * 1024)} MB)")
-        return True
-    if auto_precompute:
-        gt_cache.parent.mkdir(parents=True, exist_ok=True)
-        cmd = _precompute_command(gt_cache, data_dir, device=device)
-        print("GT cache missing; running precompute_gt_features.py ...")
-        print(" ", " ".join(cmd))
-        rc = subprocess.call(cmd, cwd=str(_REPO_ROOT))
-        if rc != 0:
-            print("ERROR: precompute_gt_features.py failed", file=sys.stderr)
-            return False
-        if not gt_cache.exists():
-            print(f"ERROR: precompute finished but {gt_cache} missing", file=sys.stderr)
-            return False
-        return True
-    print(f"ERROR: GT cache missing: {gt_cache}", file=sys.stderr)
-    _print_precompute_help(gt_cache, data_dir, device)
-    return False
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description="Phase-1 oracle FVD batch eval")
     ap.add_argument(
@@ -154,18 +82,7 @@ def main() -> int:
     ap.add_argument(
         "--gt-cache",
         type=Path,
-        default=DEFAULT_GT_CACHE,
-        help="Precomputed GT .npz (default: gt_caches/panda_1000_longcat.npz)",
-    )
-    ap.add_argument(
-        "--data-dir",
-        type=Path,
-        default=DEFAULT_DATA_DIR,
-        help="Panda eval dataset for GT precompute if --auto-precompute-gt",
-    )
-    ap.add_argument(
-        "--auto-precompute-gt", action="store_true",
-        help="Run precompute_gt_features.py when --gt-cache is missing",
+        default=Path("gt_caches/panda_1000_longcat.npz"),
     )
     ap.add_argument(
         "--policies", nargs="*", default=None,
@@ -205,11 +122,10 @@ def main() -> int:
             )
             return rc
 
-    if not _ensure_gt_cache(
-        args.gt_cache, args.data_dir,
-        auto_precompute=args.auto_precompute_gt,
-        device=args.device,
-    ):
+    if not args.gt_cache.exists():
+        print(f"ERROR: GT cache missing: {args.gt_cache}", file=sys.stderr)
+        print("  Run: python sweep_experiment/scripts/precompute_gt_features.py ...",
+              file=sys.stderr)
         return 2
 
     eval_script = _REPO_ROOT / "sweep_experiment/scripts/eval_fvd.py"

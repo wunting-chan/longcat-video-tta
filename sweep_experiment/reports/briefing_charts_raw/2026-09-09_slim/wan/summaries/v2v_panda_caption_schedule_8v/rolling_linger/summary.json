@@ -1,0 +1,700 @@
+{
+  "n": 8,
+  "n_ok": 8,
+  "task": "v2v",
+  "method": "rolling_linger",
+  "host": "rolling",
+  "live_min": 0.012,
+  "horizon_s": 30.0,
+  "prefix_latents": 9,
+  "n_gen_latent": 126,
+  "chunk_latents": 21,
+  "n_chunks": 6,
+  "n_pix": 537,
+  "search_k": 1,
+  "seed": 0,
+  "shard_id": 0,
+  "num_shards": 1,
+  "video_workers": 1,
+  "video_worker_id": null,
+  "video_dir": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p",
+  "sampling_hooks": {
+    "scheduler.shift": 5.0,
+    "args.guidance_scale": 3.0
+  },
+  "shift_live": null,
+  "cfg_live": null,
+  "denoising_step_list": [
+    1000.0,
+    972.222225189209,
+    888.8889007568359,
+    750.0000267028809,
+    555.5556030273438
+  ],
+  "denoising_step_native": [
+    1000.0,
+    952.3810424804688,
+    882.3529052734375,
+    769.2307739257812,
+    555.5556030273438
+  ],
+  "denoising_step_kind": "linger",
+  "rows": [
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0000.mp4",
+      "file_name": "panda_0000.mp4",
+      "stem": "panda_0000",
+      "prompt": "A close up of a truck with its hood open.",
+      "prompt_source": "metadata_csv",
+      "item_index": 0,
+      "seconds": 61.4,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/000_panda_0000_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.022130319848656654,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.006380189210176468,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0001.mp4",
+      "file_name": "panda_0001.mp4",
+      "stem": "panda_0001",
+      "prompt": "A young woman is standing in front of a kitchen counter. she has tattoos on her arms and is wearing a black tank top.",
+      "prompt_source": "metadata_csv",
+      "item_index": 1,
+      "seconds": 58.47,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/001_panda_0001_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01079607754945755,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.02160470560193062,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0002.mp4",
+      "file_name": "panda_0002.mp4",
+      "stem": "panda_0002",
+      "prompt": "The room has a white wall and a bookshelf.",
+      "prompt_source": "metadata_csv",
+      "item_index": 2,
+      "seconds": 59.53,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/002_panda_0002_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.004664893262088299,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0007879817858338356,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0003.mp4",
+      "file_name": "panda_0003.mp4",
+      "stem": "panda_0003",
+      "prompt": "A police officer in a video game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 3,
+      "seconds": 102.96,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/003_panda_0003_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02439834736287594,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0009400062845088542,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0004.mp4",
+      "file_name": "panda_0004.mp4",
+      "stem": "panda_0004",
+      "prompt": "A black book with the words photo critique on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 4,
+      "seconds": 58.31,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/004_panda_0004_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.006421252619475126,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.005833710078150034,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0005.mp4",
+      "file_name": "panda_0005.mp4",
+      "stem": "panda_0005",
+      "prompt": "The person is holding a plastic bowl filled with cherry tomatoes on a kitchen counter.",
+      "prompt_source": "metadata_csv",
+      "item_index": 5,
+      "seconds": 85.86,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/005_panda_0005_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.011137803085148335,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.00524646881967783,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0006.mp4",
+      "file_name": "panda_0006.mp4",
+      "stem": "panda_0006",
+      "prompt": "A small boat is sailing in the ocean, with mountains in the background.",
+      "prompt_source": "metadata_csv",
+      "item_index": 6,
+      "seconds": 58.33,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/006_panda_0006_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01311802864074707,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.01921984925866127,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_linger",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0007.mp4",
+      "file_name": "panda_0007.mp4",
+      "stem": "panda_0007",
+      "prompt": "The new ford cars are on display at a car show.",
+      "prompt_source": "metadata_csv",
+      "item_index": 7,
+      "seconds": 50.11,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_schedule_8v/rolling_linger_h30s_shard0/007_panda_0007_h30s_rolling_linger_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.027924712747335434,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        972.222225189209,
+        888.8889007568359,
+        750.0000267028809,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "linger",
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_linger",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.07013935595750809,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "denoise_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    }
+  ]
+}

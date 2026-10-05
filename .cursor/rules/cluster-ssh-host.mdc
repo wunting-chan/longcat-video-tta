@@ -1,0 +1,22 @@
+---
+description: Laptop SSH/SCP host for the NYU Torch cluster is wc3013@torch only
+alwaysApply: true
+---
+
+# Cluster SSH host (laptop)
+
+From this Mac, every `ssh` / `scp` / `rsync` to the cluster is:
+
+```bash
+wc3013@torch
+```
+
+Never invent `torch-login-a-*.hpc.nyu.edu`, `torch-login-b-*`, or any
+FQDN as the host the user types. The prompt `[wc3013@torch-login-a-1]`
+is the node after login, not the SCP target.
+
+Example:
+
+```bash
+scp wc3013@torch:/scratch/wc3013/longcat-video-tta/<remote> <local>
+```

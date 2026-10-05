@@ -213,14 +213,13 @@ def prepare_batch(
         split_tta_latents,
         torch_gc,
     )
-    from scripts.frame_window import tta_start_frame
 
     conds = []
     trains = []
     prompts = []
     masks = []
 
-    tta_start = tta_start_frame(args.gen_start_frame, args.tta_total_frames)
+    tta_start = args.gen_start_frame - args.tta_total_frames
     vae_t_scale = 4
     num_ctx_lat = 1 + (args.tta_context_frames - 1) // vae_t_scale
 
@@ -230,7 +229,7 @@ def prepare_batch(
             args.tta_total_frames,
             height=480,
             width=832,
-            start_frame=tta_start,
+            start_frame=max(0, tta_start),
         ).to(args.device, torch.bfloat16)
         all_latents = encode_video(vae, pixel_frames, normalize=True)
         cond_latents, train_latents, _val_latents = split_tta_latents(

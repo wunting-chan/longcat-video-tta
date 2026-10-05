@@ -20,7 +20,7 @@ Video diffusion transformers generate high-quality videos, but inference is typi
 
 We introduce AdaSteer, Adaptive Shared Timestep Embedding Efficient Residuals, an ultra-lightweight test-time adaptation method for video diffusion transformers. AdaSteer learns a compact residual in the timestep embedding pathway and shares it across all transformer blocks. Each block's frozen adaptive layer-normalization projection maps this shared residual into block-specific modulation vectors, yielding a structured weight-tying mechanism that adapts denoising behavior with only a tiny number of trainable parameters and no architectural changes. The residual is optimized only on observed conditioning frames using the standard denoising objective, applied during generation, and discarded afterward.
 
-On LongCat-Video, a 13.6B-parameter video DiT, AdaSteer improves distributional video quality over no-TTA and LoRA baselines on standard-horizon Panda-70M and UCF-101 settings. Provisional 1000-video results show an FVD reduction of roughly 5% on the standard-horizon Panda setting; the long-horizon Panda 1000-video evaluation shows a small distributional regression that we report honestly as an open case rather than a success. These results suggest that pretrained modulation pathways provide a strong substrate for efficient per-video adaptation, while leaving long-horizon coherence as a clear next target.
+On LongCat-Video, a 13.6B-parameter video DiT, AdaSteer matches, but does not improve on, no-TTA on standard-horizon Panda-70M and UCF-101 settings at 932–999 videos. At 999 videos, FVD on the standard-horizon Panda setting is unchanged within noise (No-TTA 154.7, AdaSteer 153.4); the long-horizon Panda 1000-video evaluation shows a small distributional regression that we report honestly as an open case rather than a success. These results suggest that pretrained modulation pathways provide a strong substrate for efficient per-video adaptation, while leaving long-horizon coherence as a clear next target.
 
 ## Main Contributions
 
@@ -28,7 +28,7 @@ On LongCat-Video, a 13.6B-parameter video DiT, AdaSteer improves distributional 
 - We introduce AdaSteer, a shared residual applied to the timestep embedding before per-block adaLN projections.
 - We identify the structured weight-tying mechanism: one compact residual is shared globally, while frozen per-block projections provide learned de-tying.
 - We compare AdaSteer against no-TTA, LoRA, TinyLoRA-style SVD adapters, and full-model adaptation regimes.
-- We show that AdaSteer improves FVD consistently across datasets and horizons while preserving or modestly improving pixel-space metrics.
+- We show that at 932–999 videos AdaSteer leaves FVD and pixel-space metrics unchanged within noise across datasets and horizons (Panda standard 154.7 → 153.4; UCF 85.7 → 88.3; source: `paper_tables/2026-06-08_headline_1000v.md`).
 - We document negative results and failure modes: LoRA often matches or trails baseline, aggressive adaptation overfits, and several auxiliary tricks do not improve the Pareto frontier.
 
 ## Method Section Skeleton
@@ -78,7 +78,7 @@ For LongCat attention targets with 48 blocks and two modules per block, rank-2 u
 
 ### Primary Claim
 
-The cleanest current claim is not large PSNR improvement. The honest claim is narrower: AdaSteer can improve distributional video quality on the standard 28-frame Panda setting with minimal trainable state and modest runtime overhead, while long-horizon generation remains unresolved. Per-frame metrics are usually flat or slightly positive; full-scale long-context Panda improves PSNR/SSIM/LPIPS/FID slightly but does not improve global FVD.
+The cleanest current claim is not large PSNR improvement. The honest claim is narrower: AdaSteer does not measurably change distributional video quality on the standard 28-frame Panda setting at 999 videos (FVD 154.7 → 153.4, within noise), and long-horizon generation remains unresolved. Per-frame metrics are usually flat or slightly positive; full-scale long-context Panda improves PSNR/SSIM/LPIPS/FID slightly but does not improve global FVD.
 
 ### Sample-Size Policy (locked May 23, 2026)
 
@@ -88,7 +88,7 @@ The paper reports **only 1000-video evaluation numbers** in tables and headline 
 
 From `EXPERIMENT_RESULTS.md`, the paper-facing results are:
 
-- Standard Panda-70M, 28 frames, 1000 videos: No-TTA FVD 150.09; AdaSteer FVD 142.32, a 5.2% reduction. PSNR and SSIM are essentially flat.
+- Standard Panda-70M, 28 frames, 999 videos: No-TTA FVD 154.7; AdaSteer FVD 153.4 (−0.8%, within noise). PSNR and SSIM are essentially flat. Source: `paper_tables/2026-06-08_headline_1000v.md`. Caveat: these adapted runs used the pre-14-July split that held out 25% of target latents (2 of 8); see `docs/INTERVENTION_ATLAS.md` and the hold-out audit. The earlier 150.09 → 142.32 (5.2%) figure must not be reused.
 - Long-context Panda-70M, 93 frames, 1000 videos: No-TTA FVD 278.7; AdaSteer FVD 284.1. AdaSteer improves PSNR (12.769 -> 12.787), SSIM (0.4744 -> 0.4762), LPIPS (0.5469 -> 0.5436), and FID (29.9 -> 29.5), but worsens global FVD by +5.4. LoRA also worsens FVD; TinyLoRA is essentially tied with No-TTA. Treated as an honest open case rather than a success in the paper.
 - Long-context UCF-101, 61 frames, 1000 videos: **pending 1000-video validation run**; main-results table row is a `\todo{}` until completion. The earlier 50-video numbers are not reported.
 
@@ -102,14 +102,14 @@ Gating and horizon-aware objectives remain planned method extensions, but their 
 
 ### Important Caveats
 
-Do not reuse the old February claim of +7.6 dB PSNR. That was caused by comparing a pre-fix no-TTA baseline against post-fix TTA runs. The corrected old improvement was about +0.5 dB on the old `panda_100_480p` subset, and the current harder `panda_1000_480p` setting shows near-zero short-horizon PSNR gain but consistent FVD gain.
+Do not reuse the old February claim of +7.6 dB PSNR. That was caused by comparing a pre-fix no-TTA baseline against post-fix TTA runs. The corrected old improvement was about +0.5 dB on the old `panda_100_480p` subset, and the current harder `panda_1000_480p` setting shows near-zero short-horizon PSNR gain and no FVD gain at scale.
 
 Per the sample-size policy above, the paper does not mix dataset/horizon/sample-size combinations; everything in the main paper is 1000-video. The earlier `panda_100_480p`, 100-video, and 50-video runs are kept in the experiment logs but are not surfaced in paper text.
 
 ## Figure Plan
 
 1. Method diagram: show timestep embedding plus shared residual, then fan out through frozen per-block adaLN projections into block-specific modulation.
-2. Main results chart: standard Panda 1000-video FVD gain plus long-context Panda 1000-video open case.
+2. Main results chart: standard Panda 1000-video FVD null plus long-context Panda 1000-video open case.
 3. Runtime/parameter chart: No-TTA, LoRA, AdaSteer, and TinyLoRA if final results justify it.
 4. Qualitative filmstrip: GT, No-TTA, AdaSteer, with selected examples that show visible temporal or structural improvement.
 5. Ablation chart: bare AdaSteer versus early stopping, augmentation, CLIP gating, gradient accumulation.
@@ -160,7 +160,7 @@ Two batching experiments are planned for the paper.
    - Qualitative analysis.
 
 5. Discussion
-   - Why FVD improves while short-horizon PSNR is flat.
+   - Why neither FVD nor short-horizon PSNR moves at scale.
    - Why LoRA is poorly matched to single-video TTA on a 13.6B DiT.
    - Compute tradeoffs and deployment implications.
    - Limitations: metric variance, sample counts, dependency on conditioning quality, no future supervision.

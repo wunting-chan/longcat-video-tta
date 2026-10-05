@@ -399,12 +399,8 @@ def build_report(
             "",
             f"OOD column: `mean_diffusion_loss_caption` (low=Q1, high=Q5).",
             "",
-            "Δ columns are paired mean(policy − NOTTA) VBench-total over videos with both "
-            "scores (VBench-total gain vs the no-TTA baseline).",
-            "",
-            "| Quintile | N | NOTTA VBench | Fixed VBench | Oracle VBench | "
-            "Δ fixed−NOTTA | Δ oracle−NOTTA | Modal config | Steps | LR |",
-            "|---|---:|---:|---:|---:|---:|---:|---|---:|---:|",
+            "| Quintile | N | Fixed VBench | Oracle VBench | Modal config | Steps | LR |",
+            "|---|---:|---:|---:|---|---:|---:|",
         ]
         q_vids: Dict[int, List[str]] = {}
         for vid in vids:
@@ -415,42 +411,24 @@ def build_report(
         total_table = stats_by_target.get("_total_table", {})
         fixed_run = FIXED_ADA_RUN_ID
         q_best = quintile_by_target.get("vbench_total", {})
-        notta_vb = vb_by_run.get(NOTTA_RUN_ID, {})
-
-        def _fmt_d(a: List[float]) -> str:
-            return _fmt_delta(float(np.mean(a))) if a else "—"
-
         for q in sorted(q_vids.keys()):
             vlist = q_vids[q]
             fixed_v: List[float] = []
             oracle_v: List[float] = []
-            notta_v: List[float] = []
-            gain_fixed: List[float] = []
-            gain_oracle: List[float] = []
             for vid in vlist:
                 row = total_table.get(vid, {})
-                nt = vbench_total_score(notta_vb.get(vid, {}), active_dims)
-                if nt is not None:
-                    notta_v.append(nt)
                 if fixed_run in row:
                     fixed_v.append(row[fixed_run])
-                    if nt is not None:
-                        gain_fixed.append(row[fixed_run] - nt)
                 w = oracle_winner(row, grid_runs)
                 if w and w in row:
                     oracle_v.append(row[w])
-                    if nt is not None:
-                        gain_oracle.append(row[w] - nt)
             rid = q_best.get(q, "—")
             steps, lr = parse_run_hparams(rid) if rid != "—" else (None, None)
             lr_s = f"{lr:.0e}" if lr is not None else "—"
             steps_s = str(steps) if steps is not None else "—"
             lines.append(
-                f"| Q{q} | {len(vlist)} | {_fmt(np.mean(notta_v) if notta_v else None)} | "
-                f"{_fmt(np.mean(fixed_v) if fixed_v else None)} | "
-                f"{_fmt(np.mean(oracle_v) if oracle_v else None)} | "
-                f"{_fmt_d(gain_fixed)} | {_fmt_d(gain_oracle)} | "
-                f"`{rid}` | {steps_s} | {lr_s} |"
+                f"| Q{q} | {len(vlist)} | {_fmt(np.mean(fixed_v) if fixed_v else None)} | "
+                f"{_fmt(np.mean(oracle_v) if oracle_v else None)} | `{rid}` | {steps_s} | {lr_s} |"
             )
         lines.append("")
 

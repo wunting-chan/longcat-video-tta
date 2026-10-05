@@ -117,25 +117,32 @@ sys.path.insert(0, str(_REPO_ROOT / "delta_experiment" / "scripts"))
 sys.path.insert(0, str(_REPO_ROOT))
 
 
-from scripts.caption_utils import (
-    canonical_video_id as _canonical_video_id,
-    load_resolved_captions_csv,
-    resolve_caption_for_clip,
-)
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    parse_frame_range_arg,
-)
+# ---------------------------------------------------------------------------
+# Constants — sourced verbatim from
+# `sweep_experiment/sbatch/submit_standard_1000v_chunked.sh` env vars and
+# matched by all three TTA runners (delta_a / lora_tta / tinylora). Keeping
+# them in this script means a `--tta-visible-frames auto` invocation
+# reproduces the same TTA-visible window the runners actually used at run
+# time, which is what makes the OOD score commensurate with the TTA gains.
+# ---------------------------------------------------------------------------
+TTA_TOTAL_FRAMES: int = 48       # pre-anchor pixel frames the TTA loop loads
+TTA_CONTEXT_FRAMES: int = 14     # leading clean-context portion of that window
+GEN_START_FRAME: int = 48        # first frame the diffusion sampler emits
+NUM_FRAMES: int = 28             # diffusion window length
+NUM_COND_FRAMES: int = 14        # conditioning prefix; (NUM_FRAMES - NUM_COND_FRAMES) are new
 
-_cfg = PANDA_1000V_STANDARD
-TTA_TOTAL_FRAMES: int = _cfg.tta_total_frames
-TTA_CONTEXT_FRAMES: int = _cfg.tta_context_frames
-GEN_START_FRAME: int = _cfg.gen_start_frame
-NUM_FRAMES: int = _cfg.num_frames
-NUM_COND_FRAMES: int = _cfg.num_cond_frames
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
-AUTO_GEN_TARGET_FRAMES: int = _cfg.num_generated_frames()
-VAE_TEMPORAL_SCALE: int = _cfg.vae_temporal_scale
+AUTO_TTA_VISIBLE_RANGE: Tuple[int, int] = (
+    max(0, GEN_START_FRAME - TTA_TOTAL_FRAMES),
+    GEN_START_FRAME,
+)
+# Derived: the diffusion sampler's actual generation region (post-anchor
+# frames). Reported in the CSV as `n_gen_target_frames` for documentation;
+# it does NOT participate in the OOD loss (which is computed entirely on
+# the in-visible-window target portion, per the conditioned flow-matching
+# loss formula above).
+AUTO_GEN_TARGET_FRAMES: int = NUM_FRAMES - NUM_COND_FRAMES
+
+VAE_TEMPORAL_SCALE: int = 4      # AutoencoderKLWan temporal downsample factor
 NUM_TRAIN_TIMESTEPS: int = 1000  # FlowMatchEulerDiscreteScheduler default
 
 DEFAULT_TIMESTEPS: str = "100,500,900"
@@ -175,6 +182,17 @@ def _list_video_paths(videos_dir: Path) -> List[Path]:
 # ---------------------------------------------------------------------------
 # Frame-range CLI parsing (matches extract_video_features_for_tta convention)
 # ---------------------------------------------------------------------------
+def _parse_frame_range_arg(arg: str, default: Tuple[int, int]) -> Tuple[int, int]:
+    if not arg or arg.lower() == "auto":
+        return default
+    if ":" in arg:
+        a, b = arg.split(":", 1)
+        return int(a), int(b)
+    raise argparse.ArgumentTypeError(
+        f"--tta-visible-frames must be 'auto' or 'A:B', got {arg!r}"
+    )
+
+
 def _parse_timesteps_arg(arg: str) -> List[int]:
     if not arg:
         raise argparse.ArgumentTypeError("--timesteps cannot be empty")
@@ -507,7 +525,7 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = _parse_args()
-    visible_range = parse_frame_range_arg(
+    visible_range = _parse_frame_range_arg(
         args.tta_visible_frames, default=AUTO_TTA_VISIBLE_RANGE,
     )
     timesteps = _parse_timesteps_arg(args.timesteps)

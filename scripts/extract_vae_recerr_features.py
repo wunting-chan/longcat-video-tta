@@ -36,13 +36,12 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "delta_experiment" / "scripts"))
 sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    parse_frame_range_arg,
+TTA_TOTAL_FRAMES: int = 48
+GEN_START_FRAME: int = 48
+AUTO_TTA_VISIBLE_RANGE: Tuple[int, int] = (
+    max(0, GEN_START_FRAME - TTA_TOTAL_FRAMES),
+    GEN_START_FRAME,
 )
-
-_cfg = PANDA_1000V_STANDARD
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
 
 _CANONICAL_PREFIX_RE = re.compile(r"^([A-Za-z][A-Za-z0-9]*_\d+)")
 
@@ -53,6 +52,13 @@ def _canonical_video_id(s: Optional[str]) -> str:
     stem = Path(str(s)).stem
     m = _CANONICAL_PREFIX_RE.match(stem)
     return m.group(1) if m else stem
+
+
+def _parse_frame_range_arg(arg: str, default: Tuple[int, int]) -> Tuple[int, int]:
+    if not arg or arg.lower() == "auto":
+        return default
+    a, b = arg.split(":", 1)
+    return int(a), int(b)
 
 
 def list_video_paths(videos_dir: Path) -> List[Path]:
@@ -129,7 +135,7 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
 
-    visible = parse_frame_range_arg(args.tta_visible_frames, AUTO_TTA_VISIBLE_RANGE)
+    visible = _parse_frame_range_arg(args.tta_visible_frames, AUTO_TTA_VISIBLE_RANGE)
     n_visible = visible[1] - visible[0]
     fieldnames = [
         "video_id", "n_visible_frames", "tta_visible_range",
@@ -180,6 +186,8 @@ def main() -> int:
     rows = dict(existing)
     n_done, n_err = 0, 0
     t0 = time.time()
+    tta_start = max(0, visible[0])
+
     for i, vp in enumerate(todo):
         vid = _canonical_video_id(vp.name)
         try:
@@ -188,7 +196,7 @@ def main() -> int:
                 num_frames=n_visible,
                 height=480,
                 width=832,
-                start_frame=visible[0],
+                start_frame=tta_start,
             ).to(args.device, torch.bfloat16)
             l1, lp, has_lpips = compute_rec_errors(
                 vae, pixel, args.device, lpips_helper,

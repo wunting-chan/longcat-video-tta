@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "series_root": "sweep_experiment/results/panda_ood_budget_1000v_preview",
+    "notta_dir": "sweep_experiment/results/panda_ood_budget_1000v_preview/NOTTA",
+    "ood_csv": "sweep_experiment/reports/per_video_analysis/2026-07-10/diffusion_ood_scores_segment_pool.csv",
+    "grid_runs": ["S2_LR1e3","S2_LR5e3","S2_LR1e2","S5_LR1e3","S5_LR5e3","S5_LR1e2","S10_LR1e3","S10_LR5e3","S10_LR1e2","S20_LR1e3","S20_LR5e3","S20_LR1e2"],
+    "n_videos_total": 998,
+    "n_ood_join": 998,
+    "n_psnr_pool": 898,
+    "vbench_dims": ["subject_consistency","background_consistency","aesthetic_quality","motion_smoothness","dynamic_degree","imaging_quality","temporal_flickering"]
+  },
+  "chart1_psnr_delta": {
+    "quintiles": [1,2,3,4,5],
+    "mean": [0.356906,0.364685,0.325823,0.344124,0.382666],
+    "sem": [0.044455,0.053131,0.040981,0.053501,0.061661],
+    "n": [177,176,185,179,181],
+    "pop_mean": 0.354671
+  },
+  "chart2_config_picks": {
+    "Q1": {"S2_LR1e3":9,"S2_LR5e3":5,"S2_LR1e2":5,"S5_LR1e3":7,"S5_LR5e3":9,"S5_LR1e2":12,"S10_LR1e3":8,"S10_LR5e3":9,"S10_LR1e2":21,"S20_LR1e3":4,"S20_LR5e3":21,"S20_LR1e2":67},
+    "Q2": {"S2_LR1e3":6,"S2_LR5e3":5,"S2_LR1e2":8,"S5_LR1e3":7,"S5_LR5e3":5,"S5_LR1e2":15,"S10_LR1e3":6,"S10_LR5e3":8,"S10_LR1e2":28,"S20_LR1e3":4,"S20_LR5e3":15,"S20_LR1e2":69},
+    "Q3": {"S2_LR1e3":5,"S2_LR5e3":6,"S2_LR1e2":11,"S5_LR1e3":11,"S5_LR5e3":6,"S5_LR1e2":12,"S10_LR1e3":5,"S10_LR5e3":10,"S10_LR1e2":43,"S20_LR1e3":8,"S20_LR5e3":14,"S20_LR1e2":54},
+    "Q4": {"S2_LR1e3":13,"S2_LR5e3":7,"S2_LR1e2":8,"S5_LR1e3":6,"S5_LR5e3":10,"S5_LR1e2":15,"S10_LR1e3":12,"S10_LR5e3":11,"S10_LR1e2":32,"S20_LR1e3":5,"S20_LR5e3":16,"S20_LR1e2":44},
+    "Q5": {"S2_LR1e3":17,"S2_LR5e3":9,"S2_LR1e2":14,"S5_LR1e3":16,"S5_LR5e3":9,"S5_LR1e2":15,"S10_LR1e3":14,"S10_LR5e3":8,"S10_LR1e2":19,"S20_LR1e3":5,"S20_LR5e3":12,"S20_LR1e2":43}
+  },
+  "vbench_dim_gain": {
+    "subject_consistency": {"raw":0.006894,"rel_pct":0.7197,"n":898,"notta_mean":0.957837},
+    "background_consistency": {"raw":0.007285,"rel_pct":0.7568,"n":898,"notta_mean":0.962591},
+    "aesthetic_quality": {"raw":0.012834,"rel_pct":2.7012,"n":898,"notta_mean":0.475101},
+    "motion_smoothness": {"raw":0.001134,"rel_pct":0.1148,"n":898,"notta_mean":0.988244},
+    "dynamic_degree": {"raw":0.051225,"rel_pct":7.2327,"n":898,"notta_mean":0.708241},
+    "imaging_quality": {"raw":1.312281,"rel_pct":2.0893,"n":898,"notta_mean":62.809451},
+    "temporal_flickering": {"raw":0.001801,"rel_pct":0.1851,"n":898,"notta_mean":0.973085}
+  },
+  "vbench_dim_delta_by_quintile": {
+    "subject_consistency": {"quintiles":[1,2,3,4,5],"mean":[0.007178,0.011978,0.002035,0.012558,0.001035],"sem":[0.005491,0.004783,0.004022,0.004255,0.004852],"n":[177,176,185,179,181],"pop_mean":0.006894},
+    "background_consistency": {"quintiles":[1,2,3,4,5],"mean":[0.005702,0.009945,0.004109,0.011706,0.005119],"sem":[0.003472,0.002631,0.002449,0.002749,0.003124],"n":[177,176,185,179,181],"pop_mean":0.007285},
+    "aesthetic_quality": {"quintiles":[1,2,3,4,5],"mean":[0.007777,0.015096,0.012543,0.019583,0.0092],"sem":[0.009852,0.009581,0.009559,0.01018,0.008738],"n":[177,176,185,179,181],"pop_mean":0.012834},
+    "motion_smoothness": {"quintiles":[1,2,3,4,5],"mean":[-7e-06,0.000802,0.001152,0.00357,0.000148],"sem":[0.000965,0.000941,0.000939,0.001078,0.000846],"n":[177,176,185,179,181],"pop_mean":0.001134},
+    "dynamic_degree": {"quintiles":[1,2,3,4,5],"mean":[0.033898,0.045455,0.113514,0.005587,0.055249],"sem":[0.048007,0.043259,0.049265,0.04303,0.040503],"n":[177,176,185,179,181],"pop_mean":0.051225},
+    "imaging_quality": {"quintiles":[1,2,3,4,5],"mean":[0.028471,1.988305,0.806139,2.112902,1.635925],"sem":[1.237052,1.257663,1.188041,1.297263,1.274477],"n":[177,176,185,179,181],"pop_mean":1.312281},
+    "temporal_flickering": {"quintiles":[1,2,3,4,5],"mean":[0.001104,-5.5e-05,0.000567,0.008077,-0.00066],"sem":[0.002181,0.002093,0.002279,0.002128,0.001982],"n":[177,176,185,179,181],"pop_mean":0.001801}
+  },
+  "winner_dim": "dynamic_degree"
+}

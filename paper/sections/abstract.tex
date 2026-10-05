@@ -1,0 +1,29 @@
+\begin{abstract}
+Video diffusion transformers generate high-quality videos, but inference is
+typically instance-agnostic: the same frozen denoising process is used regardless
+of the motion and appearance statistics visible in the conditioning frames.
+Test-time adaptation offers a natural way to specialize generation to each test
+video, but conventional adaptation mechanisms are mismatched to modern video
+diffusion transformers (DiTs). Full-model tuning exposes billions of parameters
+to a single short clip, while LoRA-style adapters introduce thousands to millions
+of free parameters and can overfit within a few gradient steps.
+We introduce \method, Adaptive Shared Timestep Embedding Efficient Residuals,
+an ultra-lightweight test-time adaptation method for video diffusion
+transformers. \method learns a compact residual in the timestep embedding
+pathway and shares it across all transformer blocks. Each block's frozen
+adaptive layer-normalization projection maps this shared residual into
+block-specific modulation vectors, yielding a structured weight-tying mechanism
+that adapts denoising behavior with only a tiny number of trainable parameters
+and no architectural changes. The residual is optimized only on observed
+conditioning frames using the standard denoising objective, applied during
+generation, and discarded afterward.
+On \backbone, a 13.6B-parameter video DiT, \method matches, but does not
+improve on, no-TTA on standard-horizon Panda-70M and UCF-101 settings: at
+999 videos, standard-horizon Panda FVD is unchanged within noise
+($154.7\to153.4$); the long-horizon Panda
+1000-video evaluation shows a small distributional regression that we report
+honestly as an open case rather than a success. These results suggest that
+pretrained modulation pathways provide a strong substrate for efficient
+per-video adaptation, while leaving long-horizon coherence as a clear next
+target.
+\end{abstract}

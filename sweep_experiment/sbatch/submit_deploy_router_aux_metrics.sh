@@ -23,6 +23,7 @@ if [ "$RUN_FVD" = "1" ]; then
     --time=02:00:00 \
     --job-name=router_aux_fvd \
     --output="sweep_experiment/slurm_log/deploy_router_aux_fvd_%j.out" \
+    --error="sweep_experiment/slurm_log/deploy_router_aux_fvd_%j.err" \
     --export="ALL,PROJECT_ROOT=${PROJECT_ROOT},FEATURE_DATE=${FEATURE_DATE},DATE_TAG=${DATE_TAG},RUN_FVD=1" \
     --wrap="cd ${PROJECT_ROOT} && bash scripts/run_deploy_router_aux_metrics.sh")
 else

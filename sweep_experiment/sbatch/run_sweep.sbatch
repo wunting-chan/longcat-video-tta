@@ -88,6 +88,11 @@ NO_SAVE_VIDEOS="${NO_SAVE_VIDEOS:-1}"
 # Selective video retention: path to retain_videos.json (save only listed videos)
 SAVE_ONLY_LIST="${SAVE_ONLY_LIST:-}"
 
+# Playback fps for saved MP4s. Default 24 = byte-identical to prior behaviour
+# for existing experiments. Currently honoured by the `lora` runner only; set
+# to 32 for high-quality long-horizon generation jobs.
+FPS="${FPS:-24}"
+
 # Multi-step autoregressive rollout (default 1 = single-step, backward-compatible)
 ROLLOUT_STEPS="${ROLLOUT_STEPS:-1}"
 
@@ -502,6 +507,7 @@ case "${METHOD}" in
     echo "  Batch videos   : ${BATCH_VIDEOS}"
     echo "  Retrieval pool : ${RETRIEVAL_POOL_DIR:-<same as DATA_DIR>}"
     echo "  Anchor-x0 wt   : ${ANCHOR_X0_WEIGHT}"
+    echo "  Output fps     : ${FPS}"
     echo "=============================================================================="
 
     EXTRA_FLAGS=""
@@ -547,6 +553,7 @@ case "${METHOD}" in
         --guidance-scale "${GUIDANCE_SCALE}" \
         --resolution "${RESOLUTION}" \
         --seed "${SEED}" \
+        --fps "${FPS}" \
         ${SAVE_FLAGS} \
         ${EXTRA_FLAGS} \
         ${CAPTION_FLAGS} \

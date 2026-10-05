@@ -1,0 +1,399 @@
+{
+  "meta": {
+    "series_root": "sweep_experiment/results/panda_ood_budget_pilot",
+    "notta_dir": "sweep_experiment/results/panda_1000v_standard/NOTTA",
+    "ood_csv": "sweep_experiment/reports/per_video_analysis/2026-06-09/diffusion_ood_scores.csv",
+    "grid_runs": [
+      "S2_LR1e3",
+      "S2_LR5e3",
+      "S2_LR1e2",
+      "S5_LR1e3",
+      "S5_LR5e3",
+      "S5_LR1e2",
+      "S10_LR1e3",
+      "S10_LR5e3",
+      "S10_LR1e2",
+      "S20_LR1e3",
+      "S20_LR5e3",
+      "S20_LR1e2"
+    ],
+    "n_videos_total": 200,
+    "n_psnr_pool": 200,
+    "vbench_dims": [
+      "subject_consistency",
+      "background_consistency",
+      "aesthetic_quality",
+      "motion_smoothness",
+      "dynamic_degree",
+      "imaging_quality",
+      "temporal_flickering"
+    ]
+  },
+  "chart1_psnr_delta": {
+    "quintiles": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "mean": [
+      0.615248,
+      0.452365,
+      1.681512,
+      0.240666,
+      1.742805
+    ],
+    "sem": [
+      0.455452,
+      0.65397,
+      0.724182,
+      1.117632,
+      0.747626
+    ],
+    "n": [
+      40,
+      40,
+      40,
+      40,
+      40
+    ],
+    "pop_mean": 0.946519
+  },
+  "chart2_config_picks": {
+    "Q1": {
+      "S2_LR1e3": 1,
+      "S2_LR5e3": 3,
+      "S2_LR1e2": 0,
+      "S5_LR1e3": 0,
+      "S5_LR5e3": 1,
+      "S5_LR1e2": 2,
+      "S10_LR1e3": 2,
+      "S10_LR5e3": 1,
+      "S10_LR1e2": 8,
+      "S20_LR1e3": 1,
+      "S20_LR5e3": 5,
+      "S20_LR1e2": 16
+    },
+    "Q2": {
+      "S2_LR1e3": 2,
+      "S2_LR5e3": 0,
+      "S2_LR1e2": 3,
+      "S5_LR1e3": 2,
+      "S5_LR5e3": 4,
+      "S5_LR1e2": 3,
+      "S10_LR1e3": 1,
+      "S10_LR5e3": 1,
+      "S10_LR1e2": 11,
+      "S20_LR1e3": 0,
+      "S20_LR5e3": 4,
+      "S20_LR1e2": 9
+    },
+    "Q3": {
+      "S2_LR1e3": 1,
+      "S2_LR5e3": 5,
+      "S2_LR1e2": 3,
+      "S5_LR1e3": 2,
+      "S5_LR5e3": 3,
+      "S5_LR1e2": 2,
+      "S10_LR1e3": 0,
+      "S10_LR5e3": 1,
+      "S10_LR1e2": 9,
+      "S20_LR1e3": 1,
+      "S20_LR5e3": 4,
+      "S20_LR1e2": 9
+    },
+    "Q4": {
+      "S2_LR1e3": 4,
+      "S2_LR5e3": 1,
+      "S2_LR1e2": 2,
+      "S5_LR1e3": 2,
+      "S5_LR5e3": 2,
+      "S5_LR1e2": 5,
+      "S10_LR1e3": 3,
+      "S10_LR5e3": 3,
+      "S10_LR1e2": 4,
+      "S20_LR1e3": 3,
+      "S20_LR5e3": 1,
+      "S20_LR1e2": 10
+    },
+    "Q5": {
+      "S2_LR1e3": 2,
+      "S2_LR5e3": 6,
+      "S2_LR1e2": 4,
+      "S5_LR1e3": 1,
+      "S5_LR5e3": 4,
+      "S5_LR1e2": 3,
+      "S10_LR1e3": 1,
+      "S10_LR5e3": 1,
+      "S10_LR1e2": 8,
+      "S20_LR1e3": 0,
+      "S20_LR5e3": 3,
+      "S20_LR1e2": 7
+    }
+  },
+  "vbench_dim_gain": {
+    "subject_consistency": {
+      "raw": 0.005197,
+      "rel_pct": 0.5754,
+      "n": 200,
+      "notta_mean": 0.903224
+    },
+    "background_consistency": {
+      "raw": 0.007163,
+      "rel_pct": 0.7733,
+      "n": 200,
+      "notta_mean": 0.926284
+    },
+    "aesthetic_quality": {
+      "raw": 0.058782,
+      "rel_pct": 15.0247,
+      "n": 200,
+      "notta_mean": 0.391235
+    },
+    "motion_smoothness": {
+      "raw": -0.00018,
+      "rel_pct": -0.0183,
+      "n": 200,
+      "notta_mean": 0.985914
+    },
+    "dynamic_degree": {
+      "raw": 0.12,
+      "rel_pct": 23.0769,
+      "n": 200,
+      "notta_mean": 0.52
+    },
+    "imaging_quality": {
+      "raw": -3.30516,
+      "rel_pct": -5.0655,
+      "n": 200,
+      "notta_mean": 65.248577
+    },
+    "temporal_flickering": {
+      "raw": -0.002211,
+      "rel_pct": -0.2264,
+      "n": 200,
+      "notta_mean": 0.976581
+    }
+  },
+  "vbench_dim_delta_by_quintile": {
+    "subject_consistency": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        -0.009372,
+        -0.033479,
+        -0.031155,
+        0.051429,
+        0.048561
+      ],
+      "sem": [
+        0.01645,
+        0.017108,
+        0.021816,
+        0.023393,
+        0.0204
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": 0.005197
+    },
+    "background_consistency": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        0.002994,
+        -0.019046,
+        -0.019518,
+        0.042666,
+        0.028722
+      ],
+      "sem": [
+        0.012738,
+        0.010377,
+        0.013521,
+        0.014801,
+        0.014626
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": 0.007163
+    },
+    "aesthetic_quality": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        0.035328,
+        0.038849,
+        0.009116,
+        0.098568,
+        0.112049
+      ],
+      "sem": [
+        0.023858,
+        0.024765,
+        0.025924,
+        0.022323,
+        0.0247
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": 0.058782
+    },
+    "motion_smoothness": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        -0.005842,
+        -0.000288,
+        -0.001283,
+        0.006073,
+        0.000439
+      ],
+      "sem": [
+        0.005086,
+        0.005404,
+        0.003131,
+        0.002722,
+        0.002733
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": -0.00018
+    },
+    "dynamic_degree": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        0.2,
+        0.2,
+        0.225,
+        0.05,
+        -0.075
+      ],
+      "sem": [
+        0.089156,
+        0.114354,
+        0.104314,
+        0.100957,
+        0.109705
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": 0.12
+    },
+    "imaging_quality": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        -4.078065,
+        -5.518665,
+        -2.657154,
+        -2.772597,
+        -1.499321
+      ],
+      "sem": [
+        2.767308,
+        2.762557,
+        3.230871,
+        2.457084,
+        2.427725
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": -3.30516
+    },
+    "temporal_flickering": {
+      "quintiles": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mean": [
+        -0.010102,
+        -0.003433,
+        -0.002551,
+        0.005854,
+        -0.000822
+      ],
+      "sem": [
+        0.00668,
+        0.006835,
+        0.005107,
+        0.005107,
+        0.00428
+      ],
+      "n": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "pop_mean": -0.002211
+    }
+  },
+  "winner_dim": "dynamic_degree"
+}

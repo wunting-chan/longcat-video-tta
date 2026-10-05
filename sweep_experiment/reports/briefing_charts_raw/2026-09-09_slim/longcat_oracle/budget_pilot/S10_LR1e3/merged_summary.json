@@ -1,0 +1,29 @@
+{
+  "num_chunks": 2,
+  "num_videos": 200,
+  "num_successful": 200,
+  "psnr": 18.085979548054084,
+  "psnr_std": 7.852674137439996,
+  "ssim": 0.6369529210882527,
+  "ssim_std": 0.22905957919040087,
+  "lpips": 0.3454050661978545,
+  "lpips_std": 0.2658429585791188,
+  "avg_train_time": 57.154666678905485,
+  "avg_gen_time": 79.50561573028564,
+  "avg_total_time": 136.66029012680053,
+  "fvd_num_videos": 200,
+  "fvd_num_ref_videos": 200,
+  "fvd_num_chunks": 2,
+  "fvd": 316.544639,
+  "fid": 61.511353,
+  "fid_num_frames_gen": 2800,
+  "fid_num_frames_ref": 2800,
+  "fvd_per_chunk": [
+    467.134468,
+    522.794962
+  ],
+  "fid_per_chunk": [
+    79.123573,
+    81.158069
+  ]
+}

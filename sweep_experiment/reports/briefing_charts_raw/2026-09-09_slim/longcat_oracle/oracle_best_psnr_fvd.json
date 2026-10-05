@@ -1,0 +1,23 @@
+{
+  "fvd": 149.573535,
+  "fid": null,
+  "num_gen_videos": 999,
+  "num_ref_videos": 999,
+  "num_valid_pairs": 999,
+  "num_frames_per_clip": 14,
+  "num_cond_frames": 14,
+  "num_gen_frames": 14,
+  "auto_scoring": true,
+  "strip_annotation_borders": true,
+  "feature_extractor": "i3d_kinetics400_torchscript",
+  "feature_dim": 400,
+  "normalization": "[-1, 1]",
+  "i3d_weights_sha256": "bec6519f66ea534e953026b4ae2c65553c17bf105611c746d904657e5860a5e2",
+  "sample_size_warning": null,
+  "gen_dir": "/scratch/wc3013/longcat-video-tta/sweep_experiment/reports/phase1_oracle_fvd/oracle_best_psnr/videos",
+  "ref_dir": null,
+  "gt_cache": "/scratch/wc3013/longcat-video-tta/gt_caches/panda_1000_longcat.npz",
+  "pair_by_id": true,
+  "ref_from_gt_cache": true,
+  "elapsed_seconds": 263.2
+}

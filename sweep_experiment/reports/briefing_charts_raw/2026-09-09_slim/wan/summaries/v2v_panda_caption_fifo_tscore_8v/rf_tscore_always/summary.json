@@ -1,0 +1,1108 @@
+{
+  "n": 8,
+  "n_ok": 8,
+  "task": "v2v",
+  "method": "rf_tscore_always",
+  "host": "rolling",
+  "live_min": 0.012,
+  "horizon_s": 30.0,
+  "prefix_latents": 9,
+  "n_gen_latent": 126,
+  "chunk_latents": 21,
+  "n_chunks": 6,
+  "n_pix": 537,
+  "search_k": 1,
+  "seed": 0,
+  "shard_id": 0,
+  "num_shards": 1,
+  "video_workers": 1,
+  "video_worker_id": null,
+  "video_dir": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p",
+  "sampling_hooks": {
+    "scheduler.shift": 5.0,
+    "args.guidance_scale": 3.0
+  },
+  "shift_live": null,
+  "cfg_live": null,
+  "denoising_step_list": [
+    1000.0,
+    952.3810424804688,
+    882.3529052734375,
+    769.2307739257812,
+    555.5556030273438
+  ],
+  "denoising_step_native": [
+    1000.0,
+    952.3810424804688,
+    882.3529052734375,
+    769.2307739257812,
+    555.5556030273438
+  ],
+  "denoising_step_kind": "native",
+  "rows": [
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0000.mp4",
+      "file_name": "panda_0000.mp4",
+      "stem": "panda_0000",
+      "prompt": "A close up of a truck with its hood open.",
+      "prompt_source": "metadata_csv",
+      "item_index": 0,
+      "seconds": 174.67,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/000_panda_0000_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.017483055591583252,
+      "tail_motion": 0.02258138731122017,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.006380189210176468,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.24379146099090576,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2275499552488327,
+              "accepted": true
+            },
+            {
+              "frozen": 42,
+              "score0": 0.2385455220937729,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2565061151981354,
+              "accepted": false
+            },
+            {
+              "frozen": 63,
+              "score0": 0.2548750638961792,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2698223888874054,
+              "accepted": false
+            },
+            {
+              "frozen": 84,
+              "score0": 0.25883644819259644,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2533608675003052,
+              "accepted": true
+            },
+            {
+              "frozen": 105,
+              "score0": 0.22509433329105377,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2673906981945038,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.21953076124191284,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.23257316648960114,
+              "accepted": false
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.017483055591583252,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.017483055591583252
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0001.mp4",
+      "file_name": "panda_0001.mp4",
+      "stem": "panda_0001",
+      "prompt": "A young woman is standing in front of a kitchen counter. she has tattoos on her arms and is wearing a black tank top.",
+      "prompt_source": "metadata_csv",
+      "item_index": 1,
+      "seconds": 173.92,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/001_panda_0001_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.016955792903900146,
+      "tail_motion": 0.015131811611354351,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.02160470560193062,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.20467296242713928,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.20199930667877197,
+              "accepted": true
+            },
+            {
+              "frozen": 42,
+              "score0": 0.20770522952079773,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.21900922060012817,
+              "accepted": false
+            },
+            {
+              "frozen": 63,
+              "score0": 0.2191476672887802,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.21874971687793732,
+              "accepted": true
+            },
+            {
+              "frozen": 84,
+              "score0": 0.21136629581451416,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.22016730904579163,
+              "accepted": false
+            },
+            {
+              "frozen": 105,
+              "score0": 0.21790006756782532,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.22401386499404907,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.2262709140777588,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.22313712537288666,
+              "accepted": true
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.016955792903900146,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.016955792903900146
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0002.mp4",
+      "file_name": "panda_0002.mp4",
+      "stem": "panda_0002",
+      "prompt": "The room has a white wall and a bookshelf.",
+      "prompt_source": "metadata_csv",
+      "item_index": 2,
+      "seconds": 173.42,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/002_panda_0002_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.004465904086828232,
+      "tail_motion": 0.00419734138995409,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0007879817858338356,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.13741999864578247,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.12821005284786224,
+              "accepted": true
+            },
+            {
+              "frozen": 42,
+              "score0": 0.14920170605182648,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1419055014848709,
+              "accepted": true
+            },
+            {
+              "frozen": 63,
+              "score0": 0.15690696239471436,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.14916002750396729,
+              "accepted": true
+            },
+            {
+              "frozen": 84,
+              "score0": 0.1620677262544632,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1524287760257721,
+              "accepted": true
+            },
+            {
+              "frozen": 105,
+              "score0": 0.16410596668720245,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.15126775205135345,
+              "accepted": true
+            },
+            {
+              "frozen": 126,
+              "score0": 0.15669742226600647,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1563369631767273,
+              "accepted": true
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.004465904086828232,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.004465904086828232
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0003.mp4",
+      "file_name": "panda_0003.mp4",
+      "stem": "panda_0003",
+      "prompt": "A police officer in a video game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 3,
+      "seconds": 173.76,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/003_panda_0003_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.026637546718120575,
+      "tail_motion": 0.020112603902816772,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0009400062845088542,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.2122291475534439,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.18331454694271088,
+              "accepted": true
+            },
+            {
+              "frozen": 42,
+              "score0": 0.1991986334323883,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.21009297668933868,
+              "accepted": false
+            },
+            {
+              "frozen": 63,
+              "score0": 0.21077203750610352,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2300698608160019,
+              "accepted": false
+            },
+            {
+              "frozen": 84,
+              "score0": 0.1998252421617508,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.21544864773750305,
+              "accepted": false
+            },
+            {
+              "frozen": 105,
+              "score0": 0.19809174537658691,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.23111528158187866,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.2058652937412262,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2065555453300476,
+              "accepted": false
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.026637546718120575,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.026637546718120575
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0004.mp4",
+      "file_name": "panda_0004.mp4",
+      "stem": "panda_0004",
+      "prompt": "A black book with the words photo critique on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 4,
+      "seconds": 173.94,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/004_panda_0004_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.006931299809366465,
+      "tail_motion": 0.006367986556142569,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.005833710078150034,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.16672363877296448,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.17126409709453583,
+              "accepted": false
+            },
+            {
+              "frozen": 42,
+              "score0": 0.15985643863677979,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.15777619183063507,
+              "accepted": true
+            },
+            {
+              "frozen": 63,
+              "score0": 0.1522027552127838,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.15240183472633362,
+              "accepted": false
+            },
+            {
+              "frozen": 84,
+              "score0": 0.14216123521327972,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1722441166639328,
+              "accepted": false
+            },
+            {
+              "frozen": 105,
+              "score0": 0.14544238150119781,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1540200114250183,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.1488933265209198,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.16276144981384277,
+              "accepted": false
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.006931299809366465,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.006931299809366465
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0005.mp4",
+      "file_name": "panda_0005.mp4",
+      "stem": "panda_0005",
+      "prompt": "The person is holding a plastic bowl filled with cherry tomatoes on a kitchen counter.",
+      "prompt_source": "metadata_csv",
+      "item_index": 5,
+      "seconds": 174.13,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/005_panda_0005_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.021911848336458206,
+      "tail_motion": 0.014652479439973831,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.00524646881967783,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.20231923460960388,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.1936005800962448,
+              "accepted": true
+            },
+            {
+              "frozen": 42,
+              "score0": 0.21866075694561005,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.21597568690776825,
+              "accepted": true
+            },
+            {
+              "frozen": 63,
+              "score0": 0.22463589906692505,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2178838700056076,
+              "accepted": true
+            },
+            {
+              "frozen": 84,
+              "score0": 0.2332984358072281,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.22481800615787506,
+              "accepted": true
+            },
+            {
+              "frozen": 105,
+              "score0": 0.2238205373287201,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2184039205312729,
+              "accepted": true
+            },
+            {
+              "frozen": 126,
+              "score0": 0.22231538593769073,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2163863629102707,
+              "accepted": true
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.021911848336458206,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.021911848336458206
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0006.mp4",
+      "file_name": "panda_0006.mp4",
+      "stem": "panda_0006",
+      "prompt": "A small boat is sailing in the ocean, with mountains in the background.",
+      "prompt_source": "metadata_csv",
+      "item_index": 6,
+      "seconds": 174.19,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/006_panda_0006_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.011937275528907776,
+      "tail_motion": 0.012650803662836552,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.01921984925866127,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.22762297093868256,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2277390956878662,
+              "accepted": false
+            },
+            {
+              "frozen": 42,
+              "score0": 0.2344028353691101,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.25324293971061707,
+              "accepted": false
+            },
+            {
+              "frozen": 63,
+              "score0": 0.23443523049354553,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2374761402606964,
+              "accepted": false
+            },
+            {
+              "frozen": 84,
+              "score0": 0.2302975356578827,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2305675745010376,
+              "accepted": false
+            },
+            {
+              "frozen": 105,
+              "score0": 0.23395687341690063,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.236585795879364,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.24144190549850464,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2321724146604538,
+              "accepted": true
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.011937275528907776,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.011937275528907776
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rf_tscore_always",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0007.mp4",
+      "file_name": "panda_0007.mp4",
+      "stem": "panda_0007",
+      "prompt": "The new ford cars are on display at a car show.",
+      "prompt_source": "metadata_csv",
+      "item_index": 7,
+      "seconds": 173.78,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_fifo_tscore_8v/rf_tscore_always_h30s_shard0/007_panda_0007_h30s_rf_tscore_always_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": 0.031032482162117958,
+      "tail_motion": 0.028120344504714012,
+      "ref_signals": null,
+      "denoising_step_list": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_native": [
+        1000.0,
+        952.3810424804688,
+        882.3529052734375,
+        769.2307739257812,
+        555.5556030273438
+      ],
+      "denoising_step_kind": "native",
+      "context_noise": 0.0,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rf_tscore_always",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.07013935595750809,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [
+            {
+              "frozen": 21,
+              "score0": 0.22816438972949982,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.25635233521461487,
+              "accepted": false
+            },
+            {
+              "frozen": 42,
+              "score0": 0.24865449965000153,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.22339721024036407,
+              "accepted": true
+            },
+            {
+              "frozen": 63,
+              "score0": 0.28216397762298584,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2557183802127838,
+              "accepted": true
+            },
+            {
+              "frozen": 84,
+              "score0": 0.2721298933029175,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.2604394555091858,
+              "accepted": true
+            },
+            {
+              "frozen": 105,
+              "score0": 0.2673332989215851,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.27755090594291687,
+              "accepted": false
+            },
+            {
+              "frozen": 126,
+              "score0": 0.27045807242393494,
+              "reject": true,
+              "method": "rf_tscore_always",
+              "score1": 0.25460556149482727,
+              "accepted": true
+            }
+          ],
+          "denoise_logs": [],
+          "fifo_n": 0,
+          "last_chunk_motion": 0.031032482162117958,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": 0.031032482162117958
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "label_a": "NOTTA",
+  "label_b": "clean-anchor",
+  "notta": "sweep_experiment/results/longhorizon_sweep_notta_native_12ch/merged_summary.json",
+  "delta": "sweep_experiment/results/longhorizon_sweep_delta_stream_clean_native_12ch/merged_summary.json",
+  "rows": [
+    {
+      "signal": "sharpness",
+      "n_paired": 8,
+      "mean_abs_drift_A": 0.005884227098772499,
+      "mean_abs_drift_B": 0.007302208959060863,
+      "mean_reduction_A_minus_B": -0.0014179818602883644,
+      "ci95": [
+        -0.005082999955789092,
+        0.0028290087235404828
+      ],
+      "signflip_p": 0.5276,
+      "gt_free": true
+    },
+    {
+      "signal": "temporal_motion",
+      "n_paired": 8,
+      "mean_abs_drift_A": 0.016137192025780678,
+      "mean_abs_drift_B": 0.015123625926207751,
+      "mean_reduction_A_minus_B": 0.0010135660995729268,
+      "ci95": [
+        -0.007661675481358543,
+        0.00869951997301538
+      ],
+      "signflip_p": 0.8305,
+      "gt_free": true
+    },
+    {
+      "signal": "colorfulness",
+      "n_paired": 8,
+      "mean_abs_drift_A": 0.03373585251904432,
+      "mean_abs_drift_B": 0.032245889739660145,
+      "mean_reduction_A_minus_B": 0.001489962779384164,
+      "ci95": [
+        -0.010731541174301711,
+        0.015843598682690915
+      ],
+      "signflip_p": 0.8417,
+      "gt_free": true
+    },
+    {
+      "signal": "contrast",
+      "n_paired": 8,
+      "mean_abs_drift_A": 0.043093116953969,
+      "mean_abs_drift_B": 0.06074569188058376,
+      "mean_reduction_A_minus_B": -0.01765257492661476,
+      "ci95": [
+        -0.06588521227240562,
+        0.01643448248505592
+      ],
+      "signflip_p": 0.7008,
+      "gt_free": true
+    },
+    {
+      "signal": "psnr",
+      "n_paired": 3,
+      "mean_abs_drift_A": 3.5389883131691917,
+      "mean_abs_drift_B": 3.529648600563858,
+      "mean_reduction_A_minus_B": 0.009339712605333617,
+      "ci95": [
+        -0.03087207187305907,
+        0.052471741763030266
+      ],
+      "signflip_p": 0.7496,
+      "gt_free": false
+    },
+    {
+      "signal": "ssim",
+      "n_paired": 3,
+      "mean_abs_drift_A": 0.1402496941387654,
+      "mean_abs_drift_B": 0.14083602359574857,
+      "mean_reduction_A_minus_B": -0.0005863294569831701,
+      "ci95": [
+        -0.0010648930275982127,
+        -0.00021072551608081191
+      ],
+      "signflip_p": 0.24695,
+      "gt_free": false
+    },
+    {
+      "signal": "lpips",
+      "n_paired": 3,
+      "mean_abs_drift_A": 0.0972560847146352,
+      "mean_abs_drift_B": 0.09794391700821563,
+      "mean_reduction_A_minus_B": -0.000687832293580414,
+      "ci95": [
+        -0.0018568539949641583,
+        0.00015647152904421646
+      ],
+      "signflip_p": 0.49735,
+      "gt_free": false
+    }
+  ]
+}

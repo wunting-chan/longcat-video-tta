@@ -791,6 +791,10 @@ def main():
                         help="Skip saving generated videos to disk (metrics still computed in-memory)")
     parser.add_argument("--save-only-list", type=str, default=None,
                         help="Path to retain_videos.json; save MP4s only for listed videos")
+    parser.add_argument("--fps", type=int, default=24,
+                        help="Playback frame rate for saved MP4s (default: 24). "
+                             "Only affects file encoding, not generation; safe to "
+                             "leave at 24 for existing experiments.")
     parser.add_argument("--rollout-steps", type=int, default=1,
                         help="Number of autoregressive generation steps (default 1 = single-step)")
 
@@ -1392,7 +1396,7 @@ def main():
                         output_path = os.path.join(videos_dir, f"{video_name}_lora.mp4")
                         should_save = (not args.no_save_videos) or (video_name in retain_set)
                         if should_save:
-                            save_video_from_numpy(gen_frames, output_path, fps=24)
+                            save_video_from_numpy(gen_frames, output_path, fps=args.fps)
                             result["output_path"] = output_path
 
                     prev_gen_frames = gen_frames

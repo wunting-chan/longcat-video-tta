@@ -107,6 +107,56 @@ def oracle_winner(row: dict) -> str:
     return max(psnrs, key=lambda k: psnrs[k])
 
 
+def oracle_win_margin(row: dict) -> Tuple[str, float]:
+    """Return (winner, PSNR margin over second-best method)."""
+    psnrs = {
+        BASELINE: _f(row, f"{BASELINE}_psnr"),
+        ADA: _f(row, f"{ADA}_psnr"),
+        LORA: _f(row, f"{LORA}_psnr"),
+    }
+    winner = max(psnrs, key=lambda k: psnrs[k])
+    second_best = max(v for k, v in psnrs.items() if k != winner)
+    return winner, psnrs[winner] - second_best
+
+
+def _oracle_winner_margin_table(
+    rows: List[dict],
+) -> Tuple[List[str], Dict[str, List[float]]]:
+    """Per-winner win margins (winner PSNR − second-best PSNR)."""
+    margins: Dict[str, List[float]] = {BASELINE: [], ADA: [], LORA: []}
+    for r in rows:
+        winner, margin = oracle_win_margin(r)
+        margins[winner].append(margin)
+
+    display = {
+        BASELINE: "NOTTA",
+        ADA: "AdaSteer",
+        LORA: "LoRA",
+    }
+    n = len(rows)
+    lines = [
+        "## Oracle winner breakdown (win margin over second-best)",
+        "",
+        "Win margin = winner absolute PSNR − second-best absolute PSNR on that video.",
+        "",
+        "| Oracle winner | N | Share | Mean win margin | Median margin |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for key in (ADA, BASELINE, LORA):
+        arr = margins[key]
+        cnt = len(arr)
+        share = 100.0 * cnt / n if n else 0.0
+        if cnt == 0:
+            lines.append(f"| {display[key]} | 0 | 0.0% | — | — |")
+            continue
+        _, mean, med, _, _ = _stats(arr)
+        lines.append(
+            f"| {display[key]} | {cnt} | {share:.1f}% | {mean:.3f} dB | {med:.3f} dB |"
+        )
+    lines.append("")
+    return lines, margins
+
+
 def build_report(rows: List[dict], bootstrap: bool = False,
                  n_boot: int = 5000, bootstrap_seed: int = 42) -> str:
     n = len(rows)
@@ -193,6 +243,10 @@ def build_report(rows: List[dict], bootstrap: bool = False,
         f"AdaSteer {winners[ADA]} ({100*winners[ADA]/n:.1f}%) · "
         f"LoRA {winners[LORA]} ({100*winners[LORA]/n:.1f}%)",
         "",
+    ]
+    margin_lines, _ = _oracle_winner_margin_table(rows)
+    lines += margin_lines
+    lines += [
         "| Metric | N | Mean | Median | p25 | p75 |",
         "|---|---:|---:|---:|---:|---:|",
         _fmt_stats("Oracle ΔPSNR vs NOTTA", oracle_gain),

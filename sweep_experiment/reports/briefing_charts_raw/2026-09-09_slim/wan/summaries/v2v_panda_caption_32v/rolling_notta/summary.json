@@ -1,0 +1,2141 @@
+{
+  "n": 32,
+  "n_ok": 32,
+  "task": "v2v",
+  "method": "rolling_notta",
+  "host": "rolling",
+  "live_min": 0.012,
+  "horizon_s": 30.0,
+  "prefix_latents": 9,
+  "n_gen_latent": 126,
+  "chunk_latents": 21,
+  "n_chunks": 6,
+  "n_pix": 537,
+  "search_k": 1,
+  "seed": 0,
+  "shard_id": 0,
+  "num_shards": 1,
+  "video_workers": 1,
+  "video_worker_id": null,
+  "video_dir": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p",
+  "sampling_hooks": {
+    "scheduler.shift": 5.0,
+    "args.guidance_scale": 3.0
+  },
+  "shift_live": null,
+  "cfg_live": null,
+  "rows": [
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0000.mp4",
+      "file_name": "panda_0000.mp4",
+      "stem": "panda_0000",
+      "prompt": "A close up of a truck with its hood open.",
+      "prompt_source": "metadata_csv",
+      "item_index": 0,
+      "seconds": 47.67,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/000_panda_0000_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.022742850705981255,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.006380189210176468,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0001.mp4",
+      "file_name": "panda_0001.mp4",
+      "stem": "panda_0001",
+      "prompt": "A young woman is standing in front of a kitchen counter. she has tattoos on her arms and is wearing a black tank top.",
+      "prompt_source": "metadata_csv",
+      "item_index": 1,
+      "seconds": 44.93,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/001_panda_0001_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.013065272010862827,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.02160470560193062,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0002.mp4",
+      "file_name": "panda_0002.mp4",
+      "stem": "panda_0002",
+      "prompt": "The room has a white wall and a bookshelf.",
+      "prompt_source": "metadata_csv",
+      "item_index": 2,
+      "seconds": 44.71,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/002_panda_0002_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.0045387414284050465,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0007879817858338356,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0003.mp4",
+      "file_name": "panda_0003.mp4",
+      "stem": "panda_0003",
+      "prompt": "A police officer in a video game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 3,
+      "seconds": 44.65,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/003_panda_0003_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02163407951593399,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0009400062845088542,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0004.mp4",
+      "file_name": "panda_0004.mp4",
+      "stem": "panda_0004",
+      "prompt": "A black book with the words photo critique on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 4,
+      "seconds": 44.35,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/004_panda_0004_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.00752685172483325,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.005833710078150034,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0005.mp4",
+      "file_name": "panda_0005.mp4",
+      "stem": "panda_0005",
+      "prompt": "The person is holding a plastic bowl filled with cherry tomatoes on a kitchen counter.",
+      "prompt_source": "metadata_csv",
+      "item_index": 5,
+      "seconds": 44.84,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/005_panda_0005_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.013765486888587475,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.00524646881967783,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0006.mp4",
+      "file_name": "panda_0006.mp4",
+      "stem": "panda_0006",
+      "prompt": "A small boat is sailing in the ocean, with mountains in the background.",
+      "prompt_source": "metadata_csv",
+      "item_index": 6,
+      "seconds": 44.48,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/006_panda_0006_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.012562684714794159,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.01921984925866127,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0007.mp4",
+      "file_name": "panda_0007.mp4",
+      "stem": "panda_0007",
+      "prompt": "The new ford cars are on display at a car show.",
+      "prompt_source": "metadata_csv",
+      "item_index": 7,
+      "seconds": 44.64,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/007_panda_0007_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.029668157920241356,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.07013935595750809,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0008.mp4",
+      "file_name": "panda_0008.mp4",
+      "stem": "panda_0008",
+      "prompt": "A sign that says \"no more stolen sisters\".",
+      "prompt_source": "metadata_csv",
+      "item_index": 8,
+      "seconds": 45.04,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/008_panda_0008_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01019244734197855,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.004181804601103067,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0009.mp4",
+      "file_name": "panda_0009.mp4",
+      "stem": "panda_0009",
+      "prompt": "A person holding a piece of paper with squares on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 9,
+      "seconds": 44.67,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/009_panda_0009_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02899014577269554,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0013808688381686807,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0010.mp4",
+      "file_name": "panda_0010.mp4",
+      "stem": "panda_0010",
+      "prompt": "The person is preparing food on a wooden table near a body of water.",
+      "prompt_source": "metadata_csv",
+      "item_index": 10,
+      "seconds": 44.76,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/010_panda_0010_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.015491675585508347,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.04931209981441498,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0011.mp4",
+      "file_name": "panda_0011.mp4",
+      "stem": "panda_0011",
+      "prompt": "There is a white bowl filled with oatmeal and almonds on a table.",
+      "prompt_source": "metadata_csv",
+      "item_index": 11,
+      "seconds": 44.77,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/011_panda_0011_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.0053104073740541935,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.010952703654766083,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0012.mp4",
+      "file_name": "panda_0012.mp4",
+      "stem": "panda_0012",
+      "prompt": "A cartoon girl with a smile on her face.",
+      "prompt_source": "metadata_csv",
+      "item_index": 12,
+      "seconds": 44.51,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/012_panda_0012_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02051481418311596,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0015216571046039462,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0013.mp4",
+      "file_name": "panda_0013.mp4",
+      "stem": "panda_0013",
+      "prompt": "There is a small spot on the ceiling of a bathroom caused by an accumulation of moisture due to insufficient ventilation.",
+      "prompt_source": "metadata_csv",
+      "item_index": 13,
+      "seconds": 44.43,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/013_panda_0013_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.0042332252487540245,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0010754428803920746,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0014.mp4",
+      "file_name": "panda_0014.mp4",
+      "stem": "panda_0014",
+      "prompt": "It is a news broadcast with two people sitting at a desk, one of them is wearing a red dress and the other is wearing a suit.",
+      "prompt_source": "metadata_csv",
+      "item_index": 14,
+      "seconds": 44.61,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/014_panda_0014_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.012804973870515823,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.04837123677134514,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0015.mp4",
+      "file_name": "panda_0015.mp4",
+      "stem": "panda_0015",
+      "prompt": "A black and white photo of a pile of dirt on the moon.",
+      "prompt_source": "metadata_csv",
+      "item_index": 15,
+      "seconds": 44.76,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/015_panda_0015_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.010429027490317822,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.00421936484053731,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0016.mp4",
+      "file_name": "panda_0016.mp4",
+      "stem": "panda_0016",
+      "prompt": "There is a sign with information about the asia black bear restoration health project, which began in 2004, and it mentions that the bears are being reintroduced to their natural habitat on the korean peninsula.",
+      "prompt_source": "metadata_csv",
+      "item_index": 16,
+      "seconds": 44.41,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/016_panda_0016_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01740577258169651,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.004640564322471619,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0017.mp4",
+      "file_name": "panda_0017.mp4",
+      "stem": "panda_0017",
+      "prompt": "There is a black object on the ground, and it appears to be an electronic device.",
+      "prompt_source": "metadata_csv",
+      "item_index": 17,
+      "seconds": 44.2,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/017_panda_0017_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.014401806518435478,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.010575419291853905,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0018.mp4",
+      "file_name": "panda_0018.mp4",
+      "stem": "panda_0018",
+      "prompt": "A man is sitting in a car and ordering food from a drive-through window.",
+      "prompt_source": "metadata_csv",
+      "item_index": 18,
+      "seconds": 44.8,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/018_panda_0018_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.02403312548995018,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0037447514478117228,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0019.mp4",
+      "file_name": "panda_0019.mp4",
+      "stem": "panda_0019",
+      "prompt": "A car with a colorful paint job parked in a parking lot.",
+      "prompt_source": "metadata_csv",
+      "item_index": 19,
+      "seconds": 44.85,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/019_panda_0019_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.006127969827502966,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.008724971674382687,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0020.mp4",
+      "file_name": "panda_0020.mp4",
+      "stem": "panda_0020",
+      "prompt": "A close up of a flashlight in a box.",
+      "prompt_source": "metadata_csv",
+      "item_index": 20,
+      "seconds": 44.44,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/020_panda_0020_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.013852734118700027,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0008634928963147104,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0021.mp4",
+      "file_name": "panda_0021.mp4",
+      "stem": "panda_0021",
+      "prompt": "A comic book cover featuring a group of superheroes.",
+      "prompt_source": "metadata_csv",
+      "item_index": 21,
+      "seconds": 44.8,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/021_panda_0021_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.01641366258263588,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.008888494223356247,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0022.mp4",
+      "file_name": "panda_0022.mp4",
+      "stem": "panda_0022",
+      "prompt": "A man is standing on a bridge on a tv.",
+      "prompt_source": "metadata_csv",
+      "item_index": 22,
+      "seconds": 44.5,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/022_panda_0022_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.014051435515284538,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.06834190338850021,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0023.mp4",
+      "file_name": "panda_0023.mp4",
+      "stem": "panda_0023",
+      "prompt": "There is a group of people playing musical instruments in front of a purple curtain.",
+      "prompt_source": "metadata_csv",
+      "item_index": 23,
+      "seconds": 44.62,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/023_panda_0023_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.017766792327165604,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.004165761172771454,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0024.mp4",
+      "file_name": "panda_0024.mp4",
+      "stem": "panda_0024",
+      "prompt": "A sheet of paper with a list of words on it.",
+      "prompt_source": "metadata_csv",
+      "item_index": 24,
+      "seconds": 44.38,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/024_panda_0024_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.011995786800980568,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.022739432752132416,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0025.mp4",
+      "file_name": "panda_0025.mp4",
+      "stem": "panda_0025",
+      "prompt": "A computer screen showing various items in a minecraft game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 25,
+      "seconds": 44.5,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/025_panda_0025_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.010555998422205448,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0007551006274297833,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0026.mp4",
+      "file_name": "panda_0026.mp4",
+      "stem": "panda_0026",
+      "prompt": "A female soccer player kicks the ball during a game.",
+      "prompt_source": "metadata_csv",
+      "item_index": 26,
+      "seconds": 44.79,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/026_panda_0026_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.024772491306066513,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.04471796005964279,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0027.mp4",
+      "file_name": "panda_0027.mp4",
+      "stem": "panda_0027",
+      "prompt": "Two men are standing in a field, one of them is holding a pineapple and the other is holding a knife.",
+      "prompt_source": "metadata_csv",
+      "item_index": 27,
+      "seconds": 43.7,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/027_panda_0027_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.031000176444649696,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.047627367079257965,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0028.mp4",
+      "file_name": "panda_0028.mp4",
+      "stem": "panda_0028",
+      "prompt": "A pink sculpture of a cat on a television screen.",
+      "prompt_source": "metadata_csv",
+      "item_index": 28,
+      "seconds": 44.91,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/028_panda_0028_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.016170457005500793,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.03533801808953285,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0029.mp4",
+      "file_name": "panda_0029.mp4",
+      "stem": "panda_0029",
+      "prompt": "A person is cooking food in a pot of water.",
+      "prompt_source": "metadata_csv",
+      "item_index": 29,
+      "seconds": 44.59,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/029_panda_0029_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.017418401315808296,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.006531783379614353,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0030.mp4",
+      "file_name": "panda_0030.mp4",
+      "stem": "panda_0030",
+      "prompt": "A close up of the dashboard of a car.",
+      "prompt_source": "metadata_csv",
+      "item_index": 30,
+      "seconds": 44.49,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/030_panda_0030_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.00781937688589096,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.012932960875332355,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "task": "v2v",
+      "method": "rolling_notta",
+      "horizon_s_requested": 30.0,
+      "prefix_latents": 9,
+      "chunk_latents": 21,
+      "seed": 0,
+      "video_path": "/scratch/wc3013/longcat-video-tta/datasets/panda_1000_480p/videos/panda_0031.mp4",
+      "file_name": "panda_0031.mp4",
+      "stem": "panda_0031",
+      "prompt": "A view of a train track next to a fence.",
+      "prompt_source": "metadata_csv",
+      "item_index": 31,
+      "seconds": 43.72,
+      "mp4": "/scratch/wc3013/longcat-video-tta/wan_experiment/results/v2v_panda_caption_32v/rolling_notta_h30s_shard0/031_panda_0031_h30s_rolling_notta_s0.mp4",
+      "n_frames": 537,
+      "prefix_pix": 33,
+      "hw": [
+        480,
+        832
+      ],
+      "latent_shape": [
+        1,
+        135,
+        16,
+        60,
+        104
+      ],
+      "n_gen_latent": 126,
+      "n_chunks": 6,
+      "search_k": 1,
+      "n_divergent_chunks": 0,
+      "n_backtracked": 0,
+      "incoming_series": [
+        null
+      ],
+      "outgoing_series": [
+        null
+      ],
+      "last_chunk_score": null,
+      "last_chunk_motion_score": null,
+      "tail_motion": 0.0366499237716198,
+      "ref_signals": null,
+      "chunks": [
+        {
+          "chunk": 0,
+          "chosen_cand": 0,
+          "search_k": 1,
+          "method": "rolling_notta",
+          "searched": false,
+          "gate_reason": "rolling_rho=1",
+          "prefix_motion": 0.0016964038368314505,
+          "rho": 1.0,
+          "rho_mode": "fixed",
+          "look_picks": [],
+          "recache_logs": [],
+          "rewind_logs": [],
+          "last_chunk_motion": null,
+          "pseudo_fire": false,
+          "pseudo_rows": null,
+          "chosen_score": null,
+          "chosen_motion_score": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "experiment": "video_caption_psnr_target",
+  "n_videos": 998,
+  "n_features": 9,
+  "feature_blocks": {
+    "video_caption": [
+      "cut_count_pyscenedetect",
+      "cut_count_histogram",
+      "cut_density_per_frame",
+      "clip_text_image_sim_mean",
+      "clip_text_image_sim_var",
+      "clip_text_image_sim_min",
+      "dino_temporal_l2_mean",
+      "laplacian_variance_mean",
+      "rgb_histogram_entropy_mean"
+    ]
+  },
+  "psnr_oracle_match_rate": 0.0531062124248497,
+  "psnr_policy": {
+    "mean_policy_vbench": 19.474345050340357,
+    "mean_fixed_vbench": 19.46154391131505,
+    "mean_oracle_vbench": 19.84386452999207,
+    "oracle_headroom": 0.3823206186770207,
+    "fraction_oracle_captured": 0.03348273255469036,
+    "pct_vs_notta": null,
+    "pct_vs_fixed": 0.0657765852680567,
+    "top_picks": {
+      "S5_LR1e3": 391,
+      "S10_LR1e3": 386,
+      "S2_LR1e2": 195,
+      "S20_LR5e3": 8,
+      "S20_LR1e2": 7
+    }
+  },
+  "vbench_side_effect": {
+    "mean_policy_vbench": 9.566710247728158,
+    "mean_fixed_vbench": 9.57297581320546,
+    "mean_oracle_vbench": 9.669750610341284,
+    "oracle_headroom": 0.09677479713582393,
+    "fraction_oracle_captured": -0.06474377278732643,
+    "pct_vs_notta": null,
+    "pct_vs_fixed": -0.0654505516315872,
+    "top_picks": {
+      "S5_LR1e3": 391,
+      "S10_LR1e3": 386,
+      "S2_LR1e2": 195,
+      "S20_LR5e3": 8,
+      "S20_LR1e2": 7
+    }
+  },
+  "psnr_delta_vs_fixed": 0.01280113902530644,
+  "psnr_captured_pct": 3.3482732554690355,
+  "vbench_captured_pct_side_effect": -6.474377278732643,
+  "ridge_lambda": 1.0,
+  "top_picks_psnr": {
+    "S5_LR1e3": 391,
+    "S10_LR1e3": 386,
+    "S2_LR1e2": 195,
+    "S20_LR5e3": 8,
+    "S20_LR1e2": 7
+  }
+}

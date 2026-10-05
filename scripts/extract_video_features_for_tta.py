@@ -150,10 +150,6 @@ from scripts.caption_utils import (
     load_resolved_captions_csv,
     resolve_caption_for_clip,
 )
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    parse_frame_range_arg as _parse_frame_range_arg,
-)
 
 # Lazy / guarded imports so the script can still print --help on machines
 # that do not have torch installed.  All heavy imports happen inside main()
@@ -163,13 +159,31 @@ from scripts.frame_window import (
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-_cfg = PANDA_1000V_STANDARD
-TTA_TOTAL_FRAMES: int = _cfg.tta_total_frames
-GEN_START_FRAME: int = _cfg.gen_start_frame
-NUM_FRAMES: int = _cfg.num_frames
-NUM_COND_FRAMES: int = _cfg.num_cond_frames
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
-AUTO_GEN_TARGET_RANGE = _cfg.gen_target_range()
+# panda_1000v_standard frame geometry — sourced verbatim from
+# `sweep_experiment/sbatch/submit_standard_1000v_chunked.sh` env vars and
+# matched by all four runners (delta_a / lora_tta / tinylora; see the audit
+# block at the top of this file for line numbers).  Editing one of these
+# four constants automatically reflows AUTO_TTA_VISIBLE_RANGE /
+# AUTO_GEN_TARGET_RANGE so the script stays consistent with the runners.
+TTA_TOTAL_FRAMES: int = 48      # pre-anchor pixel frames the TTA loop loads
+GEN_START_FRAME: int = 48       # first frame the diffusion sampler emits
+NUM_FRAMES: int = 28            # diffusion window length
+NUM_COND_FRAMES: int = 14       # conditioning prefix; (NUM_FRAMES - NUM_COND_FRAMES) are new
+
+# Derived: TTA-visible window (the runners' `start_frame=max(0, gen_start_frame
+# - tta_total_frames)` slice of length tta_total_frames).
+AUTO_TTA_VISIBLE_RANGE: Tuple[int, int] = (
+    max(0, GEN_START_FRAME - TTA_TOTAL_FRAMES),
+    GEN_START_FRAME,
+)
+# Derived: generation-target window — frames the diffusion sampler emits as
+# genuinely new content (the conditioning prefix is dropped because those
+# frames overlap TTA-visible).  Disjoint from AUTO_TTA_VISIBLE_RANGE by
+# construction whenever GEN_START_FRAME >= TTA_TOTAL_FRAMES.
+AUTO_GEN_TARGET_RANGE: Tuple[int, int] = (
+    GEN_START_FRAME,
+    GEN_START_FRAME + (NUM_FRAMES - NUM_COND_FRAMES),
+)
 
 # Histogram cut detector: Bhattacharyya distance threshold.  Calibrated so
 # that obvious hard cuts in panda_100 sample clips fire (>= 0.4 is the
@@ -623,6 +637,26 @@ def list_video_paths(videos_dir: Path) -> List[Path]:
 # ---------------------------------------------------------------------------
 # CLI / orchestration
 # ---------------------------------------------------------------------------
+def _parse_frame_range_arg(arg: str, default: Tuple[int, int]) -> Tuple[int, int]:
+    """Parse a 'start:end' frame-range CLI value.
+
+    Returns ``default`` when ``arg`` is empty / ``'auto'``; otherwise parses
+    ``'A:B'`` -> ``(int(A), int(B))``.  Used for both ``--tta-visible-frames``
+    and ``--gen-target-frames`` so each flag resolves to its OWN auto value
+    (previously a single helper aliased to AUTO_TTA_VISIBLE_RANGE was used
+    for both, which made ``--gen-target-frames auto`` collapse onto the
+    visible range and silently turn the Tier-3 columns into self-similarity).
+    """
+    if not arg or arg.lower() == "auto":
+        return default
+    if ":" in arg:
+        a, b = arg.split(":", 1)
+        return int(a), int(b)
+    raise argparse.ArgumentTypeError(
+        f"frame-range arg must be 'auto' or 'A:B', got {arg!r}"
+    )
+
+
 def _parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(
         description=__doc__,

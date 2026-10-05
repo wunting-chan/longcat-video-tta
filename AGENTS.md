@@ -4,11 +4,23 @@
 Cursor, etc.) picking up work on this project. Read it FIRST before any
 substantive task. Update it whenever a new persistent artifact is created.
 
-**Live task (2026-09-26):** Artificial Individuality, §7. Implement it
-in `/scratch/wc3013/artificial-individuality`. This repo stays the
-cluster-operations context (SSH, sbatch, conda, login-node rules).
-The video-generation record in §3 stays frozen. Do not launch Wan /
-Self-Forcing GPU jobs unless the user explicitly reopens that line.
+**Project renamed 2026-10-05: `video-attractors`** (formerly
+`longcat-video-tta`). **Live direction (user decision 2026-10-05):** define
+how autoregressive video diffusion models decay toward attractors. Treat
+Self Forcing, Rolling Forcing and LongLive (Wan2.1-1.3B) as stochastic
+dynamical systems: attractor type, prompt half-life, relaxation time, twin
+divergence, and bifurcations under design knobs (sink, window). Target:
+CVPR 2027, deadline 2026-11-16. Read `docs/ATTRACTORS.md` first.
+
+- The Wan / Self-Forcing GPU line is **reopened for this study only**.
+  Ask the user before spending beyond an approved H200 budget.
+- The test-time-adaptation record (§3) is now supporting evidence: the
+  weight-adaptation null at scale and `docs/INTERVENTION_ATLAS.md`. Do not
+  revive TTA as the title method.
+- Code: `attractors/`. Cluster runs: `/scratch/wc3013/video-attractors-runs`
+  (old path `/scratch/wc3013/ai-attractors` is a symlink to it).
+- Artificial Individuality lives in its own repo and cluster tree
+  (`/scratch/wc3013/artificial-individuality`); §7 below is historical.
 
 ---
 
@@ -17,6 +29,8 @@ Self-Forcing GPU jobs unless the user explicitly reopens that line.
 | What | Path | Notes |
 |---|---|---|
 | **This index file** | `AGENTS.md` | Updated as artifacts are added |
+| **Attractor study (LIVE)** | `docs/ATTRACTORS.md`, `attractors/` | Results note, code, result JSON/figures. Cluster runs in `/scratch/wc3013/video-attractors-runs`. |
+| **Intervention atlas** | `docs/INTERVENTION_ATLAS.md` | 33 test-time intervention families, edit vs select, on one table. Supporting chapter. |
 | **Artificial Individuality (LIVE)** | `/scratch/wc3013/artificial-individuality` | DINO / ImageNet-100 history experiment. Protocol is §7 of this file. 1× H200, ≤48 h. First milestone only until Exp. 1–2 gates pass. |
 | **Cluster & sbatch onboarding guide** | `docs/CLUSTER_SBATCH_GUIDE.md` | Self-contained guide for a brand-new agent: cluster quirks (account flag, /scratch, conda/PYTHONHOME), how to write sbatch jobs, and ready-to-use fine-tune + long-horizon continuation recipes. |
 | **Master experiment index** | `sweep_experiment/reports/INDEX.md` | **Single source of truth** for what experiments exist + cluster paths. Read this first when picking up work. |

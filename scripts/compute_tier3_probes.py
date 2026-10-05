@@ -142,25 +142,25 @@ sys.path.insert(0, str(_REPO_ROOT / "lora_experiment" / "scripts"))
 sys.path.insert(0, str(_REPO_ROOT))
 
 
-from scripts.caption_utils import (
-    canonical_video_id as _canonical_video_id,
-    load_resolved_captions_csv,
-    resolve_caption_for_clip,
-)
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    parse_frame_range_arg,
-)
+# ---------------------------------------------------------------------------
+# Constants — mirror compute_diffusion_ood_score.py so the probe uses the
+# same visible-window split and noise schedule as the OOD scorer (so the
+# joined per_video_gains.csv + diffusion_ood_scores.csv + Tier-3 probe CSV
+# rows reference the same (video_id, slice) tuple).
+# ---------------------------------------------------------------------------
+TTA_TOTAL_FRAMES: int = 48
+TTA_CONTEXT_FRAMES: int = 14
+GEN_START_FRAME: int = 48
+NUM_FRAMES: int = 28
+NUM_COND_FRAMES: int = 14
 
-_cfg = PANDA_1000V_STANDARD
-TTA_TOTAL_FRAMES: int = _cfg.tta_total_frames
-TTA_CONTEXT_FRAMES: int = _cfg.tta_context_frames
-GEN_START_FRAME: int = _cfg.gen_start_frame
-NUM_FRAMES: int = _cfg.num_frames
-NUM_COND_FRAMES: int = _cfg.num_cond_frames
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
-AUTO_GEN_TARGET_FRAMES: int = _cfg.num_generated_frames()
-VAE_TEMPORAL_SCALE: int = _cfg.vae_temporal_scale
+AUTO_TTA_VISIBLE_RANGE: Tuple[int, int] = (
+    max(0, GEN_START_FRAME - TTA_TOTAL_FRAMES),
+    GEN_START_FRAME,
+)
+AUTO_GEN_TARGET_FRAMES: int = NUM_FRAMES - NUM_COND_FRAMES
+
+VAE_TEMPORAL_SCALE: int = 4
 NUM_TRAIN_TIMESTEPS: int = 1000
 
 DEFAULT_TIMESTEPS: str = "100,500,900"
@@ -206,6 +206,17 @@ def _list_video_paths(videos_dir: Path) -> List[Path]:
         for ext in ("*.mp4", "*.avi"):
             candidates.extend(videos_dir.rglob(ext))
     return sorted(candidates, key=lambda p: _canonical_video_id(p.name))
+
+
+def _parse_frame_range_arg(arg: str, default: Tuple[int, int]) -> Tuple[int, int]:
+    if not arg or arg.lower() == "auto":
+        return default
+    if ":" in arg:
+        a, b = arg.split(":", 1)
+        return int(a), int(b)
+    raise argparse.ArgumentTypeError(
+        f"--tta-visible-frames must be 'auto' or 'A:B', got {arg!r}"
+    )
 
 
 def _parse_timesteps_arg(arg: str) -> List[int]:
@@ -697,7 +708,7 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = _parse_args()
-    visible_range = parse_frame_range_arg(
+    visible_range = _parse_frame_range_arg(
         args.tta_visible_frames, default=AUTO_TTA_VISIBLE_RANGE,
     )
     timesteps = _parse_timesteps_arg(args.timesteps)

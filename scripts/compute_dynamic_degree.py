@@ -18,21 +18,14 @@ The continuous mean_flow_mag is what we use for the dynamicness-vs-metric
 correlation plot. The max_flow_mag is reported for VBench-style binary
 thresholding compatibility (VBench thresholds raw max flow at ~6 pixels).
 
-By default frames are read from the TTA-visible window
-``[max(0, gen_start - tta_total) : gen_start)`` (``auto`` => ``0:48`` for
-``panda_1000v_standard``), matching ``extract_flow_shape_features.py`` and
-the TTA runners.  Pass ``--tta-visible-frames 0:28`` to reproduce the legacy
-behaviour (first 28 frames from the file start).
-
 Output JSON:
     {
       "model": "raft_small",
-      "tta_visible_range": "0:48",
-      "n_frames_used": 48,
+      "max_frames_used": 28,
       "input_size": [256, 320],
       "videos": {
         "00001.mp4": {"mean_flow": 5.32, "max_flow": 12.5,
-                      "n_frame_pairs": 47, "h": 480, "w": 852},
+                      "n_frame_pairs": 27, "h": 480, "w": 852},
         ...
       }
     }
@@ -43,10 +36,7 @@ Run:
     python scripts/compute_dynamic_degree.py \
         --videos-dir /scratch/$USER/longcat-video-tta/datasets/panda_1000_480p \
         --output-json datasets/panda_1000_480p/dynamic_degree.json \
-        --tta-visible-frames auto
-
-``--videos-dir`` may be the dataset root (mp4s under ``videos/``) or the
-``videos/`` folder itself; discovery matches ``extract_flow_shape_features.py``.
+        --max-frames 28
 """
 from __future__ import annotations
 
@@ -59,42 +49,12 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
-_REPO_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(_REPO_ROOT))
-
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    format_frame_range,
-    parse_frame_range_arg,
-)
-
-_cfg = PANDA_1000V_STANDARD
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
-
-
-# ---------------------------------------------------------------------------
-# Video discovery (matches extract_flow_shape_features.list_video_paths)
-# ---------------------------------------------------------------------------
-def list_video_paths(videos_dir: Path) -> List[Path]:
-    candidates: List[Path] = []
-    subdir = videos_dir / "videos"
-    if subdir.is_dir():
-        for ext in ("*.mp4", "*.avi"):
-            candidates.extend(subdir.glob(ext))
-    if not candidates:
-        for ext in ("*.mp4", "*.avi"):
-            candidates.extend(videos_dir.rglob(ext))
-    return sorted(candidates)
-
 
 # ---------------------------------------------------------------------------
 # Frame loading (cv2 is fast + standard; ffmpeg fallback could be added later)
 # ---------------------------------------------------------------------------
 def _load_video_frames(
-    path: Path,
-    start_frame: int,
-    num_frames: int,
-    target_hw: Tuple[int, int],
+    path: Path, max_frames: int, target_hw: Tuple[int, int]
 ) -> Optional[np.ndarray]:
     """Return [T, H, W, 3] uint8 RGB array, or None on failure."""
     import cv2
@@ -104,11 +64,8 @@ def _load_video_frames(
         return None
 
     H_tgt, W_tgt = target_hw
-    if start_frame > 0:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, float(start_frame))
-
     frames: List[np.ndarray] = []
-    while len(frames) < num_frames:
+    while len(frames) < max_frames:
         ret, bgr = cap.read()
         if not ret:
             break
@@ -119,9 +76,7 @@ def _load_video_frames(
 
     if len(frames) < 2:
         return None
-    while len(frames) < num_frames and frames:
-        frames.append(frames[-1].copy())
-    return np.stack(frames[:num_frames], axis=0)
+    return np.stack(frames, axis=0)
 
 
 # ---------------------------------------------------------------------------
@@ -218,23 +173,17 @@ def _build_estimator(prefer: str = "raft", device: str = "cuda"):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--videos-dir", required=True, type=Path,
-                    help="Dataset root or videos/ folder (prefers <dir>/videos/)")
+                    help="Directory containing *.mp4 evaluation videos")
     ap.add_argument("--output-json", required=True, type=Path,
                     help="Destination JSON path")
-    ap.add_argument(
-        "--tta-visible-frames", type=str, default="auto",
-        help="'auto' (default 0:48 for panda_1000v_standard TTA window) or "
-             "explicit 'start:end' python slice.",
-    )
-    ap.add_argument(
-        "--max-frames", type=int, default=0,
-        help="Deprecated override: if >0, decode this many frames from the "
-             "window start instead of the full visible span.",
-    )
+    ap.add_argument("--max-frames", type=int, default=28,
+                    help="Max frames per video to process. For standard "
+                         "horizon, 28 = full clip. For long horizon use 76.")
     ap.add_argument("--target-size", type=str, default="256x320",
                     help="Resize HxW before flow (divisible by 8). Default 256x320.")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--method", default="raft", choices=["raft", "farneback"])
+    ap.add_argument("--glob", default="*.mp4")
     ap.add_argument("--limit", type=int, default=None,
                     help="Optional: cap number of videos (for smoke testing).")
     args = ap.parse_args()
@@ -242,31 +191,21 @@ def main() -> int:
     H, W = (int(x) for x in args.target_size.lower().split("x"))
     assert H % 8 == 0 and W % 8 == 0, "target-size must be divisible by 8 for RAFT"
 
-    visible = parse_frame_range_arg(args.tta_visible_frames, AUTO_TTA_VISIBLE_RANGE)
-    n_visible = visible[1] - visible[0]
-    if args.max_frames and args.max_frames > 0:
-        n_decode = min(n_visible, int(args.max_frames))
-    else:
-        n_decode = n_visible
-
-    videos = list_video_paths(args.videos_dir)
+    videos = sorted(args.videos_dir.glob(args.glob))
     if args.limit:
         videos = videos[: args.limit]
     if not videos:
-        print(f"[error] no videos under {args.videos_dir}", file=sys.stderr)
+        print(f"[error] no videos matched {args.videos_dir}/{args.glob}",
+              file=sys.stderr)
         return 2
 
     print(f"Found {len(videos)} videos in {args.videos_dir}")
-    print(f"TTA-visible window: {format_frame_range(visible)}  "
-          f"(decoding {n_decode} frames from index {visible[0]})")
     estimator = _build_estimator(prefer=args.method, device=args.device)
     print(f"Using flow estimator: {estimator.name}")
 
     out = {
         "model": estimator.name,
-        "tta_visible_range": format_frame_range(visible),
-        "n_frames_used": n_decode,
-        "max_frames_used": n_decode,
+        "max_frames_used": args.max_frames,
         "input_size": [H, W],
         "videos_dir": str(args.videos_dir),
         "videos": {},
@@ -277,7 +216,7 @@ def main() -> int:
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
 
     for i, vp in enumerate(videos):
-        frames = _load_video_frames(vp, visible[0], n_decode, (H, W))
+        frames = _load_video_frames(vp, args.max_frames, (H, W))
         if frames is None:
             n_fail += 1
             out["videos"][vp.name] = {"error": "decode_failed"}

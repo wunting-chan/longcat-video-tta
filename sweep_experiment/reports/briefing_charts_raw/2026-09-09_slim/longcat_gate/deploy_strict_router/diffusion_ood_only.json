@@ -1,0 +1,69 @@
+{
+  "row": {
+    "experiment": "diffusion_ood_only",
+    "n_videos": 998,
+    "match_rate": 0.07515030060120241,
+    "captured_pct": -1.551925034588023,
+    "policy_gain": -0.0015018723039226245,
+    "headroom": 0.09677479713582393,
+    "n_features": 20,
+    "description": "Block B: diffusion-OOD only (~20-d)",
+    "feature_blocks": {
+      "diffusion_ood": [
+        "diffusion_loss_caption_t100",
+        "diffusion_loss_caption_t500",
+        "diffusion_loss_caption_t900",
+        "diffusion_loss_uncond_t100",
+        "diffusion_loss_uncond_t500",
+        "diffusion_loss_uncond_t900",
+        "score_norm_caption_t100",
+        "score_norm_caption_t500",
+        "score_norm_caption_t900",
+        "score_norm_uncond_t100",
+        "score_norm_uncond_t500",
+        "score_norm_uncond_t900",
+        "mean_diffusion_loss_caption",
+        "mean_diffusion_loss_uncond",
+        "delta_caption_minus_uncond",
+        "latent_norm_mean",
+        "latent_norm_std",
+        "latent_kurtosis",
+        "mean_score_norm_caption",
+        "mean_score_norm_uncond"
+      ]
+    },
+    "block_dims": {
+      "diffusion_ood": 20
+    }
+  },
+  "spec": {
+    "video_core": false,
+    "ood": true,
+    "vae_latent_profile": false,
+    "description": "Block B: diffusion-OOD only (~20-d)"
+  },
+  "feature_blocks": {
+    "diffusion_ood": [
+      "diffusion_loss_caption_t100",
+      "diffusion_loss_caption_t500",
+      "diffusion_loss_caption_t900",
+      "diffusion_loss_uncond_t100",
+      "diffusion_loss_uncond_t500",
+      "diffusion_loss_uncond_t900",
+      "score_norm_caption_t100",
+      "score_norm_caption_t500",
+      "score_norm_caption_t900",
+      "score_norm_uncond_t100",
+      "score_norm_uncond_t500",
+      "score_norm_uncond_t900",
+      "mean_diffusion_loss_caption",
+      "mean_diffusion_loss_uncond",
+      "delta_caption_minus_uncond",
+      "latent_norm_mean",
+      "latent_norm_std",
+      "latent_kurtosis",
+      "mean_score_norm_caption",
+      "mean_score_norm_uncond"
+    ]
+  }
+}

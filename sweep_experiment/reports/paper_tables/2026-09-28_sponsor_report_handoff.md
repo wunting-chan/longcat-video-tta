@@ -9,20 +9,106 @@ launch until the user picks) stays in
 Do not mix unpublished recipes into the
 partner note.
 
-**Report (the deliverable):**
+---
+
+## The file you edit with the user
+
+**Only this file is the briefing you write
+together:**
+
 `sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md`
 
-**Figures:**
+| Where | Path |
+|---|---|
+| **Local Mac (this workspace)** | `/Users/macrohard/Desktop/longcat-video-tta/sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md` |
+| **Repo-relative** | `sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md` |
+| **Cluster copy** (after they `git pull`) | `/scratch/wc3013/longcat-video-tta/sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md` |
+| **GitHub** | `main` on `https://github.com/FifthEpoch/longcat-video-tta` (same relative path) |
+
+Open that Markdown with the user. All
+prose, tables, and figure *links* for
+the funder go there. Do not start a
+second draft in `paper/`, `weekly_recap_*`,
+or a new dated `paper_tables/` file
+unless the user asks for a fork.
+
+This handoff file
+(`2026-09-28_sponsor_report_handoff.md`)
+is **internal instructions for you**.
+Do not paste it to the funder. Do not
+treat it as the document you edit with
+the user.
+
+### If you are a Cursor Cloud Agent
+
+You must be cloned from **this** GitHub
+repo, not Artificial Individuality:
+
+`https://github.com/FifthEpoch/longcat-video-tta`  
+(branch `main`)
+
+The Mac path
+`/Users/macrohard/Desktop/longcat-video-tta/...`
+does **not** exist in the cloud VM. Use
+the repo-relative path only:
+
+`sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md`
+
+If your workspace root is
+`artificial-individuality`, **stop**. Tell
+the user to start a new Cloud Agent and
+pick the `longcat-video-tta` repository
+in the launch dialog. Do not invent the
+briefing in the wrong tree.
+
+---
+
+## Supporting files (read or regenerate; not the briefing)
+
+**Figures the report already links**
+(same directory as the briefing):
+
 `sweep_experiment/reports/paper_tables/sponsor_summer_2026_figures/`
 
-**Plot / strip scripts:**
-`scripts/plot_sponsor_summer_figures.py`,
-`scripts/export_sponsor_frame_strips.py`
+Local:
+`/Users/macrohard/Desktop/longcat-video-tta/sweep_experiment/reports/paper_tables/sponsor_summer_2026_figures/`
+
+| File | What |
+|---|---|
+| `fig1_tta_mean_vs_oracle.png` | Parameter TTA vs hindsight skip |
+| `fig2_tta_surprise_quintiles.png` | TTA gain vs opening surprise |
+| `fig3_long_horizon_drift.png` | Native ~60 s drift |
+| `fig4_selection_dyn_and_cost.png` | Living-clip rate vs time |
+| `fig5_selection_clip_transitions.png` | Per-clip Dyn transitions |
+| `fig6_identity_vs_picture.png` | Subject vs IQ |
+| `fig7_frames_became_living.png` | Frame strip: search woke a still |
+| `fig8_frames_stayed_static.png` | Frame strip: both stay still |
+
+**Scripts** (only if a PNG is missing;
+do not invent new clips):
+
+- `/Users/macrohard/Desktop/longcat-video-tta/scripts/plot_sponsor_summer_figures.py`
+- `/Users/macrohard/Desktop/longcat-video-tta/scripts/export_sponsor_frame_strips.py`
+
+Cluster videos for the strips live
+under the cite-128 series on
+`/scratch/wc3013/longcat-video-tta/`.
+Laptop SSH/SCP host is `wc3013@torch`
+only.
+
+**Science notes** (read if you must
+translate a new result into class +
+outcome; do **not** edit these as the
+sponsor brief):
+
+- `sweep_experiment/reports/paper_tables/2026-09-22_t2v_coinc8_quality.md`
+- `sweep_experiment/reports/paper_tables/2026-09-22_search_kv_open_challenges.md`
 
 Updated 28 September 2026: late-September
-experimental class is now in the report
-without method names. Continue from the
-checklist at the bottom.
+experimental class is now in the
+**briefing** without method names.
+Continue from the checklist at the
+bottom.
 
 ---
 
@@ -231,7 +317,14 @@ work (this is where you continue):
 
 ## Continue
 
-Please take over `2026-09-20_sponsor_summer_report.md`.
+Open **only** this file with the user
+and edit it:
+
+`/Users/macrohard/Desktop/longcat-video-tta/sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md`
+
+(repo-relative:
+`sweep_experiment/reports/paper_tables/2026-09-20_sponsor_summer_report.md`)
+
 Run the leak pass first. Then ask the
 user whether they want a PDF or any
 length cut before you change tone or

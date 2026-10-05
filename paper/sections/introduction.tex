@@ -1,0 +1,56 @@
+\section{Introduction}
+\label{sec:intro}
+
+Modern video diffusion transformers (DiTs) generate high-resolution video at
+scale, but inference is typically instance-agnostic: the same frozen denoising
+process is applied to every test clip, regardless of the motion, scene
+layout, textures, or camera dynamics visible in the conditioning frames. In
+video continuation, those conditioning frames are exactly the part of the
+test input that carries instance-specific signal, yet that signal is not used
+to specialize the model's denoising behavior at inference time.
+
+Test-time adaptation (TTA) is the natural mechanism for exploiting this
+signal, but the standard tools are poorly matched to a 13.6B-parameter video
+DiT operating on a single short clip. Full-model tuning exposes billions of
+parameters to a few seconds of supervision; LoRA-style adapters introduce
+thousands to millions of free parameters that either overfit within a few
+gradient steps or fail to move the model in a useful direction. What we want
+is a TTA mechanism whose adaptation surface is small enough to be stable on a
+single clip, yet expressive enough to perturb the model's behavior in a
+direction the conditioning frames actually justify.
+
+We introduce \method, an ultra-lightweight test-time adaptation method that
+steers a frozen video DiT through its modulation pathway rather than through
+weight updates. \method learns a compact additive residual $\delta$ in the
+timestep embedding space and shares it across all transformer blocks. Each
+block's frozen adaptive layer-normalization (adaLN) projection then maps the
+shared residual into block-specific shift, scale, and gate vectors. The
+trainable surface is global---one residual---but the induced perturbation is
+per-block, because the frozen adaLN projections supply learned de-tying. This
+\emph{structured weight tying} is what makes \method both compact (no new
+layers, no source-data access at adaptation time) and expressive (every
+block's modulation is perturbed independently). The residual is optimized
+only on the observed conditioning frames using the standard denoising
+objective, applied during generation, and discarded afterward.
+
+\paragraph{Contributions.}
+\begin{itemize}
+  \item We formulate test-time adaptation for large video DiTs as
+        timestep-pathway steering rather than direct weight adaptation.
+  \item We introduce \method, a shared residual applied to the timestep
+        embedding before per-block adaLN projections, and identify the
+        structured weight-tying mechanism that lets a single trainable
+        residual induce per-block modulation.
+  \item We compare \method against No-TTA, LoRA at multiple ranks, and a
+        TinyLoRA/SVD variant, on Panda-70M and UCF-101 with standard- and
+        long-horizon evaluations at 1000-video scale.
+  \item On standard-horizon Panda continuation, \method leaves FVD and
+        per-frame metrics unchanged within noise relative to No-TTA at
+        999 videos; on long-horizon Panda we
+        report a controlled FVD/FID trade and treat long-horizon coherence
+        as an open case.
+  \item We document negative results---LoRA frequently trails baseline,
+        aggressive adaptation overfits, several auxiliary regularizers do
+        not improve the Pareto frontier---so that the modulation-pathway
+        framing is not oversold.
+\end{itemize}

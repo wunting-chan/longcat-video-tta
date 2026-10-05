@@ -1,0 +1,47 @@
+{
+  "merged": true,
+  "num_chunks": 12,
+  "search_k": 4,
+  "results": [
+    {
+      "video_name": "86KC2a8qcQI_seg21",
+      "method": "bestof",
+      "success": true,
+      "ref_signals": {"sharpness": 0.021618029245963462, "colorfulness": 0.10366604272079294, "contrast": 0.28507938981056213, "temporal_motion": 0.00777157349511981},
+      "chunks": [
+        {"chunk": 1, "gt_available": true, "chosen_cand": 3, "candidates": [
+          {"cand": 0, "score": 5.091104727337852, "sharpness": 0.017768491175957024, "colorfulness": 0.10990161596528232, "contrast": 0.3067050874233246, "temporal_motion": 0.020600926131010056, "psnr": 21.058473459879558, "lpips": 0.13595347901185353},
+          {"cand": 1, "score": 6.288225888731612, "sharpness": 0.014935554095427506, "colorfulness": 0.09713335233719021, "contrast": 0.27277618646621704, "temporal_motion": 0.02910572849214077, "psnr": 21.909269332885742, "lpips": 0.11591558580597242},
+          {"cand": 2, "score": 4.944061549639339, "sharpness": 0.017094816046301274, "colorfulness": 0.1187004196992689, "contrast": 0.3104721009731293, "temporal_motion": 0.018461868166923523, "psnr": 20.971306482950848, "lpips": 0.13319742331902187},
+          {"cand": 3, "score": 4.709665552206995, "sharpness": 0.017445002868771552, "colorfulness": 0.11601452737843114, "contrast": 0.30810871720314026, "temporal_motion": 0.016535015776753426, "psnr": 22.088340759277344, "lpips": 0.10863330662250519}
+        ]},
+        {"chunk": 2, "gt_available": false, "chosen_cand": 3, "candidates": [
+          {"cand": 0, "score": 9.308405205544622, "sharpness": 0.017752231028862298, "colorfulness": 0.13052204443841953, "contrast": 0.3068395256996155, "temporal_motion": 0.06362977623939514, "psnr": NaN, "lpips": NaN},
+          {"cand": 1, "score": 7.749329160747752, "sharpness": 0.018720505619421603, "colorfulness": 0.11726498810989958, "contrast": 0.3089361786842346, "temporal_motion": 0.05286192148923874, "psnr": NaN, "lpips": NaN},
+          {"cand": 2, "score": 6.514740703590068, "sharpness": 0.012416703213239089, "colorfulness": 0.12537076965037364, "contrast": 0.299866259098053, "temporal_motion": 0.03985043615102768, "psnr": NaN, "lpips": NaN},
+          {"cand": 3, "score": 4.7201159911559705, "sharpness": 0.01587345827720128, "colorfulness": 0.12047239320327482, "contrast": 0.30453452467918396, "temporal_motion": 0.02745806984603405, "psnr": NaN, "lpips": NaN}
+        ]}
+      ]
+    },
+    {
+      "video_name": "9onqdz1EHcw_seg5",
+      "method": "bestof",
+      "success": true,
+      "ref_signals": {"sharpness": 0.0015391844432227886, "colorfulness": 0.24657900743033354, "contrast": 0.2614075541496277, "temporal_motion": 0.010788003914058208},
+      "chunks": [
+        {"chunk": 1, "gt_available": true, "chosen_cand": 1, "candidates": [
+          {"cand": 0, "score": 1.835326044291429, "sharpness": 0.0022413937345845624, "colorfulness": 0.24482714687669027, "contrast": 0.25206008553504944, "temporal_motion": 0.011879784055054188, "psnr": 15.700491333007813, "lpips": 0.23175947037525474},
+          {"cand": 1, "score": 1.5121823286186782, "sharpness": 0.0020807663560844956, "colorfulness": 0.2453875732789645, "contrast": 0.2592472434043884, "temporal_motion": 0.008265932090580463, "psnr": 19.918920171260833, "lpips": 0.14247112097218634},
+          {"cand": 2, "score": 2.053316031797676, "sharpness": 0.0020778108038939534, "colorfulness": 0.24353539908090976, "contrast": 0.2617310881614685, "temporal_motion": 0.0080305440351367, "psnr": 16.538481843471526, "lpips": 0.2040265160612762},
+          {"cand": 3, "score": 1.5180534077696892, "sharpness": 0.0018359673515078612, "colorfulness": 0.24497273832713812, "contrast": 0.26205262541770935, "temporal_motion": 0.007981069386005402, "psnr": 18.911161684989928, "lpips": 0.15128830617759376}
+        ]},
+        {"chunk": 2, "gt_available": true, "chosen_cand": 0, "candidates": [
+          {"cand": 0, "score": 1.3336652248336591, "sharpness": 0.0021035898302216084, "colorfulness": 0.24534446082689546, "contrast": 0.25715601444244385, "temporal_motion": 0.0074612912721931934, "psnr": 17.33570032119751, "lpips": 0.2191370517015457},
+          {"cand": 1, "score": 1.3676273457256007, "sharpness": 0.002089813971542753, "colorfulness": 0.24537350021017793, "contrast": 0.25663405656814575, "temporal_motion": 0.005707319360226393, "psnr": 16.957856369018554, "lpips": 0.22982800006866455},
+          {"cand": 2, "score": 1.391443764107998, "sharpness": 0.0021890550982789137, "colorfulness": 0.24609575353806604, "contrast": 0.25983700156211853, "temporal_motion": 0.008396756835281849, "psnr": 17.40849847793579, "lpips": 0.22344737574458123},
+          {"cand": 3, "score": 3.9256999384603275, "sharpness": 0.0025131490096100607, "colorfulness": 0.2373627658497151, "contrast": 0.26556047797203064, "temporal_motion": 0.03799702599644661, "psnr": 16.64651746749878, "lpips": 0.2415004476904869}
+        ]}
+      ]
+    }
+  ]
+}

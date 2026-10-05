@@ -1,0 +1,108 @@
+{
+  "n_videos": 998,
+  "pick_agree_count": 389,
+  "pick_disagree_count": 609,
+  "oracle_agree_count": 128,
+  "oracle_same_router_agree_count": 44,
+  "pick_agreement_rate": 0.3897795591182365,
+  "pick_disagreement_rate": 0.6102204408817635,
+  "oracle_agreement_rate": 0.1282565130260521,
+  "when_oracles_agree_router_agree_rate": 0.34375,
+  "vb_router_matches_vb_oracle_rate": 0.07314629258517034,
+  "psnr_router_matches_psnr_oracle_rate": 0.0531062124248497,
+  "when_disagree_vb_router_wins_vb_count": 309,
+  "when_disagree_psnr_router_wins_psnr_count": 323,
+  "config_jaccard": 0.8181818181818182,
+  "vb_configs_used": [
+    "S10_LR1e2",
+    "S10_LR1e3",
+    "S10_LR5e3",
+    "S20_LR1e2",
+    "S20_LR5e3",
+    "S2_LR1e2",
+    "S2_LR1e3",
+    "S5_LR1e2",
+    "S5_LR1e3",
+    "S5_LR5e3"
+  ],
+  "psnr_configs_used": [
+    "S10_LR1e2",
+    "S10_LR1e3",
+    "S20_LR1e2",
+    "S20_LR5e3",
+    "S2_LR1e2",
+    "S2_LR1e3",
+    "S2_LR5e3",
+    "S5_LR1e2",
+    "S5_LR1e3",
+    "S5_LR5e3"
+  ],
+  "spearman_vb_realized_vb_pick_vs_psnr_pick": 0.9989065151124475,
+  "spearman_psnr_realized_psnr_pick_vs_vb_pick": 0.9983046143250203,
+  "top_pick_pairs": [
+    {
+      "vb_pick": "S5_LR1e3",
+      "psnr_pick": "S5_LR1e3",
+      "count": 387
+    },
+    {
+      "vb_pick": "S5_LR1e3",
+      "psnr_pick": "S10_LR1e3",
+      "count": 383
+    },
+    {
+      "vb_pick": "S10_LR1e2",
+      "psnr_pick": "S2_LR1e2",
+      "count": 193
+    },
+    {
+      "vb_pick": "S5_LR1e2",
+      "psnr_pick": "S20_LR1e2",
+      "count": 5
+    },
+    {
+      "vb_pick": "S2_LR1e2",
+      "psnr_pick": "S20_LR5e3",
+      "count": 3
+    },
+    {
+      "vb_pick": "S20_LR1e2",
+      "psnr_pick": "S5_LR1e2",
+      "count": 2
+    },
+    {
+      "vb_pick": "S2_LR1e3",
+      "psnr_pick": "S10_LR1e3",
+      "count": 2
+    },
+    {
+      "vb_pick": "S20_LR1e2",
+      "psnr_pick": "S10_LR1e2",
+      "count": 2
+    },
+    {
+      "vb_pick": "S10_LR5e3",
+      "psnr_pick": "S20_LR5e3",
+      "count": 2
+    },
+    {
+      "vb_pick": "S2_LR1e3",
+      "psnr_pick": "S20_LR5e3",
+      "count": 2
+    },
+    {
+      "vb_pick": "S5_LR1e2",
+      "psnr_pick": "S5_LR1e2",
+      "count": 2
+    },
+    {
+      "vb_pick": "S5_LR5e3",
+      "psnr_pick": "S2_LR1e2",
+      "count": 2
+    }
+  ],
+  "sources": {
+    "vb_picks_csv": "/scratch/wc3013/longcat-video-tta/sweep_experiment/reports/per_video_analysis/2026-07-12/deploy_router_aux_metrics/router_runs/video_caption_only/budget_config_oof_predictions.csv",
+    "psnr_picks_csv": "/scratch/wc3013/longcat-video-tta/sweep_experiment/reports/per_video_analysis/2026-07-12/deploy_psnr_router/budget_config_oof_predictions.csv"
+  }
+}

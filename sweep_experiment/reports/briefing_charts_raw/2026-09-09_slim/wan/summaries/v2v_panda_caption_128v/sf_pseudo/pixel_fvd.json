@@ -1,0 +1,12 @@
+{
+  "method": "sf_pseudo",
+  "fvd": 405.38020898515214,
+  "fvd_last16": 1324.2037774827343,
+  "n_videos": 128,
+  "n_clips": 3968,
+  "clip_frames": 16,
+  "protocol": "aligned 30 s tails; I3D 16-frame non-overlapping windows; fvd_last16 = last window only (n=videos)",
+  "feature_extractor": "i3d_kinetics400_torchscript",
+  "i3d_weights_sha256": "bec6519f66ea534e953026b4ae2c65553c17bf105611c746d904657e5860a5e2",
+  "sample_size_warning": null
+}

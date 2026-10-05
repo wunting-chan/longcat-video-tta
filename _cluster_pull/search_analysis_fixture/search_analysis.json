@@ -1,0 +1,45 @@
+{
+  "search_k": 4,
+  "n_videos": 2,
+  "n_chunks": 4,
+  "divergent_frac": 0.75,
+  "composite_cand0": 4.39212530050189,
+  "composite_random": 4.016435179034954,
+  "composite_chosen": 3.0689072742038257,
+  "n_gt_chunks": 3,
+  "psnr_cand0": 18.03155503802829,
+  "psnr_random": 18.78708480861452,
+  "psnr_chosen": 19.780987083911896,
+  "psnr_oracle": 19.80525313615799,
+  "psnr_chosen_beats_cand0": 2,
+  "lpips_cand0": 0.19561666702955136,
+  "lpips_random": 0.17809650696257853,
+  "lpips_chosen": 0.15674715976541242,
+  "lpips_oracle": 0.15674715976541242,
+  "per_signal": {
+    "sharpness": {
+      "cand0": 0.2948139152176317,
+      "random": 0.3138642321342676,
+      "chosen": 0.2942078616571896,
+      "oracle": 0.2155727353334569
+    },
+    "colorfulness": {
+      "cand0": 0.08283037177438275,
+      "random": 0.07681634350060389,
+      "chosen": 0.07276846130915518,
+      "oracle": 0.04953018239854562
+    },
+    "contrast": {
+      "cand0": 0.05105252875387524,
+      "random": 0.04207149163779747,
+      "chosen": 0.04338858371909561,
+      "oracle": 0.025567944314691636
+    },
+    "temporal_motion": {
+      "cand0": 2.311676735056755,
+      "random": 1.9324732962291042,
+      "chosen": 1.0506011262339017,
+      "oracle": 0.9957824130233195
+    }
+  }
+}

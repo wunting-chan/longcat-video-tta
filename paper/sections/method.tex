@@ -1,0 +1,106 @@
+\section{Method}
+\label{sec:method}
+
+\subsection{Problem Setup}
+\label{sec:method_setup}
+
+We study video continuation with a pretrained video diffusion transformer.
+Given observed frames, the model generates future frames at 480p using
+classifier-free guidance and a fixed denoising schedule. Test-time adaptation
+is allowed to optimize only on the observed conditioning window; no future
+frames are used during adaptation.
+
+The primary backbone is \backbone~\citep{meituan2025longcatvideo}, a
+13.6B-parameter DiT with \nblocks single-stream transformer blocks and hidden
+dimension \dimh. The timestep embedding dimension used by the adaLN pathway is
+\dimt. Each block maps the timestep representation into shift, scale, and gate
+vectors for self-attention and MLP modulation.
+
+\subsection{\method Formulation}
+\label{sec:method_formulation}
+
+Let the timestep embedding be $t \in \mathbb{R}^{512}$. \method learns an
+additive residual $\delta$ and uses
+\begin{equation}
+  t' \;=\; t + \delta.
+  \label{eq:adasteer-residual}
+\end{equation}
+Each transformer block then applies its frozen adaLN projection,
+\begin{equation}
+  t' \;\xrightarrow{\,\mathrm{adaLN}_i\,}\;
+  \bigl[
+    \gamma_i^{\mathrm{msa}}, \beta_i^{\mathrm{msa}}, \alpha_i^{\mathrm{msa}},\,
+    \gamma_i^{\mathrm{mlp}}, \beta_i^{\mathrm{mlp}}, \alpha_i^{\mathrm{mlp}}
+  \bigr]
+  \;\in\; \mathbb{R}^{6 \times 4096}.
+  \label{eq:adaln}
+\end{equation}
+The same residual $\delta$ is shared across all blocks, but because each block
+has its own frozen adaLN projection $\mathrm{adaLN}_i$, the induced modulation
+is block-specific. This is the central mechanism of \method and is illustrated
+in Figure~\ref{fig:method}.
+
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=\linewidth]{method_diagram}
+  \rule{0pt}{4cm}\framebox[0.9\linewidth]{\rule{0pt}{4cm}}%
+  \caption{\method overview. A single shared residual $\delta$ is learned per
+  test clip and added to the global timestep embedding $t$ before each frozen
+  per-block adaLN projection consumes it. The frozen adaLN matrices act as a
+  learned de-tying mechanism that converts the shared residual into
+  block-specific modulation.}
+  \label{fig:method}
+\end{figure}
+
+\subsection{Structured Weight Tying via Frozen adaLN De-tying}
+\label{sec:method_tying}
+
+The trainable surface of \method is a single \dimt-dimensional vector $\delta$,
+shared globally across all \nblocks transformer blocks. The induced
+perturbation, however, is per-block: each block $i$ consumes $t' = t + \delta$
+through its own frozen projection $\mathrm{adaLN}_i$ and produces its own
+shift, scale, and gate vectors. We call this arrangement \emph{structured
+weight tying}: the trainable degrees of freedom are tied (one shared $\delta$),
+but the frozen adaLN matrices supply learned de-tying that lifts that single
+update into \nblocks distinct modulation perturbations.
+
+Two consequences follow. First, the adaptation capacity is bounded by the
+intrinsic dimensionality of the timestep pathway rather than by the model
+width, so the same method scales from smaller DiTs to billion-parameter
+backbones without enlarging the trainable surface. Second, because the
+modulation projections themselves are unchanged, the method respects the
+pretrained relationships between the timestep code and per-block behavior;
+$\delta$ can only steer behavior along directions the pretrained backbone
+already considers meaningful, which we view as a useful inductive bias for
+single-clip TTA where overfitting is the dominant failure mode.
+
+\subsection{Optimization}
+\label{sec:method_optim}
+
+\method is optimized with the standard denoising or flow-matching objective on
+the conditioning frames. The adaptation loop samples noise levels, corrupts
+latent encodings of the observed frames, predicts the denoising target, and
+updates only the \method residual $\delta$. The adapted residual is applied
+during future-frame generation and discarded after the video is generated.
+
+The default strong configuration is 10 adaptation steps with learning rate
+$5\!\times\!10^{-3}$. This configuration was selected on the 200-video
+discovery sweep subsets (Section~\ref{sec:exp_discovery}) and re-evaluated at
+the 1000-video scale before being reported: moderate learning rates and
+5--10 steps preserve PSNR while improving FVD, while higher learning rates or
+longer adaptation can overfit.
+
+\subsection{TinyLoRA / SVD Variant}
+\label{sec:method_tinylora}
+
+We include a TinyLoRA variant inspired by SVDiff~\citep{han2023svdiff}. The
+useful formulation is
+\begin{equation}
+  y \;=\; Wx \;+\; \frac{\alpha}{r}\, U_r \bigl(\,v \odot (V_r^\top x)\,\bigr).
+  \label{eq:tinylora}
+\end{equation}
+For \backbone attention targets with \nblocks blocks and two modules per block,
+rank-2 untied TinyLoRA trains 192 scalars. With full tying across blocks, this
+can reduce to 4 scalars. This supports the broader argument that highly
+constrained adaptation subspaces are better matched to single-video TTA than
+free LoRA factors.

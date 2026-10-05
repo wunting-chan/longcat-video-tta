@@ -1,0 +1,157 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Video Diffusion Transformers}
+\label{sec:rw_dits}
+
+Diffusion models have become the dominant class of generative models for
+high-resolution visual synthesis. Denoising diffusion probabilistic
+models~\citep{ho2020ddpm} established the canonical training objective, and
+latent diffusion~\citep{rombach2022ldm} brought the cost of high-resolution
+synthesis into a practical range. Replacing the U-Net backbone with a
+transformer, DiT~\citep{peebles2023dit} showed that diffusion models scale
+predictably with width, depth, and tokens, and introduced AdaLN-Zero, a
+per-block adaptive layer-norm modulation that conditions each transformer
+block on a global timestep embedding.
+
+The video setting introduces two pressures: high token counts from the
+temporal dimension, and the need for long-horizon temporal coherence. Stable
+Video Diffusion~\citep{blattmann2023svd} extends latent diffusion to
+image-to-video with curated pretraining stages. CogVideoX~\citep{yang2024cogvideox}
+and HunyuanVideo~\citep{kong2024hunyuanvideo} push the diffusion-transformer
+formulation to 5B--13B parameters with full 3D attention and expert or
+dual-stream layouts. Stable Diffusion 3 / MMDiT~\citep{esser2024sd3} couples
+the DiT architecture with rectified-flow
+training~\citep{lipman2023flowmatching}.
+\backbone~\citep{meituan2025longcatvideo} is a 13.6B-parameter DiT trained
+with rectified flow that supports text-to-video, image-to-video, and
+video-continuation in a single set of weights, with minute-scale continuation
+as part of its pretraining recipe.
+
+Two architectural features recur across this family: a single global
+timestep-embedding pathway, and per-block adaLN projections that map that
+pathway into shift, scale, and gate vectors. Across these systems, the
+modulation pathway is used purely at training time; adaptation after
+pretraining is pursued through fine-tuning, LoRA, or full retraining rather
+than through the modulation interface itself.
+
+\subsection{Test-Time Adaptation and Test-Time Training}
+\label{sec:rw_tta}
+
+Test-time adaptation (TTA) and test-time training (TTT) form a closely
+related family of methods that update a pretrained model on each test
+instance or batch before producing predictions, without access to source
+training data at adaptation time. TTT~\citep{sun2020ttt} constructs a
+self-supervised auxiliary problem---e.g., rotation prediction---and takes a
+short update on each unlabeled test sample before predicting.
+Tent~\citep{wang2021tent} shows that, on classification under distribution
+shift, fully test-time adaptation that updates only the channel-wise affine
+parameters of normalization layers by minimizing prediction entropy is
+sufficient to absorb large shifts. \citet{xiao2024ttasurvey} catalog more
+than 400 follow-ups across model-update, inference-time, normalization,
+sample-based, and prompt-based TTA variants.
+
+A consistent finding in this literature is that very small, structured
+adaptation surfaces---BatchNorm statistics, channel-wise affine parameters,
+or a handful of feature-wise biases---often perform as well as or better
+than freeing larger parts of the network. Almost all of this work, however,
+is built on top of discriminative classifiers or segmentation models.
+TTA-style methods that target large generative models---and generative
+\emph{video} models in particular---remain comparatively rare. The few
+entries in this intersection cluster around per-subject customization
+(Section~\ref{sec:rw_personalization}) and around test-time \emph{search}
+over noise trajectories~\citep{liu2025videoT1}, which is orthogonal to
+updating either model weights or input embeddings.
+
+\subsection{Adaptation and Personalization of Pretrained Diffusion Models}
+\label{sec:rw_personalization}
+
+A second body of work specializes a pretrained diffusion generator to
+specific subjects, styles, or motions, typically with a small set of
+reference images or a single reference video.
+DreamBooth~\citep{ruiz2023dreambooth} fine-tunes the full text-to-image
+diffusion network with a class-prior preservation loss to bind a new token
+to a subject. Textual Inversion~\citep{gal2023textualinversion} takes the
+opposite extreme, learning only a new text embedding while keeping the
+diffusion network frozen. HyperDreamBooth~\citep{ruiz2024hyperdreambooth}
+accelerates per-subject adaptation roughly $25\times$ by predicting an
+initial low-rank weight update with a hypernetwork before a short
+fast-finetune.
+
+In the video setting, CustomTTT~\citep{bi2025customttt} combines per-LoRA
+appearance and motion customization with an additional test-time training
+pass to repair artifacts that appear when multiple LoRAs are composed.
+``One-Minute Video Generation with Test-Time
+Training''~\citep{dalal2025oneminuteTTT} inserts TTT layers into a
+CogVideoX backbone so that hidden states themselves are small neural
+networks, enabling long-context generation beyond what linear-attention
+alternatives support. These methods share the broad goal of specializing a
+frozen pretrained video diffusion transformer at inference time, but their
+adaptation surfaces remain comparatively large---per-LoRA modules or entire
+neural-network hidden states---and their target task is style or motion
+transfer from a reference, rather than steering a continuation toward its
+own conditioning frames.
+
+\subsection{Parameter-Efficient Fine-Tuning}
+\label{sec:rw_peft}
+
+Parameter-efficient fine-tuning (PEFT) provides the standard family of
+adaptation tools used throughout the diffusion ecosystem. Houlsby-style
+adapters~\citep{houlsby2019adapters} insert small bottleneck modules
+between frozen transformer sublayers. LoRA~\citep{hu2022lora} learns a
+low-rank additive update to selected linear weights that can be merged
+back into the base model at deployment. BitFit~\citep{zaken2022bitfit}
+shows that updating only a model's bias terms---under $0.1\%$ of
+parameters---can match full fine-tuning on language tasks.
+SVDiff~\citep{han2023svdiff} fine-tunes only the singular values of each
+weight matrix's SVD, yielding adaptation footprints on the order of a few
+megabytes for text-to-image personalization.
+
+Two empirical patterns recur when these methods are applied to large
+diffusion backbones. First, the rank or dimensionality of the adaptation
+subspace can be remarkably small while still producing useful adaptations.
+Second, when the adaptation signal itself is small---a single clip rather
+than a curated multi-image set---LoRA-style methods can either fail to
+move the model in a useful direction or overfit within a small number of
+gradient steps.
+
+\subsection{Adaptive Normalization and Modulation Pathways}
+\label{sec:rw_modulation}
+
+Feature-wise Linear Modulation~\citep{perez2018film} introduced the
+per-channel affine scale-and-shift conditioning operation that subsequent
+adaptive-normalization variants inherit. Conditional batch and layer
+normalization in diffusion models follow the same template, and AdaLN-Zero
+in DiT~\citep{peebles2023dit} makes the timestep embedding the primary
+modulator: each transformer block linearly projects a global conditioning
+vector into shift, scale, and gate vectors for both attention and the MLP.
+CogVideoX, HunyuanVideo, and \backbone retain this AdaLN-style modulation,
+exposing a single \dimt-dimensional timestep embedding that is shared
+across all transformer blocks. A small but growing line of work explores
+making the modulation pathway itself more efficient or more controllable;
+for example, AdaLN-LoRA, used inside Cosmos-style video DiTs, applies a
+low-rank adapter to the adaLN projection during training. These works
+modify the modulation pathway only at training time, and the pathway has
+not, to our knowledge, been exposed as a per-instance adaptation interface
+at inference.
+
+\subsection{Evaluation of Video Generation}
+\label{sec:rw_eval}
+
+Fr\'echet Video Distance~\citep{unterthiner2018fvd} embeds videos through
+an Inflated 3D ConvNet and computes a Fr\'echet distance between real and
+generated activations; it remains the most widely reported single-number
+video metric. Subsequent work shows that FVD is partly biased toward
+per-frame content quality, and that swapping the I3D backbone for
+self-supervised features mitigates this content
+bias~\citep{ge2024contentdebiasedFVD}.
+VBench~\citep{huang2024vbench} decomposes video quality into a battery of
+fine-grained, human-aligned dimensions and is now the de facto benchmark
+for text-to-video systems; VBench-2.0 extends the suite toward physics,
+commonsense, and motion realism. Among datasets,
+Panda-70M~\citep{chen2024panda70m} is a 70M-clip captioned video corpus
+built from HD-VILA-100M with multiple cross-modality teacher captions, and
+UCF-101~\citep{soomro2012ucf101} is a 101-class action-recognition dataset
+that has been widely adopted as a continuation benchmark in prior
+video-generation evaluation, where FVD is typically reported alongside
+per-frame PSNR, SSIM, and LPIPS.

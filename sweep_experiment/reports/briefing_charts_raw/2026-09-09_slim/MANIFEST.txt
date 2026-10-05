@@ -1,0 +1,24 @@
+longcat_1000v/NOTTA summary=1 vbench_n=1998
+longcat_1000v/ADA summary=1 vbench_n=1998
+longcat_1000v/LORA_R8_TTA summary=1 vbench_n=999
+longcat_1000v/TL_BARE_R2 summary=1 vbench_n=1998
+longcat_1000v/TL_TIED_R2 summary=1 vbench_n=1998
+oracle budget_summaries=12
+gate deploy_strict_router files=6
+gate deploy_psnr_router files=4
+gate router_objective_alignment files=3
+gate deploy_strict_router files=6
+ar longhorizon_sweep_notta_native_6ch files=0
+ar longhorizon_sweep_notta_native_12ch files=9
+ar longhorizon_sweep_delta_stream_native_12ch files=10
+ar longhorizon_sweep_delta_stream_clean_native_12ch files=15
+wan cite128 rows=512
+wan caption32 rows=192
+wan prefix32 rows=96
+wan v2v_panda_caption_nwarp_8v rows=16
+wan v2v_panda_caption_pwarp_8v rows=16
+wan v2v_panda_caption_leftovers_8v rows=16
+wan v2v_panda_caption_schedule_8v rows=16
+wan v2v_panda_caption_mixctx_8v rows=48
+wan v2v_panda_caption_fifo_tscore_8v rows=41
+wan v2v_panda_caption_wanext_8v rows=8

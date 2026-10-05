@@ -1,0 +1,47 @@
+{
+  "row": {
+    "experiment": "video_caption_only",
+    "n_videos": 998,
+    "match_rate": 0.07314629258517034,
+    "captured_pct": -3.970111071482587,
+    "policy_gain": -0.0038420669354941595,
+    "headroom": 0.09677479713582393,
+    "n_features": 9,
+    "description": "Block A: video + caption stats only (9-d)",
+    "feature_blocks": {
+      "video_caption": [
+        "cut_count_pyscenedetect",
+        "cut_count_histogram",
+        "cut_density_per_frame",
+        "clip_text_image_sim_mean",
+        "clip_text_image_sim_var",
+        "clip_text_image_sim_min",
+        "dino_temporal_l2_mean",
+        "laplacian_variance_mean",
+        "rgb_histogram_entropy_mean"
+      ]
+    },
+    "block_dims": {
+      "video_caption": 9
+    }
+  },
+  "spec": {
+    "video_core": true,
+    "ood": false,
+    "vae_latent_profile": false,
+    "description": "Block A: video + caption stats only (9-d)"
+  },
+  "feature_blocks": {
+    "video_caption": [
+      "cut_count_pyscenedetect",
+      "cut_count_histogram",
+      "cut_density_per_frame",
+      "clip_text_image_sim_mean",
+      "clip_text_image_sim_var",
+      "clip_text_image_sim_min",
+      "dino_temporal_l2_mean",
+      "laplacian_variance_mean",
+      "rgb_histogram_entropy_mean"
+    ]
+  }
+}

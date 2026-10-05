@@ -44,12 +44,8 @@ Quality filters (defaults match the Panda-70M paper):
 
 Resume:
   - Already-encoded segments (mp4 exists, > 100 KB) are skipped.
-  - Resume is keyed per-(source_video_id, chunk_index): a previously
-    processed source IS revisited when the new metadata reveals chunks
-    we have not yet emitted (e.g. switching from `panda70m_training_2m.csv`
-    to the full `panda70m_training_full.csv`). Only the specific
-    (source, chunk_index) pairs already present in manifest.jsonl are
-    skipped.
+  - Sources whose `source_video_id` already appears in manifest.jsonl
+    are not re-cut (probed but not re-extracted).
 
 Pipeline:
   1. Read `<source_pool>/metadata.csv` -> map videoID -> existing
@@ -87,17 +83,6 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
-
-
-# Panda-70M's per-row caption/timestamp/score JSON-ish lists routinely exceed
-# Python's default 131072-byte csv field limit on the FULL training metadata
-# (12 GB `panda70m_training_full.csv`). Raise the limit to the largest value
-# the platform supports. `sys.maxsize` overflows the underlying C int on some
-# builds (Windows / 32-bit-int platforms), so guard with OverflowError.
-try:
-    csv.field_size_limit(sys.maxsize)
-except OverflowError:
-    csv.field_size_limit(2**31 - 1)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -342,14 +327,8 @@ def _build_pool(
         print("ERROR: source pool is empty.", file=sys.stderr)
         return 0
 
-    # 2. Resume support: collect already-encoded (source_video_id, chunk_index)
-    #    pairs. This is per-segment, NOT per-source, so re-running against a
-    #    LARGER source metadata (e.g. the full Panda-70M CSV after a previous
-    #    run used the 2m subset) extends each source's segment set with the
-    #    newly-visible chunk indices instead of skipping the source entirely.
-    #    Per-file existence + size check in `_encode_segment` is the last-line
-    #    guard against accidental re-cuts.
-    done_chunks: Dict[str, Set[int]] = {}
+    # 2. Resume support: collect already-processed source_video_ids
+    existing_sources: Set[str] = set()
     if manifest_path.exists():
         with open(manifest_path, "r", encoding="utf-8") as f:
             for line in f:
@@ -362,17 +341,10 @@ def _build_pool(
                     vid = str(e.get("videoID", ""))
                     m = re.match(r"^(.+)_seg\d+$", vid)
                     sid = m.group(1) if m else vid
-                try:
-                    cidx = int(e.get("chunk_index", -1))
-                except (TypeError, ValueError):
-                    cidx = -1
-                if sid and cidx >= 0:
-                    done_chunks.setdefault(sid, set()).add(cidx)
-        n_done_segs = sum(len(v) for v in done_chunks.values())
-        print(f"      Resume: {n_done_segs} segments across "
-              f"{len(done_chunks)} sources already in manifest.jsonl "
-              f"(will skip those exact (source, chunk_index) pairs and "
-              f"queue any newly-visible chunks for the same sources)")
+                if sid:
+                    existing_sources.add(sid)
+        print(f"      Resume: {len(existing_sources)} sources already in "
+              f"manifest.jsonl (will skip)")
 
     # 3. Stream Panda-70M metadata, build segment task list
     print(f"[2/5] Streaming Panda-70M metadata: {source_metadata}")
@@ -391,14 +363,11 @@ def _build_pool(
             seen_sources_in_csv.add(vid)
             if vid not in pool_index:
                 continue
+            if vid in existing_sources:
+                continue
             matched_sources += 1
             src_path = pool_index[vid]
-            # Start the per-source budget from any segments we already encoded
-            # for this source in a previous run, so `max_segments_per_source`
-            # acts as a TOTAL cap (existing + newly emitted), preserving the
-            # docstring's semantics now that sources can be revisited.
-            already_done_here = done_chunks.get(vid, set())
-            seg_count = len(already_done_here)
+            seg_count = 0
             for seg in _iter_segments_for_video(
                 row,
                 require_desirable=require_desirable,
@@ -408,8 +377,6 @@ def _build_pool(
             ):
                 if max_segments_per_source > 0 and seg_count >= max_segments_per_source:
                     break
-                if seg["seg_idx"] in already_done_here:
-                    continue
                 seg_count += 1
                 segment_id = f"{vid}_seg{seg['seg_idx']}"
                 dst = new_videos / f"{segment_id}.mp4"

@@ -1,0 +1,65 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Why neither FVD nor short-horizon PSNR moves at scale.}
+On the standard-horizon Panda setting at 999 videos, \method changes FVD from
+$154.7$ to $153.4$ and leaves PSNR essentially unchanged; both differences are
+within noise. An earlier reported $5\%$ reduction is superseded by the 999-video table
+and must not be reused. A $512$-parameter global modulation residual, fit on a few
+conditioning frames, appears too weak a lever to shift the distribution of
+generated features that FVD measures, at least at this backbone scale.
+
+\paragraph{Why LoRA is poorly matched to single-video TTA on a 13.6B DiT.}
+LoRA's adaptation surface, even at modest ranks, carries thousands to
+millions of free parameters. Under a single short conditioning window---a
+few seconds of video---this capacity is large enough either to overfit to
+the conditioning frames within a handful of gradient steps or to fail to
+align in any useful direction. Our LoRA sweeps reproduce both regimes on
+\backbone, and the long-horizon Panda 1000-video evaluation shows that the
+overfitting regime persists at full scale: LoRA~R8 regresses both FVD and
+FID against No-TTA. \method attacks the problem from the opposite direction:
+rather than searching a smaller free subspace, it reuses the frozen per-block
+adaLN projections as a structured de-tying mechanism that converts a tiny
+shared residual into block-specific modulation, eliminating most of the
+degrees of freedom that LoRA leaves open while preserving block-level
+specialization.
+
+\paragraph{Long-horizon Panda as a controlled FVD/FID trade.}
+The 1000-video long-context Panda evaluation reports
+$\mathrm{FVD}\!:\!278.71\!\to\!284.14$ ($+5.43$, $+1.95\%$) for \method, with
+$\mathrm{FID}\!:\!29.90\!\to\!29.53$ ($-0.36$, $-1.22\%$) and modest
+improvements on PSNR, SSIM, and LPIPS. Both numbers were re-derived
+independently from the per-chunk sufficient statistics; the chunked-merge
+implementation agrees with a single-pass FVD/FID computation to better than
+$1.5\!\times\!10^{-8}$ relative error, so this is a real property of the
+generated distributions rather than a numerical artifact. The cross-method
+context sharpens the interpretation: on the same setting, LoRA~R8 regresses
+\emph{both} metrics ($+3.70$ FVD, $+0.42$ FID), and TinyLoRA~L24 is within
+metric noise of No-TTA on both ($-0.10$ FVD, $+0.19$ FID). \method is
+therefore the only TTA method here that improves per-frame Inception
+statistics; its cost is concentrated in the I3D-based distributional metric.
+
+We read this as a controlled trade between per-frame appearance and full-clip
+temporal coherence. FVD's I3D backbone is sensitive to 3D spatiotemporal
+structure across the entire clip, while FID's per-frame Inception backbone is
+not. A test-time residual that aligns per-frame appearance to the conditioning
+window can therefore improve FID and pointwise pixel metrics while displacing
+the I3D distribution further from the reference. The most likely mechanism is
+that the conditioning window provides a smaller fraction of the predicted
+future at the 93-frame horizon, biasing the adaptation toward appearance
+features and away from motion features. Designing a horizon-aware variant of
+\method---for example, scheduling the adaptation update against the ratio of
+conditioning frames to predicted frames, or adding a motion-coherence
+regularizer to the adaptation objective---is the most natural follow-up
+direction and is left for future work.
+
+\paragraph{Limitations.}
+All reported numbers are computed on 1000-video evaluation sets; smaller
+discovery subsets used for hyperparameter selection are not reported in the
+main results because their per-set distributional bias makes their absolute
+metric values unreliable. \method has no access to future-frame supervision
+and therefore relies entirely on the quality of the conditioning frames;
+degenerate or very short conditioning windows could reduce its effectiveness.
+We do not yet evaluate \method on text-to-video or image-to-video generation;
+those are natural extensions because the same modulation pathway exists in
+both formulations.

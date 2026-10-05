@@ -36,16 +36,13 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-_REPO_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(_REPO_ROOT))
-
-from scripts.frame_window import (
-    PANDA_1000V_STANDARD,
-    parse_frame_range_arg,
+# Frame geometry — matches extract_video_features_for_tta.py / TTA runners.
+TTA_TOTAL_FRAMES: int = 48
+GEN_START_FRAME: int = 48
+AUTO_TTA_VISIBLE_RANGE: Tuple[int, int] = (
+    max(0, GEN_START_FRAME - TTA_TOTAL_FRAMES),
+    GEN_START_FRAME,
 )
-
-_cfg = PANDA_1000V_STANDARD
-AUTO_TTA_VISIBLE_RANGE = _cfg.tta_visible_range()
 
 _CANONICAL_PREFIX_RE = re.compile(r"^([A-Za-z][A-Za-z0-9]*_\d+)")
 
@@ -56,6 +53,17 @@ def _canonical_video_id(s: Optional[str]) -> str:
     stem = Path(str(s)).stem
     m = _CANONICAL_PREFIX_RE.match(stem)
     return m.group(1) if m else stem
+
+
+def _parse_frame_range_arg(arg: str, default: Tuple[int, int]) -> Tuple[int, int]:
+    if not arg or arg.lower() == "auto":
+        return default
+    if ":" in arg:
+        a, b = arg.split(":", 1)
+        return int(a), int(b)
+    raise argparse.ArgumentTypeError(
+        f"frame-range arg must be 'auto' or 'A:B', got {arg!r}"
+    )
 
 
 def list_video_paths(videos_dir: Path) -> List[Path]:
@@ -211,7 +219,7 @@ def main() -> int:
         print("[error] target-size must be divisible by 8 for RAFT", file=sys.stderr)
         return 2
 
-    visible_range = parse_frame_range_arg(args.tta_visible_frames, AUTO_TTA_VISIBLE_RANGE)
+    visible_range = _parse_frame_range_arg(args.tta_visible_frames, AUTO_TTA_VISIBLE_RANGE)
     n_visible = visible_range[1] - visible_range[0]
 
     existing: Dict[str, dict] = {}

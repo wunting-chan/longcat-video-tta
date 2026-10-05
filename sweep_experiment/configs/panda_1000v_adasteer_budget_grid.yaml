@@ -30,6 +30,8 @@
 # After merge:
 #   python scripts/analyze_adasteer_budget_oracle.py --bootstrap \\
 #       --series-root sweep_experiment/results/panda_1000v_adasteer_budget \\
+#       --baseline-series-root sweep_experiment/results/panda_1000v_standard \\
+#       --ood-csv sweep_experiment/reports/per_video_analysis/2026-06-09/diffusion_ood_scores.csv \\
 #       --output sweep_experiment/reports/per_video_analysis/$(date +%Y-%m-%d)/adasteer_budget_oracle.md
 
 method: delta_a

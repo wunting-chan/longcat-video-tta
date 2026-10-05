@@ -21,6 +21,10 @@ commands in §5 are things you write *for the operator to run*, not for you.
 
 ---
 
+**Laptop SSH/SCP (LOCKED):** from the user's Mac the host is always
+`wc3013@torch`. Never invent `torch-login-*.hpc.nyu.edu` as the scp/ssh
+target. The prompt `[wc3013@torch-login-a-1]` is the node after login.
+
 ## 0. TL;DR — the six non-negotiable cluster quirks
 
 If you remember nothing else, remember these. Every one of them has bitten us

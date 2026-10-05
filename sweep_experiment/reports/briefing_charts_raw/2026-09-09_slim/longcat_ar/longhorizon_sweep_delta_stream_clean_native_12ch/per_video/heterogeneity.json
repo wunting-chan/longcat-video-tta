@@ -1,0 +1,59 @@
+{
+  "arms": [
+    "NOTTA",
+    "gen",
+    "clean"
+  ],
+  "signals": [
+    "sharpness",
+    "temporal_motion",
+    "colorfulness",
+    "contrast"
+  ],
+  "n_videos": 8,
+  "consistency_obs": 0.3125,
+  "consistency_null_mean": 0.34314583333333337,
+  "p_consistency": 0.70795,
+  "routing": {
+    "sharpness": {
+      "oracle": 0.003868897116444714,
+      "fixed": {
+        "NOTTA": 0.005884227098772499,
+        "gen": 0.007418522326247512,
+        "clean": 0.007302208959060863
+      },
+      "best_fixed": 0.005884227098772499,
+      "random_pick": 0.0068683194613602915
+    },
+    "temporal_motion": {
+      "oracle": 0.009768420888576657,
+      "fixed": {
+        "NOTTA": 0.016137192025780678,
+        "gen": 0.01536430767737329,
+        "clean": 0.015123625926207751
+      },
+      "best_fixed": 0.015123625926207751,
+      "random_pick": 0.015541708543120572
+    },
+    "colorfulness": {
+      "oracle": 0.025860413363322392,
+      "fixed": {
+        "NOTTA": 0.03373585251904432,
+        "gen": 0.04157443064944291,
+        "clean": 0.032245889739660145
+      },
+      "best_fixed": 0.032245889739660145,
+      "random_pick": 0.03585205763604913
+    },
+    "contrast": {
+      "oracle": 0.02951955236494541,
+      "fixed": {
+        "NOTTA": 0.043093116953969,
+        "gen": 0.046012233942747116,
+        "clean": 0.06074569188058376
+      },
+      "best_fixed": 0.043093116953969,
+      "random_pick": 0.049950347592433296
+    }
+  }
+}

@@ -85,6 +85,10 @@ unset PYTHONPATH
 export PATH="${ENV_PATH}/bin:${PATH}"
 PYTHON="${ENV_PATH}/bin/python"
 
+# Sanity-check sentence-transformers presence.
+"${PYTHON}" -c "import sentence_transformers; \
+    print('sentence_transformers', sentence_transformers.__version__)"
+
 cd "${PROJECT_ROOT}"
 
 "${PYTHON}" scripts/precompute_pool_embeddings.py \

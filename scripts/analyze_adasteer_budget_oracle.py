@@ -940,21 +940,10 @@ def build_report(
         lines += [
             "### Mean PSNR by OOD quintile and config",
             "",
-            "Δ columns are paired mean(policy − NOTTA) over videos with both scores "
-            "(improvement vs the no-TTA baseline).",
-            "",
-            "| quintile | N | NOTTA | fixed AdaSteer | oracle-best | "
-            "Δ fixed−NOTTA | Δ oracle−NOTTA | best grid run |",
-            "|---|---:|---:|---:|---:|---:|---:|---|",
+            "| quintile | N | fixed AdaSteer | oracle-best | best grid run |",
+            "|---|---:|---:|---:|---|",
         ]
         quintile_best_run: Dict[int, str] = {}
-
-        def _mean_db(a: List[float]) -> str:
-            return f"{np.mean(a):.3f} dB" if a else "—"
-
-        def _delta_db(a: List[float]) -> str:
-            return f"{np.mean(a):+.3f} dB" if a else "—"
-
         for q in sorted(q_rows.keys()):
             vids_q = q_rows[q]
             fixed_vals = [
@@ -962,35 +951,19 @@ def build_report(
                 for v in vids_q
                 if fixed_run in table[v]
             ]
-            notta_vals = [
-                table[v][NOTTA_RUN_ID]
-                for v in vids_q
-                if NOTTA_RUN_ID in table[v]
-            ]
-            gain_fixed = [
-                table[v][fixed_run] - table[v][NOTTA_RUN_ID]
-                for v in vids_q
-                if fixed_run in table[v] and NOTTA_RUN_ID in table[v]
-            ]
-            oracle_vals: List[float] = []
-            gain_oracle: List[float] = []
+            oracle_vals = []
             best_counts: Dict[str, int] = {}
             for v in vids_q:
                 w = oracle_winner(table[v], grid_runs)
                 if w and w in table[v]:
                     oracle_vals.append(table[v][w])
                     best_counts[w] = best_counts.get(w, 0) + 1
-                    if NOTTA_RUN_ID in table[v]:
-                        gain_oracle.append(table[v][w] - table[v][NOTTA_RUN_ID])
             best_run = max(best_counts, key=best_counts.get) if best_counts else "—"
             quintile_best_run[q] = best_run
             lines.append(
                 f"| Q{q} | {len(vids_q)} | "
-                f"{_mean_db(notta_vals)} | "
-                f"{_mean_db(fixed_vals)} | "
-                f"{_mean_db(oracle_vals)} | "
-                f"{_delta_db(gain_fixed)} | "
-                f"{_delta_db(gain_oracle)} | `{best_run}` |"
+                f"{np.mean(fixed_vals):.3f} dB | "
+                f"{np.mean(oracle_vals):.3f} dB | `{best_run}` |"
             )
         lines.append("")
 
