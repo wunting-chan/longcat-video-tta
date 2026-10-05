@@ -50,6 +50,7 @@ dynamical-systems analysis.
 | **One knob flips the attractor type.** | Sink = 3 on SF weights switches the global attractor to prompt-anchored. Window 12 alone changes how the collapse looks (`bif.json`, `bif_strip.png`). |
 | Rollouts carry recurrent structure. | Recurrence quantification beats phase-randomized surrogates in 100% of runs. |
 | **Negative:** no early warning. | Critical-slowing-down indicators (rising variance and autocorrelation) do not precede collapse. Collapse is a slow ramp (10% → 90% over about 90 s), not a tipping point (`deep.json`, `deep2.json`). |
+| No LoL-style sink collapse within 180 s. | LoL (2601.16914) reports scenes snapping back to the sink frame. We tested for synchronized returns toward the opening: a sudden rise in DINOv2 similarity to the first second, aligned across the 16 runs per model. No model aligns more than circular-shift surrogates do (LL p = 0.96, RF 0.82, SF 0.79). Single returns do occur, but at scattered times. LoL works at hour scale, so a longer test is still open. Tested 2026-10-05, no GPU. |
 | Search slows the drift. | Best-of-N search delays the slide (p ≈ 1e-6) but does not stop it. |
 
 ## Open next steps (need user approval for GPU)
