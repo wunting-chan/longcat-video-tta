@@ -157,7 +157,7 @@ Predictability & Can failure be anticipated? & Pre-collapse variance and autocor
 \bottomrule
 \end{tabularx}
 \vspace{4pt}
-\footnotesize Physics terms are used operationally and measured in representation space; we do not claim proofs about the model's full internal state.
+\footnotesize Physics terms describe behaviour measured in representation space, not proven properties of the model's full internal state.
 \end{frame}
 
 % =====================================================================
@@ -244,7 +244,7 @@ Predictability & Can failure be anticipated? & Pre-collapse variance and autocor
 \centering
 \figh{0.46}{line_bifurcation}\\[2pt]
 {\scriptsize Same four settings, 8 prompts at seed 0 (the 28 prompt pairs, which share the same input noise; on the main runs, same-seed and cross-seed pairs give the same curve, 0.636 vs.\ 0.628 at 3 min). (a) Mean cosine distance between DINOv2 [CLS] vectors of different prompts. (b) Cosine similarity of each video to its own first 2\,s.}
-\take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). Holding the weights fixed, the memory setting decides whether prompts merge: a \emph{regime transition}. With two sink sizes tested, we do not yet call it a bifurcation; that needs a dense sweep.}
+\take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). Holding the weights fixed, the memory setting decides whether prompts merge: a \emph{regime transition}. Two sink sizes have been tested so far; a dense sweep would locate where the switch occurs.}
 \end{frame}
 
 \begin{frame}{Can pre-collapse statistics predict failure? Not with these}
@@ -263,11 +263,11 @@ Predictability & Can failure be anticipated? & Pre-collapse variance and autocor
 \textbf{Recurrence determinism (DET):} share of revisits to an earlier state that continue as a repeated sequence ($\geq$3\,s), not isolated matches.\\[3pt]
 \textbf{Scrambled:} phase-randomized copy, same frequency content, timing destroyed.\\[3pt]
 \textbf{Plotted:} the gap DET(real) $-$ DET(scrambled). Mean of 16 videos, 95\% CI; dots = videos.\\[3pt]
-\textbf{Note:} DET is a recurrence statistic; 0.93 does not mean the generator is ``93\% deterministic''.
+DET is a recurrence statistic: 0.93 does not mean the generator is ``93\% deterministic''.
 \end{columns}
 \vspace{2pt}
 {\tiny Per-second DINOv2 [CLS] vectors, 10 principal components per segment; revisit threshold = closest 10\% of state pairs; 5 scrambled copies per segment. Collapse time = when a video stays nearer the shared end state than its opening for 10\,s.\par}
-\take{\footnotesize Compare the gap, not the raw score. Over whole videos, Self Forcing's raw 0.93 is inflated by its slow collapse and its gap is only 0.04. In matched 60-s windows all three models keep 0.11--0.20 of structure that scrambling removes, and Self Forcing's gap halves after it collapses (0.17 $\to$ 0.09).}
+\take{\footnotesize The gap, not the raw score, carries the information. Over whole videos, Self Forcing's raw 0.93 is inflated by its slow collapse and its gap is only 0.04. In matched 60-s windows all three models keep 0.11--0.20 of structure that scrambling removes, and Self Forcing's gap halves after it collapses (0.17 $\to$ 0.09).}
 \end{frame}
 
 \begin{frame}{Checking a rival claim: periodic ``snap-back''}
@@ -279,7 +279,7 @@ Predictability & Can failure be anticipated? & Pre-collapse variance and autocor
 
 \begin{frame}{Has anyone done this already?}
 \small
-About 60 targeted searches (2024 to Oct 2026), rechecked Oct 6. Long-horizon degradation is \textbf{measured widely}. What we did not find is any work that treats streaming video generators as \textbf{dynamical systems}.
+About 60 targeted searches of work from 2024 to October 2026. Long-horizon degradation is \textbf{measured widely}. What we did not find is any work that treats streaming video generators as \textbf{dynamical systems}.
 \vspace{2pt}
 \scriptsize
 \renewcommand{\arraystretch}{1.08}
@@ -288,22 +288,22 @@ About 60 targeted searches (2024 to Oct 2026), rechecked Oct 6. Long-horizon deg
 Closest work & What it shows & Relation to ours \\
 \midrule
 VBench-Long, Relax Forcing, In-Distribution Forcing (2610.03120) & Quality, consistency, colour and motion drift over minutes & measure symptoms; we model dynamics \\
-LoL (2601.16914) & Sink-collapse loops at hour scale & partial: test longer \\
+LoL (2601.16914) & Sink-collapse loops at hour scale & partial; their videos run an hour, ours 3 min \\
 Deep / Rolling Sink, FreqForcing (2607.27110) & A sink slows drift; drift as spectral-energy shift & partial: we show a \emph{type switch} \\
-Effective-rank collapse (2607.27036) & Abrupt representation collapse at drift onset & reconcile with ``slow ramp'' \\
+Effective-rank collapse (2607.27036) & Abrupt representation collapse at drift onset & abrupt, where we see a gradual ramp \\
 Meta-ARVDM (2503.10704) & Theory of history forgetting & frames, not the prompt \\
 Biroli et al., Nat.\ Commun.\ 2024 & Attractor-like regimes \emph{inside} the denoising steps & other time axis \\
 Hintze et al., Patterns 2025 & Iterated image loops collapse to $\sim$12 attractors & concept, not video \\
 \bottomrule
 \end{tabularx}
 \vspace{1pt}
-\take{\footnotesize Safe claim: existing work measures long-horizon degradation and specific failure modes; we characterize where trajectories converge, how fast prompt information is lost, how perturbations grow, and which inference settings change the long-run regime. Avoid: ``nobody has measured it'', ``every model collapses'', ``sinks prevent drift'' (known).}
+\take{\footnotesize Existing work measures long-horizon degradation and specific failure modes. This work characterizes the dynamics: where trajectories converge, how fast prompt information is lost, how perturbations grow, and which inference settings change the long-run regime.}
 \end{frame}
 
 % =====================================================================
 \section{Next}
 
-\begin{frame}{Next: experiments that test the framing (planned, no results yet)}
+\begin{frame}{Next: planned experiments}
 \begin{columns}[T]
 \column{0.52\textwidth}
 \begin{block}{Generality and statistics}

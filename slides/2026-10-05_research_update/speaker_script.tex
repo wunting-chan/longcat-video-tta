@@ -254,7 +254,7 @@ One prompt could be luck, so here are the same four settings averaged over all 8
 
 \cue{panel b} Panel (b) asks how similar each video stays to its own first two seconds. Without a sink, similarity falls to about 0.2: the opening is forgotten. With a sink it holds around 0.7.
 
-The point: three quarters of a second of permanent anchor switches the system from a shared attracting regime to separate, prompt-anchored ones, with the weights held fixed. That's a regime transition. I'm careful not to call it a bifurcation yet: we've tested two sink sizes, and a bifurcation needs a sweep that shows where the switch happens. That sweep is planned. It also separates the roles of the two settings: the sink controls \emph{whether} the prompts merge, and the window controls what the collapse \emph{looks} like.
+The point: three quarters of a second of permanent anchor switches the system from a shared attracting regime to separate, prompt-anchored ones, with the weights held fixed. That's a regime transition. It's a regime transition rather than a proven bifurcation, because only two sink sizes have been tested; a sweep that shows where the switch happens is planned. It also separates the roles of the two settings: the sink controls \emph{whether} the prompts merge, and the window controls what the collapse \emph{looks} like.
 
 % ---------------------------------------------------------------
 \slide{20}{Can pre-collapse statistics predict failure? Not with these}{20.jpg}
@@ -264,7 +264,7 @@ One short negative result. Panel (a) lines up all 16 Self Forcing videos at thei
 
 \cue{panel b} We asked whether simple statistics announce the collapse beforehand. A standard candidate is rising autocorrelation: each moment looking more like the last. Blue is the 60 seconds before a Self Forcing collapse, grey the same window in models that never collapse. They're about the same, and for motion it's reversed. With 14 and 32 videos, none of this is a usable warning.
 
-So we do not find a useful pre-collapse warning in the autocorrelation and variance statistics we tested. We'll report that, but it isn't central.
+So we do not find a useful pre-collapse warning in the autocorrelation and variance statistics we tested. It's a negative result, and not central to the story.
 
 % ---------------------------------------------------------------
 \slide{21}{Temporal ordering adds recurrence structure beyond the frequency spectrum}{21.jpg}
@@ -276,7 +276,7 @@ A quick but careful check of whether these trajectories have real temporal struc
 
 \cue{panel b} But a small whole-video gap doesn't mean Self Forcing has no structure, so panel (b) compares matched 60-second windows. In the first minute all three models show clear structure: Self Forcing 0.17, Rolling Forcing 0.13, LongLive 0.20. In the last minute it's 0.11 to 0.16. The rightmost pair splits each Self Forcing video at its own collapse time. Before collapse the gap is 0.17; after collapse it halves to 0.09.
 
-\cue{takeaway} So the message is precise. Compare the gap, not the raw score. In all three generators, temporal ordering adds recurrence structure beyond what the frequency spectrum explains. Self Forcing's high raw score is a collapse artefact. And collapse itself destroys about half of the structure. I'm deliberately not claiming that Rolling Forcing and LongLive are more structured overall, because over matched windows they aren't.
+\cue{takeaway} So the informative quantity is the gap, not the raw score. In all three generators, temporal ordering adds recurrence structure beyond what the frequency spectrum explains. Self Forcing's high raw score is a collapse artefact. And collapse itself destroys about half of the structure. And Rolling Forcing and LongLive are not more structured overall: over matched windows they aren't.
 
 \slide{22}{Checking a rival claim: periodic ``snap-back''}{22.jpg}
 \goal{show we take competing findings seriously and test them.}
@@ -292,19 +292,19 @@ One caveat: LoL studied hour-long videos and we've only gone to three minutes. S
 % ---------------------------------------------------------------
 % ---------------------------------------------------------------
 \slide{23}{Has anyone done this already?}{23.jpg}
-\goal{novelty, stated precisely and defensibly.}
+\goal{novelty, stated precisely.}
 
 The natural question is whether this has been done. We ran about 60 targeted literature searches, covering 2024 up to this week, and rechecked them today.
 
 Be precise about the answer. Long-horizon degradation is \emph{measured widely}. VBench-Long scores quality and consistency over long videos. Papers from the last few months report colour and motion drift over minutes, spectral drift, a collapse in the model's internal representations at drift onset, and the sink collapse I just tested. What we did not find is anyone treating these streaming generators as dynamical systems: asking where trajectories converge, how fast the prompt is lost, how perturbations grow, and which settings change the attractor.
 
-\cue{table} The table lists the closest work and how it relates to ours. Several sink papers already show that a sink slows drift, so our claim is the stronger one: it changes the \emph{type} of attractor. The representation-collapse paper finds something abrupt where we see a slow ramp, and reconciling the two is a to-do. There is also attractor language elsewhere. Biroli and colleagues in \emph{Nature Communications} describe attractor-like regimes inside the denoising steps that generate a single image. That's a different time axis from ours, which is time within the video. And looping image models are known to collapse to about a dozen attractors.
+\cue{table} The table lists the closest work and how it relates to ours. Several sink papers already show that a sink slows drift, so our claim is the stronger one: it changes the \emph{type} of attractor. The representation-collapse paper finds something abrupt where we see a slow ramp, and how the two fit together is an open question. There is also attractor language elsewhere. Biroli and colleagues in \emph{Nature Communications} describe attractor-like regimes inside the denoising steps that generate a single image. That's a different time axis from ours, which is time within the video. And looping image models are known to collapse to about a dozen attractors.
 
-\cue{grey box} So here is the claim we'll make in the paper: existing work measures degradation and specific failure modes; we characterize the dynamics. What we won't claim: that nobody has measured long-video decay, that every model collapses, or that sinks prevent drift. All three would be easy to knock down.
+\cue{grey box} So, in one line: existing work measures degradation and specific failure modes; this work characterizes the dynamics behind them.
 
 % ---------------------------------------------------------------
 % ---------------------------------------------------------------
-\slide{24}{Next: experiments that test the framing (planned, no results yet)}{24.jpg}
+\slide{24}{Next: planned experiments}{24.jpg}
 \goal{be clear that these are plans; end on the one-sentence version of the paper.}
 
 Everything on this slide is planned. None of it has results yet.
