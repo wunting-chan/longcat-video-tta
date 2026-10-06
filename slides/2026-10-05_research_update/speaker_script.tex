@@ -173,27 +173,30 @@ This is the visual version of the attractor claim. One model has a single global
 
 % ---------------------------------------------------------------
 \slide{13}{Self Forcing has one global attractor}{13.jpg}
-\goal{turn the pictures into numbers, and rule out shared noise.}
+\goal{turn the pictures into numbers, and make the method visible on the slide itself.}
 
-Pictures are convincing, but we want numbers. This slide makes the attractor claim quantitative, with two complementary measurements.
+Pictures are convincing, but we want numbers. This slide makes the attractor claim quantitative with two complementary measurements, and the notes under each panel say exactly how each one is computed.
 
-\cue{left panel} The left panel asks: how different are videos of different prompts? The vertical axis is the content distance between two videos; 1 means completely different. Solid lines are pairs with different prompts. Rolling Forcing and LongLive sit flat near 0.97 for the full three minutes. Self Forcing starts there too, then falls steadily to about 0.64. Different prompts are literally becoming the same video.
+First, the representation, shared by both panels. Every frame goes through DINOv2, the ViT-B/14 version, a standard self-supervised image encoder. We take its summary vector, the [CLS] token, 768 numbers describing what's in the frame. We average the 16 frames of each second, so each video becomes one vector per second.
 
-The dashed lines are the reference. They compare two videos with the \emph{same} prompt but different random seeds, the natural spread you'd expect from randomness alone. For Self Forcing, the solid and dashed lines are converging. By the end, two different prompts are about as similar as two runs of the same prompt.
+\cue{panel a} Panel (a) asks: how different are videos of different prompts? At each second we compare two videos with cosine distance, one minus the cosine of the angle between their vectors. Near 1 means unrelated content; near 0 means the same content. The solid line averages over every pair of videos with a different prompt \emph{and} a different seed, 56 pairs per model. The dashed line is the control: the same prompt with two different seeds, 8 pairs. It shows how far apart two videos drift through randomness alone.
 
-\cue{right panel} The right panel asks the same thing in a more intuitive way. If I show you a single frame, can you tell which of the 8 prompts it came from? Chance is 12.5\%, the dotted line. Rolling Forcing stays at 100\% and LongLive at 98\%. Self Forcing falls from 100\% to about a third.
+Rolling Forcing and LongLive stay flat near 0.97 for the full three minutes. Self Forcing starts there too, then falls steadily to about 0.63, close to its own dashed line at 0.57. By the end, two \emph{different} prompts are nearly as alike as two runs of the \emph{same} prompt.
 
-One important check: these videos use different random seeds, so this isn't two copies sharing noise and drifting together. The model is pulling them together.
+One methodological point, because it matters. In these runs every prompt at a given seed receives identical input noise. If we compared videos within one seed, shared noise could make them look alike. So both panels only ever compare videos from different seeds, and the effect is unchanged: 0.628 across seeds against 0.636 within a seed. The bands are 95\% bootstrap intervals over the eight prompts.
 
-% ---------------------------------------------------------------
+\cue{panel b} Panel (b) asks the same question more intuitively: if I show you one second of video, can you tell which prompt it came from? There's no trained classifier. We take the video's vector at that second and find the most similar of the eight videos from the \emph{other} seed at the same second, one per prompt. If that nearest neighbour has the same prompt, it's a hit. That's 16 queries per second, and with eight prompts chance is one in eight, 12.5\%, the dotted line. Rolling Forcing stays at 100\% and LongLive at 98\%. Self Forcing falls from 100\% to about a third.
+
+\cue{bottom line} Together these are what we mean by a global attractor. For one model, every prompt ends up in the same place, and the prompt can no longer be read off the frame. For the other two, each prompt keeps its own place.
+
 \slide{14}{The prompt has a half-life of about one minute}{14.jpg}
 \goal{a single memorable number for the forgetting rate.}
 
 If Self Forcing forgets the prompt, how fast? This slide's job is to give that a single number.
 
-\cue{red line} The red line is the same Self Forcing curve as before, the distance between different prompts over time. The dashed black line is an exponential decay fitted to it, the same shape as radioactive decay. It fits well, so we can quote a half-life: about one minute. Depending on exactly which time window you fit, it comes out between 58 and 66 seconds. Every minute, the model forgets about half of what makes your prompt special.
+\cue{red line} The red line is the same Self Forcing curve as before, the distance between different prompts over time. The dashed black line is an exponential decay fitted to it, the same shape as radioactive decay. It fits well, so we can quote a half-life: about one minute. Depending on the fit window and which pairs are averaged, it comes out between 58 and 72 seconds. Every minute, the model forgets about half of what makes your prompt special.
 
-\cue{grey line} The grey line is the noise floor: two seeds of the \emph{same} prompt. Notice where the red curve levels off: right at that floor. That means the prompt isn't just partially forgotten. By the end, knowing the prompt tells you nothing more than knowing the random seed. It's fully erased.
+\cue{grey line} The grey line is the noise floor: two seeds of the \emph{same} prompt. Notice where the red curve is heading: toward that floor. By three minutes, two different prompts are at 0.63 and two seeds of the same prompt at 0.57. The prompt is almost fully erased.
 
 A second measurement, how quickly each video approaches the shared end state, is also exponential, with a time constant of about six minutes and a very clean fit ($R^2 = 0.91$). So this isn't a vague trend. It's a measurable rate.
 

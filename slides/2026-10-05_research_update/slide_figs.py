@@ -101,26 +101,40 @@ def load_long(sub="main"):
     return D, names
 
 
-def prompt_metrics(runs):
-    """D_prompt(t): mean cosine distance between different-prompt runs of the same seed.
-    D_noise(t): mean distance between the two seeds of the same prompt.
-    retrieval(t): share of runs whose nearest run of the other seed (at time t) has the same prompt."""
+def prompt_metrics(runs, n_boot=1000, seed=0):
+    """Per second t (each run: 16 consecutive frames' DINOv2 ViT-B/14 [CLS] averaged, then L2-normalised).
+    D_prompt(t): mean of 1 - cos over the 56 ordered pairs (prompt p, seed 0) vs (prompt q, seed 1), p != q.
+        Pairs never share a seed, so they never share input noise (all prompts of one seed get identical noise).
+    D_noise(t):  mean of 1 - cos over the 8 pairs (prompt p, seed 0) vs (prompt p, seed 1).
+    acc(t):      16 queries (8 prompts x 2 seeds). Each query frame-second is matched to the most similar of the
+        8 runs of the OTHER seed at the same second (nearest neighbour, cosine); correct if same prompt.
+        No training, no centroids; chance = 1/8.
+    Bands: 95% percentile bootstrap over prompts (resample the 8 prompts with replacement)."""
     keys = sorted(runs)
     T = min(len(v["cls"]) for v in runs.values())
     P = sorted({k[0] for k in keys})
-    X = {k: runs[k]["cls"][:T] for k in keys}
-    dp, dn, acc = [], [], []
-    for t in range(T):
-        dps = [1 - X[(p, s)][t] @ X[(q, s)][t] for s in (0, 1) for p in P for q in P if p < q]
-        dns = [1 - X[(p, 0)][t] @ X[(p, 1)][t] for p in P]
-        ok = 0
-        for s in (0, 1):
-            o = 1 - s
-            for p in P:
-                sims = [X[(p, s)][t] @ X[(q, o)][t] for q in P]
-                ok += int(P[int(np.argmax(sims))] == p)
-        dp.append(np.mean(dps)); dn.append(np.mean(dns)); acc.append(ok / (2 * len(P)))
-    return np.array(dp), np.array(dn), np.array(acc)
+    X0 = np.stack([runs[(p, 0)]["cls"][:T] for p in P])  # (8, T, 768)
+    X1 = np.stack([runs[(p, 1)]["cls"][:T] for p in P])
+    C = np.einsum("ptd,qtd->tpq", X0, X1)                # cos between seed-0 prompt p and seed-1 prompt q
+    n = len(P)
+    off = ~np.eye(n, dtype=bool)
+    dp = (1 - C[:, off]).mean(1)
+    dn = (1 - C[:, np.eye(n, dtype=bool)]).mean(1)
+    hit0 = (C.argmax(2) == np.arange(n)[None])           # seed-0 queries vs seed-1 candidates
+    hit1 = (C.argmax(1) == np.arange(n)[None])           # seed-1 queries vs seed-0 candidates
+    per_prompt_acc = (hit0.astype(float) + hit1) / 2     # (T, 8)
+    acc = per_prompt_acc.mean(1)
+    rng = np.random.default_rng(seed)
+    bdp, bdn, bacc = [], [], []
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, n)
+        M = idx[:, None] != idx[None, :]
+        sub = 1 - C[:, idx][:, :, idx]
+        bdp.append((sub * M).sum((1, 2)) / max(M.sum(), 1))
+        bdn.append((1 - C[:, idx, idx]).mean(1))
+        bacc.append(per_prompt_acc[:, idx].mean(1))
+    q = lambda B: np.percentile(np.array(B), [2.5, 97.5], axis=0)
+    return dp, dn, acc, q(bdp), q(bdn), q(bacc)
 
 
 def frame(tag, t):
@@ -243,33 +257,34 @@ def fig_openings():
 # =========================================================================== line plots
 def fig_convergence(D):
     line_style()
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.35))
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.6))
     res = {}
     for m in MODELS:
-        dp, dn, acc = prompt_metrics(D[m])
+        dp, dn, acc, bdp, bdn, bacc = prompt_metrics(D[m])
         res[m] = (dp, dn, acc)
         t = np.arange(len(dp))
-        axs[0].plot(t, dp, color=MCOL[m], label=MLABEL[m], marker=MMARK[m], markevery=15)
+        axs[0].plot(t, dp, color=MCOL[m], marker=MMARK[m], markevery=15)
+        axs[0].fill_between(t, bdp[0], bdp[1], color=MCOL[m], alpha=0.12, lw=0)
         axs[0].plot(t, dn, color=MCOL[m], ls=(0, (3, 2)), lw=0.7)
+        axs[0].fill_between(t, bdn[0], bdn[1], color=MCOL[m], alpha=0.06, lw=0)
         axs[1].plot(t, acc * 100, color=MCOL[m], label=MLABEL[m], marker=MMARK[m], markevery=15)
-    axs[0].set_xlabel("Time into the video (s)")
-    axs[0].set_ylabel("Content distance between two videos\n(1 − cosine similarity, DINOv2)")
-    axs[0].set_title("(a) Distance between videos, per second")
+        axs[1].fill_between(t, bacc[0] * 100, bacc[1] * 100, color=MCOL[m], alpha=0.10, lw=0)
     from matplotlib.lines import Line2D
     h1 = [Line2D([], [], color=MCOL[m], marker=MMARK[m], label=MLABEL[m]) for m in MODELS]
-    h2 = [Line2D([], [], color="k", label="solid: pairs with different prompts"),
+    h2 = [Line2D([], [], color="k", label="solid: different prompt, different seed"),
           Line2D([], [], color="k", ls=(0, (3, 2)), lw=0.7, label="dashed: same prompt, different seed")]
-    l1 = axs[0].legend(handles=h1, loc="lower left", fontsize=5.8)
-    axs[0].add_artist(l1)
-    axs[0].legend(handles=h2, loc="lower right", fontsize=5.4)
+    h3 = [plt.Rectangle((0, 0), 1, 1, color="#999999", alpha=0.25, lw=0, label="band: 95% bootstrap CI over the 8 prompts")]
+    fig.legend(handles=h1 + h2 + h3, loc="lower center", ncol=3, fontsize=5.8, frameon=False, bbox_to_anchor=(0.5, -0.01))
+    axs[0].set_xlabel("Time into the video (s)")
+    axs[0].set_ylabel("Cosine distance, 1 − cos\n(higher = more different)")
+    axs[0].set_title("(a) Do videos of different prompts become alike?")
     axs[1].axhline(100 / 8, color="#777777", lw=0.7, ls=":")
-    axs[1].text(178, 100 / 8 + 2, "chance (1 in 8 prompts)", ha="right", fontsize=6.0, color="#555555")
+    axs[1].text(178, 100 / 8 + 2, "chance = 1/8 = 12.5%", ha="right", fontsize=5.8, color="#555555")
     axs[1].set_xlabel("Time into the video (s)")
-    axs[1].set_ylabel("Frames matched to the correct prompt (%)")
-    axs[1].set_title("(b) Can the prompt be identified from the frame?")
+    axs[1].set_ylabel("Queries matched to own prompt (%)")
+    axs[1].set_title("(b) Can a frame's prompt still be identified?")
     axs[1].set_ylim(0, 105)
-    axs[1].legend(loc="lower left", fontsize=5.8)
-    fig.tight_layout(w_pad=1.5)
+    fig.tight_layout(rect=(0, 0.16, 1, 1), w_pad=1.5)
     save(fig, "line_convergence")
     return res
 
@@ -282,13 +297,13 @@ def fig_halflife(res):
     (a, tau, c), _ = curve_fit(f, t, dp, p0=(0.4, 80, 0.6))
     hl = tau * np.log(2)
     fig, ax = plt.subplots(figsize=(W * 0.62, 2.25))
-    ax.plot(t, dp, color=MCOL["sf"], marker="o", markevery=15, label="Self Forcing: pairs with different prompts")
+    ax.plot(t, dp, color=MCOL["sf"], marker="o", markevery=15, label="Self Forcing: different prompt, different seed")
     ax.plot(t, f(t, a, tau, c), color="k", lw=0.8, ls="--", label=f"exponential fit, half-life {hl:.0f} s")
     ax.plot(t, dn, color="#777777", lw=0.8, label="noise floor: same prompt, different seed")
     ax.axhline(c, color="#999999", lw=0.6, ls=":")
     ax.text(2, c - 0.035, f"fitted level it decays to: {c:.2f}", fontsize=6.0, color="#555555")
     ax.set_xlabel("Time into the video (s)")
-    ax.set_ylabel("Content distance between two videos\n(1 − cosine similarity, DINOv2)")
+    ax.set_ylabel("Cosine distance between videos\n1 − cos(DINOv2 [CLS])")
     ax.legend(loc="upper right", fontsize=5.8)
     fig.tight_layout()
     save(fig, "line_halflife")

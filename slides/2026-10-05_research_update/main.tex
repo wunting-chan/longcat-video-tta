@@ -181,9 +181,19 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 
 \begin{frame}{Self Forcing has one global attractor}
 \centering
-\figh{0.42}{line_convergence}\\[2pt]
-{\scriptsize (a) Content distance between two videos at each second (1 $-$ cosine similarity of their DINOv2 embeddings; 0 = identical content, 1 = unrelated). Solid: pairs with different prompts. Dashed: same prompt, different seed, the spread due to randomness alone. (b) For each video and second, we find the most similar video from the other seed at the same second; the share of matches with the correct prompt (chance = 1 in 8).}
-\take{Self Forcing: distance falls 0.97 $\to$ 0.64 and identification falls 100\% $\to$ 34\%. Rolling Forcing and LongLive keep every prompt (100\% and 98\%). This is not shared noise: the seeds differ.}
+\figh{0.50}{line_convergence}\\[-4pt]
+\begin{columns}[T]
+\column{0.49\textwidth}
+\tiny\raggedright
+\textbf{(a)} Every frame (16/s): resized to 224\,px short side, centre-cropped 224$\times$224, encoded by \textbf{DINOv2 ViT-B/14} (\texttt{dinov2\_vitb14}); final-layer [CLS] vector, 768-d, averaged per second and normalised. Plotted: mean \textbf{cosine distance} $1-\cos(z_i,z_j)$ at each second. \textbf{Solid}: 56 pairs differing in prompt \emph{and} seed. \textbf{Dashed} control: 8 pairs with the same prompt, different seed (the spread randomness alone produces).
+\column{0.49\textwidth}
+\tiny\raggedright
+\textbf{(b)} \textbf{Nearest-neighbour} matching on the same vectors; \textbf{no classifier is trained}. Query: one video at second $t$. Candidates: the 8 videos of the \emph{other} seed at the same second, one per prompt. Correct if the most cosine-similar candidate has the query's prompt. 16 queries per second (8 prompts $\times$ 2 seeds). \textbf{Chance = 1/8 = 12.5\%}.
+\end{columns}
+\vspace{2pt}
+{\tiny\raggedright\textbf{Data}, same for all three models: 8 MovieGen prompts $\times$ seeds 0 and 1 = 16 videos of 178--179\,s. Within a seed all prompts get identical noise, so both panels compare only across seeds. Bands: 95\% bootstrap over prompts. No smoothing beyond the 1-s average.\par}
+\vspace{3pt}
+{\footnotesize\textbf{Global attractor:} Self Forcing's \emph{different} prompts become nearly as alike as two seeds of the \emph{same} prompt (0.97 $\to$ 0.63 vs.\ 0.57), and a frame stops revealing its prompt (100\% $\to$ 34\%). Rolling Forcing and LongLive keep prompts apart (0.97) and identifiable (100\%, 98\%).\par}
 \end{frame}
 
 \begin{frame}{The prompt has a half-life of about one minute}
@@ -192,8 +202,8 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \fig{line_halflife}
 \column{0.38\textwidth}
 \begin{itemize}\small
-  \item Distance between different prompts decays exponentially: half-life \textbf{about 1 minute} (58--66\,s depending on the fit window).
-  \item It levels off at the \textbf{noise floor}: two seeds of the \emph{same} prompt are as far apart as two different prompts. The prompt is fully erased.
+  \item Distance between different prompts decays exponentially: half-life \textbf{about 1 minute} (58--72\,s depending on the fit window and which pairs are averaged).
+  \item It levels off near the \textbf{noise floor}: by 3 minutes two different prompts (0.63) are nearly as far apart as two seeds of the \emph{same} prompt (0.57). The prompt is almost fully erased.
   \item Pull toward the end state is exponential too: $\tau \approx 360$\,s, $R^2 = 0.91$.
 \end{itemize}
 \end{columns}
@@ -230,7 +240,7 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \begin{frame}{One knob flips the attractor: all 8 prompts}
 \centering
 \figh{0.54}{line_bifurcation}\\[2pt]
-{\scriptsize Same four settings, averaged over all 8 prompts. (a) Content distance between videos of different prompts. (b) How similar each video stays to its own first 2\,s.}
+{\scriptsize Same four settings, 8 prompts at seed 0 (the 28 prompt pairs, which share the same input noise; on the main runs, same-seed and cross-seed pairs give the same curve, 0.636 vs.\ 0.628 at 3 min). (a) Mean cosine distance between DINOv2 [CLS] vectors of different prompts. (b) Cosine similarity of each video to its own first 2\,s.}
 \take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). One knob switches a \emph{global} attractor into \emph{prompt-anchored} ones: a bifurcation.}
 \end{frame}
 
