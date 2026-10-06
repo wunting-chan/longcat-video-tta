@@ -103,18 +103,11 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{Fixing the decay: edit the video, or pick among its futures?}
+\begin{frame}{33 fixes later: one pattern}
 \centering
-\only<1>{\figh{0.62}{bar_fixes_0}}%
-\only<2>{\figh{0.62}{bar_fixes_1}}%
-\only<3>{\figh{0.62}{bar_fixes_2}}%
-\only<4>{\figh{0.62}{bar_fixes_3}}%
-\only<5>{\figh{0.62}{bar_fixes_4}}%
-\only<6>{\figh{0.62}{bar_fixes_5}}%
-\only<7>{\figh{0.62}{bar_fixes_6}}\\[-2pt]
-{\tiny Each bar is one fix on Wan2.1 Self Forcing or Rolling Forcing (30\,s videos), compared with the same model doing nothing on the same clips. Image quality: VBench imaging-quality score.}
-\only<1-6>{\take{\footnotesize Tan: methods that generate several candidate futures and keep one, without changing how any of them is made.}}%
-\only<7>{\take{\footnotesize Editing the video while it is made can help a little or wreck it. Picking among the model's own futures is safe, but barely moves quality and only slows the decay. So we stopped trying to fix the decay and started measuring it.}}
+\figh{0.40}{dot_atlas}\\[2pt]
+{\scriptsize Every test-time intervention we tried on Wan2.1 Self/Rolling Forcing, measured against doing nothing. Blue: methods that \emph{edit} the video as it is made. Tan: methods that \emph{pick} among the model's own futures.}
+\take{Editing the trajectory can wreck a video (down to $-53$ quality points). Picking among the model's own futures is safe, but only \emph{slows} the decay. So we stopped trying to fix the decay and started measuring it.}
 \end{frame}
 
 % =====================================================================
@@ -310,7 +303,7 @@ Hintze et al., Patterns 2025 & Iterated image loops collapse to $\sim$12 attract
 \begin{block}{Paper (CVPR 2027, deadline Nov 16)}
 \begin{itemize}\small
   \item Lead with the attractor map and the one-knob switch
-  \item Supporting chapters: the TTA null at scale, and what editing vs.\ selecting fixes do
+  \item Supporting chapters: the TTA null at scale and the 33-intervention atlas
   \item Release the toolkit as a drop-in diagnostic
 \end{itemize}
 \end{block}

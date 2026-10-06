@@ -100,28 +100,18 @@ Look at how flat it is. On Panda, doing nothing scores 154.7 and our method 153.
 That's a real result, but it's a negative one. And it pushed us to ask a different question.
 
 % ---------------------------------------------------------------
-\slide{7}{Fixing the decay: edit the video, or pick among its futures?}{07.jpg}
-\goal{the pivot, built up one named fix at a time. This slide clicks through seven steps.}
+\slide{7}{33 fixes later: one pattern}{07.jpg}
+\goal{the pivot. Turn a pile of failures into one principle.}
 
-AdaSteer wasn't the only thing we tried. Over the summer we tried many ways to stop the decay on the streaming models. Rather than show you all of them, I'll show a few representative ones, one at a time, so you can see what each does and how it fares.
+We didn't stop at one method. Over the summer we tried 33 families of test-time fixes on the streaming models. This chart puts every one of them on the same ruler.
 
-\cue{step 1: only the two tan bars} Every bar compares one fix with the same model doing nothing, on the same clips. The horizontal axis is the change in image quality, VBench's imaging-quality score: zero means no change, left is worse, right is better, and the grey band is plus or minus one point, effectively no change. First, the reference: two \emph{selection} methods. Best-of-4 search makes four candidate versions of the next chunk and keeps the best one. Rewind re-rolls a chunk that froze and keeps the new one if it moves more. Neither changes how any candidate is generated; they only choose. Both sit inside the grey band. Remember that, because everything else is measured against it.
+The purpose of this plot is to show a \emph{pattern} across all those attempts, not to judge any single one. The horizontal axis is the change in image quality compared with doing nothing; zero is the vertical line. The axis is stretched so you can see small and catastrophic changes at once. The grey band is plus or minus one point, effectively no change.
 
-\cue{step 2: AdaSteer} Now the \emph{editing} fixes, which change the video while it is being generated. First, our own method from the previous slide, AdaSteer, applied to the streaming model: fine-tune the model on the video as you go. It costs 28 points of image quality, which is a broken video.
+Two kinds of method. The blue dots on the top row \emph{edit} the video as it's being made: they change the noise, the weights or the memory. The tan diamonds on the bottom row \emph{select}: they let the model propose several futures and keep the best one.
 
-\cue{step 3: noise warp} Noise warp moves the model's input noise along the estimated motion, hoping to carry movement forward. Minus 21.
+The edits are spread across the whole axis. Some help a little, and some destroy the video: the cluster on the far left lost 20 to 50 quality points. The selection methods all sit inside the grey band. They're safe, but in other experiments they only \emph{slow} the decay; they never stop it.
 
-\cue{step 4: fast-weight memory} Fast-weight memory writes recent frames into extra trainable weights, a learned memory. Minus 17.
-
-\cue{step 5: prediction slide} Prediction slide shifts each predicted frame along the motion. A milder minus 4, still clearly worse than doing nothing.
-
-\cue{step 6: extra sink} Not every edit hurts. An extra attention sink, which keeps more early frames in memory, comes out at plus 0.3, effectively neutral.
-
-\cue{step 7: FIFO lookahead} And FIFO lookahead, which denoises future frames in a staggered queue, gives plus 1.5, a small gain on eight clips.
-
-\cue{final box} So here is the pattern. Editing the video while it's made is a gamble: occasionally a small gain, often a severe loss. Selecting among the model's own futures is safe, but it barely moves quality, and in our other measurements it only slows the decay rather than stopping it. If every fix either breaks the video or only delays the inevitable, maybe the decay itself is the interesting object. That's the moment we stopped trying to fix it and started measuring it.
-
-One note for questions: most of the editing results come from eight clips, so treat the small positive numbers as noise. The large negative ones are not noise.
+That was the moment of the pivot. If every fix either breaks the video or only delays the inevitable, maybe the decay itself is the interesting object. So we stopped trying to fix it and started measuring it.
 
 % ---------------------------------------------------------------
 \slide{8}{Setup}{08.jpg}
@@ -316,7 +306,7 @@ Where this goes next.
 
 On the left, scaling and sharpening, about 10 more GPU-hours. Every result you saw uses 8 prompts; we'll go to 32 so the statistics hold up. We'll try sink sizes of 1 and 2 to find exactly where the switch happens. We'll remove Rolling Forcing's sink to see whether it then collapses like Self Forcing, a direct test of the bifurcation claim on a second model. And we'll do one long LongLive run to settle the snap-back question.
 
-On the right, the paper, aimed at CVPR with a November 16 deadline. It leads with the attractor map and the one-knob switch. The test-time adaptation null and the comparison of editing and selecting fixes become supporting chapters: they explain why selection only slows the decay and editing can break it. And we'll release the measurements as a drop-in diagnostic for anyone with a new model.
+On the right, the paper, aimed at CVPR with a November 16 deadline. It leads with the attractor map and the one-knob switch. The test-time adaptation null and the 33-method atlas become supporting chapters: they're why selection only slows the decay and editing breaks it. And we'll release the measurements as a drop-in diagnostic for anyone with a new model.
 
 \cue{final box} If you remember one sentence: long videos don't just ``get worse''. Each model falls into its own kind of attractor, at a rate we can measure, and a single design knob can change which kind.
 
