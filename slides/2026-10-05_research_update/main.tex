@@ -16,7 +16,7 @@
 \newcommand{\take}[1]{\begin{center}\colorbox{nyugreybox}{\parbox{0.94\linewidth}{\centering\small #1}}\end{center}}
 \newcommand{\src}[1]{{\tiny\color{gray}#1}}
 
-\title[Where do videos go to die?]{Where do videos go to die?\\[2pt]\large Attractors of long-horizon video generators}
+\title[Where do videos go to die?]{Where do videos go to die?\\[2pt]\large Long-horizon video generators as prompt-conditioned stochastic dynamical systems}
 \author{Wun Ting Chan}
 \institute{New York University}
 \date{Research update, October 5, 2026}
@@ -58,8 +58,8 @@
 \take{\large Long videos \emph{decay}. \textbf{Where} do they go, \textbf{how fast}, and \textbf{which design choice} decides it?}
 \vspace{-6pt}
 \centering
-\figh{0.56}{line_phase_portrait}\\[-1pt]
-{\scriptsize Frame-by-frame trajectories of generated videos, one line per video, colour = prompt. A marble dropped on a landscape rolls into a valley, an \emph{attractor}. Self Forcing's videos all roll into one valley; the other models' videos each stay in their own. The 2-D map keeps 19\% of the variation, so slide 13 measures distances in the full embedding.}
+\figh{0.58}{line_phase_portrait}\\[-1pt]
+{\scriptsize We use \emph{attractor} operationally: a region of representation space where trajectories from different prompts converge and stay. Self Forcing's videos converge to one region; the others stay apart. The 2-D map keeps 19\% of the variation; slide 13 measures in the full embedding.}
 \end{frame}
 
 \begin{frame}{Why this matters}
@@ -77,8 +77,8 @@
 \begin{itemize}\footnotesize
   \item A map of each model's \textbf{end states}
   \item A \textbf{memory half-life} for the prompt
-  \item \textbf{Sensitivity}: does a tiny nudge change the story?
-  \item \textbf{Tipping knobs}: one design change flips the end state
+  \item \textbf{Perturbation growth}: does a tiny nudge change the story?
+  \item \textbf{Regime-changing settings}: one memory setting changes the long-run regime
   \item Tools anyone can run on a new model
 \end{itemize}
 \end{block}
@@ -134,27 +134,30 @@
   \item \textbf{Motion}: frame difference, optical flow
 \end{itemize}
 \end{block}
-\begin{block}{Treat the generator as a dynamical system}
-\small The state is the recent frames. The rule is the model. The noise is the random seed.
+\begin{block}{A prompt-conditioned stochastic dynamical system}
+\small $X_{t+1} = F_{\theta,\lambda}(X_t;\, c,\, \xi_t)$\\[2pt]
+\footnotesize $X_t$: state (recent latent frames and their memory cache) $\cdot$ $F_{\theta,\lambda}$: the generator, weights $\theta$, inference settings $\lambda$ (sink, window) $\cdot$ $c$: prompt $\cdot$ $\xi_t$: generation noise. We ask how the distribution of $X_t$ given $c$ evolves.
 \end{block}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Toolkit: dynamical-systems questions, video measurements}
+\begin{frame}{Toolkit: questions about the dynamics, and how we measure them}
 \small
 \renewcommand{\arraystretch}{1.25}
 \begin{tabularx}{\linewidth}{>{\bfseries}l X X}
 \toprule
 Concept & Question & Measurement \\
 \midrule
-Attractor & Where do videos end up? & Distance between videos of different prompts; can the prompt still be identified from the frame? \\
-Relaxation & How fast? & Exponential fit to that distance; prompt \emph{half-life} \\
-Lyapunov (twins) & Does a tiny nudge change the story? & Re-run with one noise block perturbed; track how fast the twins separate \\
-Bifurcation & Which knob flips the end state? & Same weights, change sink size or attention window \\
-Recurrence & Is the motion structured or random? & Recurrence analysis vs.\ phase-randomized surrogates \\
-Early warning & Can we see collapse coming? & Rising variance and autocorrelation before collapse \\
+Attractor & Where do trajectories concentrate? & Cross-prompt distances; can the prompt still be recovered from the frame? \\
+Relaxation & How fast is conditioning information lost? & Exponential fit to that distance; prompt \emph{half-life} \\
+Perturbation growth & How does a small local change propagate? & Twin rollouts, one noise block nudged; finite-time growth rate \\
+Regime transition & Which settings change long-run behaviour? & Same weights; change sink size and attention window \\
+Recurrence & Does temporal ordering carry structure? & Recurrence analysis vs.\ phase-randomized surrogates \\
+Predictability & Can failure be anticipated? & Pre-collapse variance and autocorrelation statistics \\
 \bottomrule
 \end{tabularx}
+\vspace{4pt}
+\footnotesize Physics terms are used operationally and measured in representation space; we do not claim proofs about the model's full internal state.
 \end{frame}
 
 % =====================================================================
@@ -179,9 +182,9 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 {\scriptsize All 8 prompts. Top row: the opening. Below: the frame at 3 minutes for each model.}
 \end{frame}
 
-\begin{frame}{Self Forcing has one global attractor}
+\begin{frame}{Self Forcing: a shared, prompt-independent attracting regime}
 \centering
-\figh{0.50}{line_convergence}\\[-4pt]
+\figh{0.49}{line_convergence}\\[-4pt]
 \begin{columns}[T]
 \column{0.49\textwidth}
 \tiny\raggedright
@@ -193,7 +196,7 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \vspace{2pt}
 {\tiny\raggedright\textbf{Data}, same for all three models: 8 MovieGen prompts $\times$ seeds 0 and 1 = 16 videos of 178--179\,s. Within a seed all prompts get identical noise, so both panels compare only across seeds. Bands: 95\% bootstrap over prompts. No smoothing beyond the 1-s average.\par}
 \vspace{3pt}
-{\footnotesize\textbf{Global attractor:} Self Forcing's \emph{different} prompts become nearly as alike as two seeds of the \emph{same} prompt (0.97 $\to$ 0.63 vs.\ 0.57), and a frame stops revealing its prompt (100\% $\to$ 34\%). Rolling Forcing and LongLive keep prompts apart (0.97) and identifiable (100\%, 98\%).\par}
+{\footnotesize\textbf{Shared attracting regime:} Self Forcing's \emph{different} prompts become nearly as alike as two seeds of the \emph{same} prompt (0.97 $\to$ 0.63 vs.\ 0.57), and a frame stops revealing its prompt (100\% $\to$ 34\%). Rolling Forcing and LongLive keep prompts apart (0.97) and identifiable (100\%, 98\%). The model's own latents converge too (0.92 $\to$ 0.43 across seeds).\par}
 \end{frame}
 
 \begin{frame}{The prompt has a half-life of about one minute}
@@ -202,8 +205,8 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \fig{line_halflife}
 \column{0.38\textwidth}
 \begin{itemize}\small
-  \item Distance between different prompts decays exponentially: half-life \textbf{about 1 minute} (58--72\,s depending on the fit window and which pairs are averaged).
-  \item It levels off near the \textbf{noise floor}: by 3 minutes two different prompts (0.63) are nearly as far apart as two seeds of the \emph{same} prompt (0.57). The prompt is almost fully erased.
+  \item The cross-prompt distance in DINOv2 space decays exponentially. \textbf{Half-life} = time for its excess above the fitted long-run level to halve: \textbf{about 1 minute} (58--72\,s, depending on fit window and pairs averaged).
+  \item It approaches the \textbf{noise floor}: by 3 minutes two different prompts (0.63) are nearly as far apart as two seeds of the \emph{same} prompt (0.57). In this signal, the prompt is almost fully erased.
   \item Pull toward the end state is exponential too: $\tau \approx 360$\,s, $R^2 = 0.91$.
 \end{itemize}
 \end{columns}
@@ -223,35 +226,35 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \take{Does a tiny nudge change the story? For Self Forcing, yes.}
 \end{frame}
 
-\begin{frame}{Twins: sensitive is not the same as unstable}
+\begin{frame}{Twins: local perturbation growth does not predict long-run divergence}
 \centering
-\figh{0.54}{line_twins}\\[2pt]
-{\scriptsize All 8 prompts per model, seed 0. $\varepsilon$ = relative size of the nudge to one noise block. (a) Content distance between twins over time, log scale; the twins are identical before 29\,s. (b) How fast the gap grows in the model's latent space in the first 7.5\,s: the same rate for both nudge sizes. (c) Content gap in the last 10\,s.}
-\take{LongLive is the \emph{most} sensitive, yet its twins end as close as Rolling Forcing's. Only Self Forcing lets a tiny nudge change the story.}
+\figh{0.48}{line_twins}\\[2pt]
+{\scriptsize All 8 prompts per model, seed 0. $\varepsilon$ = relative size of the nudge to one noise block. (a) Content distance between twins over time, log scale; the twins are identical before 29\,s. (b) Finite-time perturbation growth rate: how fast the gap grows in the model's latent space in the first 7.5\,s; the same for both nudge sizes. Noise after the nudge is identical in both twins. (c) Content gap in the last 10\,s.}
+\take{LongLive has the fastest local perturbation growth, but not the largest long-run divergence; only Self Forcing's twins end up in different states. Local sensitivity and long-run degradation are different properties.}
 \end{frame}
 
-\begin{frame}{One knob flips the attractor}
+\begin{frame}{Changing memory alone changes the long-run regime}
 \centering
 \figh{0.52}{photo_bifurcation_p0}\\[3pt]
 {\scriptsize Same Self Forcing weights, same prompt and seed; only two inference settings change, both counted in latent frames (1 latent frame = 4 video frames = 0.25\,s). \emph{Window}: how far back the model attends (21 $\approx$ 5.3\,s, 12 = 3\,s). \emph{Sink}: the first latent frames kept in memory permanently (3 = the first 0.75\,s).}
-\take{A sink of 3 latent frames keeps the scene alive for 3 minutes. A shorter window alone still collapses, just into a different pattern.}
+\take{Weights fixed. A sink of 3 latent frames keeps the scene for 3 minutes. A shorter window alone still collapses, into a different pattern.}
 \end{frame}
 
-\begin{frame}{One knob flips the attractor: all 8 prompts}
+\begin{frame}{Changing memory alone changes the long-run regime: all 8 prompts}
 \centering
-\figh{0.50}{line_bifurcation}\\[2pt]
+\figh{0.46}{line_bifurcation}\\[2pt]
 {\scriptsize Same four settings, 8 prompts at seed 0 (the 28 prompt pairs, which share the same input noise; on the main runs, same-seed and cross-seed pairs give the same curve, 0.636 vs.\ 0.628 at 3 min). (a) Mean cosine distance between DINOv2 [CLS] vectors of different prompts. (b) Cosine similarity of each video to its own first 2\,s.}
-\take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). One knob switches a \emph{global} attractor into \emph{prompt-anchored} ones: a bifurcation.}
+\take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). Holding the weights fixed, the memory setting decides whether prompts merge: a \emph{regime transition}. With two sink sizes tested, we do not yet call it a bifurcation; that needs a dense sweep.}
 \end{frame}
 
-\begin{frame}{Collapse is a slow ramp, with no early warning}
+\begin{frame}{Can pre-collapse statistics predict failure? Not with these}
 \centering
-\figh{0.53}{line_ews}\\[2pt]
-{\scriptsize (a) Each line is one Self Forcing video, shifted so its collapse (the first second after which it stays closer to the shared end state than to its own opening for 10\,s) sits at 0. Going from 10\% to 90\% of the way takes about 90\,s. (b) Share of videos whose lag-1 autocorrelation rises during the 60\,s before collapse (blue) versus the same window in models that never collapse (grey). A real early warning would make blue far higher.}
-\take{Collapse is a slow ramp, not a tipping point. That is a negative result we will report.}
+\figh{0.58}{line_ews}\\[2pt]
+{\scriptsize (a) Each line is one Self Forcing video, aligned at its collapse (first second after which it stays closer to the shared end state than to its opening for 10\,s): a slow ramp of about 90\,s from 10\% to 90\%. (b) Share of videos whose lag-1 autocorrelation rises in the 60\,s before collapse (blue) vs.\ the same window in models that never collapse (grey).}
+\take{We do not find a useful pre-collapse warning in the tested autocorrelation and variance statistics.}
 \end{frame}
 
-\begin{frame}{Temporal structure beyond collapse}
+\begin{frame}{Temporal ordering adds recurrence structure beyond the frequency spectrum}
 \begin{columns}[T]
 \column{0.70\textwidth}
 \figh{0.58}{bar_rqa_gap}
@@ -259,7 +262,8 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \scriptsize\raggedright
 \textbf{Recurrence determinism (DET):} share of revisits to an earlier state that continue as a repeated sequence ($\geq$3\,s), not isolated matches.\\[3pt]
 \textbf{Scrambled:} phase-randomized copy, same frequency content, timing destroyed.\\[3pt]
-\textbf{Plotted:} the gap DET(real) $-$ DET(scrambled). Mean of 16 videos, 95\% CI; dots = videos.
+\textbf{Plotted:} the gap DET(real) $-$ DET(scrambled). Mean of 16 videos, 95\% CI; dots = videos.\\[3pt]
+\textbf{Note:} DET is a recurrence statistic; 0.93 does not mean the generator is ``93\% deterministic''.
 \end{columns}
 \vspace{2pt}
 {\tiny Per-second DINOv2 [CLS] vectors, 10 principal components per segment; revisit threshold = closest 10\% of state pairs; 5 scrambled copies per segment. Collapse time = when a video stays nearer the shared end state than its opening for 10\,s.\par}
@@ -293,34 +297,35 @@ Hintze et al., Patterns 2025 & Iterated image loops collapse to $\sim$12 attract
 \bottomrule
 \end{tabularx}
 \vspace{1pt}
-\take{\footnotesize Safe claim: existing work measures long-horizon degradation and specific failure modes; we characterize where trajectories converge, how fast prompt information is lost, how perturbations grow, and which inference settings change the attractor. Avoid: ``nobody has measured it'', ``every model collapses'', ``sinks prevent drift'' (known).}
+\take{\footnotesize Safe claim: existing work measures long-horizon degradation and specific failure modes; we characterize where trajectories converge, how fast prompt information is lost, how perturbations grow, and which inference settings change the long-run regime. Avoid: ``nobody has measured it'', ``every model collapses'', ``sinks prevent drift'' (known).}
 \end{frame}
 
 % =====================================================================
 \section{Next}
 
-\begin{frame}{Next two weeks}
+\begin{frame}{Next: experiments that test the framing (planned, no results yet)}
 \begin{columns}[T]
-\column{0.5\textwidth}
-\begin{block}{Scale and sharpen (about 10 H200-hours)}
-\begin{itemize}\small
-  \item 8 $\to$ 32 prompts for every result above
-  \item Sink sizes 1 and 2: where exactly does the switch happen?
-  \item Rolling Forcing \emph{without} its sink: does it collapse like Self Forcing?
-  \item One long LongLive run (beyond 3 min) for the snap-back test
+\column{0.52\textwidth}
+\begin{block}{Generality and statistics}
+\begin{itemize}\footnotesize
+  \item A second, non-Wan model family
+  \item More stochastic realizations: 16--32 prompts $\times$ 4--8 seeds
+  \item Compare prompt-conditioned distributions $P(Z_t\mid c)$ directly (MMD, energy distance, prompt decoding)
+  \item A second representation (CLIP or SigLIP) beside DINOv2 and the latents
 \end{itemize}
 \end{block}
-\column{0.48\textwidth}
-\begin{block}{Paper (CVPR 2027, deadline Nov 16)}
-\begin{itemize}\small
-  \item Lead with the attractor map and the one-knob switch
-  \item Supporting chapters: the TTA null at scale and the 33-intervention atlas
-  \item Release the toolkit as a drop-in diagnostic
+\column{0.46\textwidth}
+\begin{block}{Dynamics}
+\begin{itemize}\footnotesize
+  \item Dense sink sweep $s \in \{0,1,2,3,4,6,8\}$; Rolling Forcing with its sink removed
+  \item Longer runs: is the late regime stationary? Does a perturbed collapsed state return?
+  \item State perturbations swept in size and direction
+  \item Running now: drift correction that steers away from the shared end state
 \end{itemize}
 \end{block}
 \end{columns}
-\vspace{6pt}
-\take{\textbf{Takeaway.} Long videos do not just ``get worse''. Each model falls into its own kind of attractor, at a measurable rate, and a single design knob can change which kind.}
+\vspace{4pt}
+\take{\footnotesize\textbf{The paper in one sentence.} We characterize long-horizon autoregressive video generators as prompt-conditioned stochastic dynamical systems: different generators occupy distinct long-run conditioning regimes, with measurable rates of prompt forgetting, perturbation growth and recurrence structure, and memory settings can move a model between regimes.}
 \end{frame}
 
 \end{document}
