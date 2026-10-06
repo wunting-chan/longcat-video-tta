@@ -320,12 +320,31 @@ Hintze et al., Patterns 2025 & Iterated image loops collapse to $\sim$12 attract
   \item Dense sink sweep $s \in \{0,1,2,3,4,6,8\}$; Rolling Forcing with its sink removed
   \item Longer runs: is the late regime stationary? Does a perturbed collapsed state return?
   \item State perturbations swept in size and direction
-  \item Running now: drift correction that steers away from the shared end state
+  \item Steering generation away from the shared end state (next slide)
 \end{itemize}
 \end{block}
 \end{columns}
 \vspace{4pt}
 \take{\footnotesize\textbf{The paper in one sentence.} We characterize long-horizon autoregressive video generators as prompt-conditioned stochastic dynamical systems: different generators occupy distinct long-run conditioning regimes, with measurable rates of prompt forgetting, perturbation growth and recurrence structure, and memory settings can move a model between regimes.}
+\end{frame}
+
+\begin{frame}{Closing the loop: can the attractor steer generation?}
+\small
+If the shared end state is real, steering \emph{away} from it should keep prompts apart for longer, and steering \emph{toward} it should speed up collapse.
+\vspace{2pt}
+\begin{columns}[T]
+\column{0.49\textwidth}
+\begin{block}{1. One-chunk kick: a causal test}
+\footnotesize At 30\,s, a single chunk is pushed away from, toward, or in a random direction relative to the attractor (equal size; 1$\times$, 2$\times$, 4$\times$ the drift of the first 30\,s), then left alone with identical future noise. Do kicked videos bend back to the same end state?
+\end{block}
+\column{0.49\textwidth}
+\begin{block}{2. Closed-loop selection: a method}
+\footnotesize At every chunk the model proposes $K$ candidates (2, then 4) and keeps the one farthest from the attractor while staying within the prompt's natural range. Controls: random pick, toward pick, prompt-anchor only.
+\end{block}
+\end{columns}
+\vspace{2pt}
+{\footnotesize\textbf{Setup:} Self Forcing, 8 held-out prompts $\times$ 2 seeds, 120\,s; attractor estimated from 8 other prompts and frozen beforehand. \textbf{Measured:} time until the prompt can no longer be identified (primary); VBench++ image quality and flicker within 1 point of doing nothing, and visual inspection.\par}
+\take{\footnotesize If kicked videos relax back, toward-steering speeds collapse, and away-steering delays it at no quality cost, the analysis and the method become one story: the measured attractor is a usable control signal.}
 \end{frame}
 
 \end{document}

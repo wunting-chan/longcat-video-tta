@@ -19,7 +19,7 @@
 
 {\LARGE\bfseries Where do videos go to die?}\\[3pt]
 {\large Speaker script for the research update, October 5, 2026}\\[2pt]
-{\small Wun Ting Chan \quad·\quad 24 slides \quad·\quad about 24 minutes}
+{\small Wun Ting Chan \quad·\quad 25 slides \quad·\quad about 26 minutes}
 
 \vspace{6pt}
 \noindent\textbf{The arc in one paragraph.} We open with a striking picture: long AI videos all die the same death. We turn that into a question anyone can follow: where do long videos go, how fast, and which design choice decides? Then we explain how we got here. A year of trying to \emph{fix} the decay failed in an instructive way, and that failure is why we switched to \emph{measuring} it. The rest of the talk builds the case one piece at a time, each slide answering the doubt the previous one raises. Is this real? (Real video doesn't do it.) Is it one phenomenon? (No, three distinct fates.) Can we measure it? (Yes: a shared attracting regime, a one-minute half-life.) Is it fixed by the weights? (No: a memory setting changes the regime.) Can simple statistics predict collapse? (Not the ones we tried.) We close with what is new, stated carefully against prior measurement work, and what comes next.
@@ -311,9 +311,20 @@ Everything on this slide is planned. None of it has results yet.
 
 \cue{left block} On the left, generality and statistics. All three models share the Wan backbone, so the most valuable addition is a second, non-Wan model family, to show these regimes aren't Wan-specific. If we're describing distributions, two seeds isn't enough; we want 16 to 32 prompts with 4 to 8 seeds each. Then we compare the prompt-conditioned distributions directly, with distribution distances like MMD and energy distance and with prompt decoding, instead of only pairwise distances. And we'll repeat the key result in a second representation, CLIP or SigLIP, alongside DINOv2 and the model's latents.
 
-\cue{right block} On the right, the dynamics. A dense sink sweep from 0 to 8 tells us whether the regime switch is sharp, which is what would justify the word bifurcation. Removing Rolling Forcing's own sink tests the same mechanism in a second model. Longer runs test whether the collapsed regime is stationary, and whether a collapsed video that we perturb comes back to it, which is the classic test of attraction. State perturbations swept in size and direction would make the twin analysis rigorous. And one experiment is running right now: correcting the drift by steering each chunk away from the shared end state.
+\cue{right block} On the right, the dynamics. A dense sink sweep from 0 to 8 tells us whether the regime switch is sharp, which is what would justify the word bifurcation. Removing Rolling Forcing's own sink tests the same mechanism in a second model. Longer runs test whether the collapsed regime is stationary, and whether a collapsed video that we perturb comes back to it, which is the classic test of attraction. State perturbations swept in size and direction would make the twin analysis rigorous. And one more, which the next slide covers: steering generation away from the shared end state.
 
 \cue{final box} If you remember one sentence: we characterize long-horizon video generators as prompt-conditioned stochastic dynamical systems. Different generators occupy distinct long-run conditioning regimes, with measurable rates of prompt forgetting, perturbation growth and recurrence structure, and memory settings can move a model between regimes.
+
+\slide{25}{Closing the loop: can the attractor steer generation?}{25.jpg}
+\goal{end on the experiment that turns the analysis into a method.}
+
+The last step closes the loop between analysis and method. If the shared end state is real, steering away from it should keep prompts apart for longer, and steering toward it should speed up collapse.
+
+\cue{left block} The first experiment is a causal test. At 30 seconds we push a single chunk of the video away from the attractor, toward it, or in a random direction, all with the same size, and then leave the model alone, with identical noise from then on. The size is measured in natural units: one unit is how far a typical video drifts toward the attractor in its first 30 seconds. If kicked videos bend back to the same end state, that is direct evidence of a restoring pull, which is what the word attractor really means.
+
+\cue{right block} The second is a method. At every chunk the model proposes a few candidate continuations, two at first and then four, and we keep the one farthest from the attractor that still stays within the prompt's natural range of variation. Every candidate is the model's own output, which earlier proved to be the safe way to intervene. The controls pick a random candidate, pick the one closest to the attractor, or only stay near the opening.
+
+\cue{bottom} All of this runs on prompts the attractor estimate never saw, with the estimate frozen beforehand. The main measurement is how long the prompt stays identifiable, and a result only counts if video quality stays within one VBench point and looks right by eye. If kicked videos relax back, toward-steering speeds collapse, and away-steering delays it at no quality cost, then the analysis and the method become one story: the attractor we measured is a usable control signal.
 
 Thank you. Happy to take questions.
 
