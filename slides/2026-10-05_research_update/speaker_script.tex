@@ -103,13 +103,13 @@ That's a real result, but it's a negative one. And it pushed us to ask a differe
 \slide{7}{33 fixes later: one pattern}{07.jpg}
 \goal{the pivot. Turn a pile of failures into one principle.}
 
-We didn't stop at one method. Over the summer we tried 33 families of test-time fixes on the streaming models. This chart puts every one of them on the same ruler.
+We didn't stop at one method. Over the summer we tried many families of test-time fixes on the streaming models. This chart puts them on the same ruler, with the same number of points on each side so neither looks more crowded.
 
 The purpose of this plot is to show a \emph{pattern} across all those attempts, not to judge any single one. The horizontal axis is the change in image quality compared with doing nothing; zero is the vertical line. The axis is stretched so you can see small and catastrophic changes at once. The grey band is plus or minus one point, effectively no change.
 
-Two kinds of method. The blue dots on the top row \emph{edit} the video as it's being made: they change the noise, the weights or the memory. The tan diamonds on the bottom row \emph{select}: they let the model propose several futures and keep the best one.
+Two kinds of method. The 11 blue dots on the top row are families of methods that \emph{edit} the video as it's being made: they change the noise, the weights or the memory. Each dot is one family, at the median of the variants we tried. The 11 tan diamonds on the bottom row \emph{select}: they let the model propose several futures and keep the best one.
 
-The edits are spread across the whole axis. Some help a little, and some destroy the video: the cluster on the far left lost 20 to 50 quality points. The selection methods all sit inside the grey band. They're safe, but in other experiments they only \emph{slow} the decay; they never stop it.
+The edits are spread across the whole axis. Some help a little, and some destroy the video: the three on the far left, AdaSteer on Wan, noise warp and fast-weight write, lost 17 to 28 quality points. The selection methods all sit inside the grey band. They're safe, but in other experiments they only \emph{slow} the decay; they never stop it.
 
 That was the moment of the pivot. If every fix either breaks the video or only delays the inevitable, maybe the decay itself is the interesting object. So we stopped trying to fix it and started measuring it.
 

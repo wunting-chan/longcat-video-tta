@@ -569,14 +569,12 @@ def fig_atlas():
     """ΔIQ vs the do-nothing host for every Wan family with a valid number (atlas rows 12–31,
     excluding n=2 smokes). Edits spread to catastrophic losses; selection stays near zero."""
     bar_style()
-    edit = [("AdaSteer on Wan (fixed)", -27.95), ("AdaSteer on Wan (stream)", -19.14), ("AdaSteer on Wan (resid)", -52.87),
-            ("intra redraw", -2.43), ("lastmix", -0.99), ("nudge", -0.96), ("next-seed", -0.51), ("wiggle", -2.51),
-            ("latent-motion pick", -0.87), ("SF sampler mix", -0.11), ("RF sampler mix", 1.60),
-            ("schedule: linger-high", -0.36), ("schedule: dump-early", 1.44), ("leftover ρ lo", 1.39),
-            ("leftover ρ hi", -2.26), ("leftover adapt", 0.77), ("leftover look", 2.81), ("KV context noise (RF)", 0.9),
-            ("KV context noise (SF)", -1.4), ("FIFO lookahead", 1.53), ("FIFO sick-only", 0.05), ("extra sink", 0.33),
-            ("noise warp (always)", -21.44), ("noise warp (live)", -16.20), ("pred-slide", -3.81),
-            ("pred-slide persist", -36.66), ("fast-weight write", -16.8), ("KV window", -0.49)]
+    # one point per editing family: median IQ change over the family's variants on the 8-clip caption
+    # protocol (atlas rows 12, 22-31; n=2 smokes excluded, as for selection)
+    edit = [("AdaSteer on Wan", -27.95), ("mid-chunk rewrite", -0.55), ("sampler mix", 0.56),
+            ("noise schedule", 0.54), ("noise re-injection", 1.08), ("KV context noise", -0.25),
+            ("FIFO lookahead", 0.79), ("extra sink", 0.33), ("noise warp", -18.82), ("pred-slide", -3.81),
+            ("fast-weight write", -16.8)]
     sel = [("always-search", 0.12), ("pseudo-future search", 0.31), ("rewind", -0.65), ("sick-search", -0.52),
            ("prefix-match", -0.77), ("freeze-score RF", -0.80), ("freeze-score SF", 0.02), ("CachedSearch", -0.79),
            ("re-gate", -0.85), ("I2V best-of-4 always", 0.04), ("I2V best-of-4 gated", -0.05)]
@@ -586,22 +584,88 @@ def fig_atlas():
         v = np.array([d for _, d in data])
         jit = rng.uniform(-0.17, 0.17, len(v))
         ax.scatter(v, y + jit, s=16, color=col, edgecolor="#555555", lw=0.3, marker=mk, zorder=3)
-    ax.annotate("", xy=(-55, 1.28), xytext=(-15, 1.28), arrowprops=dict(arrowstyle="-", lw=0.6, color="#888888"))
-    ax.text(-62, 1.33, "these broke the video: AdaSteer on Wan, noise warp,\npred-slide persist, fast-weight write",
+    ax.annotate("", xy=(-29, 1.28), xytext=(-15, 1.28), arrowprops=dict(arrowstyle="-", lw=0.6, color="#888888"))
+    ax.text(-30, 1.33, "these broke the video: AdaSteer on Wan,\nnoise warp, fast-weight write",
             ha="left", va="bottom", fontsize=5.8, color=DS_TEXT)
     ax.text(0, -0.42, "|ΔIQ| < 1", ha="center", fontsize=5.8, color="#666666")
     ax.axvline(0, color="#555555", lw=0.6)
     ax.axvspan(-1, 1, color="#EEEEEE", zorder=0)
     ax.set_xscale("symlog", linthresh=1)
-    ax.set_xticks([-50, -20, -10, -5, -2, -1, 0, 1, 2]); ax.set_xticklabels(["−50", "−20", "−10", "−5", "−2", "−1", "0", "+1", "+2"])
-    ax.set_yticks([0, 1]); ax.set_yticklabels(["Select among the\nmodel's own outputs\n(11 methods)", "Edit the video\nwhile generating\n(28 variants)"])
+    ax.set_xticks([-30, -10, -5, -2, -1, 0, 1, 2]); ax.set_xticklabels(["−30", "−10", "−5", "−2", "−1", "0", "+1", "+2"])
+    ax.set_yticks([0, 1]); ax.set_yticklabels(["Select among the\nmodel's own outputs\n(11 points)", "Edit the video\nwhile generating\n(11 points)"])
     ax.set_ylim(-0.5, 1.75)
-    ax.set_xlim(-70, 4)
-    ax.set_xlabel("Change in VBench image quality vs. doing nothing (points on a 0–100 scale; axis compressed beyond ±1)")
+    ax.set_xlim(-35, 4)
+    ax.set_xlabel("Change in VBench image quality vs. doing nothing (0–100 scale; axis compressed beyond ±1)")
     ax.xaxis.grid(True, ls=(0, (4, 3)), color="#E8E8E8", lw=0.6); ax.set_axisbelow(True)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     save(fig, "dot_atlas")
+
+
+FIX_SELECT = [
+    ("Best-of-4 search", "make 4 candidate next chunks, keep the best one", 0.12, "128 clips"),
+    ("Rewind", "re-roll a chunk that froze, keep it if it moves more", -0.65, "32 clips"),
+]
+FIX_EDIT = [
+    ("AdaSteer (our method from slide 6)", "fine-tune the model on the video while generating", -27.95, "8 clips"),
+    ("Noise warp", "shift the input noise along the estimated motion", -21.44, "8 clips"),
+    ("Fast-weight memory", "write recent frames into extra trainable weights", -16.8, "8 clips"),
+    ("Prediction slide", "shift each predicted frame along the motion", -3.81, "8 clips"),
+    ("Extra attention sink", "keep more early frames in memory permanently", 0.33, "32 clips"),
+    ("FIFO lookahead", "denoise future frames in a staggered queue", 1.53, "8 clips"),
+]
+
+
+def fig_fixes():
+    """Build sequence for the slide: selection methods first, then one editing fix at a time."""
+    bar_style()
+    groups = [("SELECT among the model's own candidate futures", DS_TAN, None, FIX_SELECT),
+              ("EDIT the video while it is being generated", DS_BLUE, "////", FIX_EDIT)]
+    # row layout: header, rows..., gap, header, rows...
+    layout = []
+    for gi, (title, col, hatch, items) in enumerate(groups):
+        layout.append(("hdr", title, col))
+        for it in items:
+            layout.append(("row", it, col, hatch, gi))
+    n = len(layout)
+    ys = np.arange(n)[::-1].astype(float)
+    for k in range(len(FIX_EDIT) + 1):
+        fig = plt.figure(figsize=(W, 3.1))
+        gs = fig.add_gridspec(1, 2, width_ratios=[1.25, 1], wspace=0.02, left=0.0, right=0.98, top=0.97, bottom=0.2)
+        axl = fig.add_subplot(gs[0]); ax = fig.add_subplot(gs[1], sharey=axl)
+        axl.axis("off")
+        ei = 0
+        for (entry, y) in zip(layout, ys):
+            if entry[0] == "hdr":
+                axl.text(0.0, y, entry[1], fontsize=7.8, weight="bold", color=entry[2] if entry[2] != DS_TAN else "#8A6D2B",
+                         va="center", transform=axl.get_yaxis_transform())
+                continue
+            _, (name, desc, v, nclips), col, hatch, gi = entry
+            shown = gi == 0 or ei < k
+            if gi == 1:
+                ei += 1
+            if not shown:
+                continue
+            axl.text(0.03, y + 0.17, name, fontsize=8.0, weight="bold", va="center", transform=axl.get_yaxis_transform())
+            axl.text(0.03, y - 0.22, f"{desc}  ({nclips})", fontsize=6.6, color="#555555", va="center",
+                     transform=axl.get_yaxis_transform())
+            ax.barh(y, v, 0.6, color=col, hatch=hatch, edgecolor="white", lw=0, zorder=2)
+            ax.text(v + (0.5 if v >= 0 else -0.5), y, f"{v:+.1f}", va="center", ha="left" if v >= 0 else "right",
+                    fontsize=7.4, zorder=3)
+        ax.axvspan(-1, 1, color="#EEEEEE", zorder=0)
+        ax.axvline(0, color="#555555", lw=0.7, zorder=1)
+        ax.annotate("grey band = no meaningful\nchange (within ±1 point)", xy=(-1, ys[0] + 0.1), xytext=(-9, ys[0] + 0.1),
+                    ha="right", va="center", fontsize=5.4, color="#666666",
+                    arrowprops=dict(arrowstyle="->", lw=0.5, color="#888888"))
+        ax.set_xlim(-31, 4); ax.set_ylim(-0.7, n - 0.3)
+        ax.set_xticks([-30, -20, -10, 0])
+        ax.set_xticklabels(["−30", "−20", "−10", "0 = same as\ndoing nothing"])
+        ax.set_xlabel("Change in image quality (VBench points, 0–100)\n← worse                                    better →", fontsize=6.4)
+        ax.tick_params(axis="y", left=False, labelleft=False)
+        for sp in ("top", "right", "left"):
+            ax.spines[sp].set_visible(False)
+        ax.xaxis.grid(True, ls=(0, (4, 3)), color="#E8E8E8", lw=0.6); ax.set_axisbelow(True)
+        save(fig, f"bar_fixes_{k}")
 
 
 def main():
@@ -616,6 +680,7 @@ def main():
     fig_rqa()
     fig_tta()
     fig_atlas()
+    fig_fixes()
     fig_lol()
     fig_phase_m1()
     fig_ews(D, names)

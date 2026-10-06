@@ -106,8 +106,8 @@
 \begin{frame}{33 fixes later: one pattern}
 \centering
 \figh{0.40}{dot_atlas}\\[2pt]
-{\scriptsize Every test-time intervention we tried on Wan2.1 Self/Rolling Forcing, measured against doing nothing. Blue: methods that \emph{edit} the video as it is made. Tan: methods that \emph{pick} among the model's own futures.}
-\take{Editing the trajectory can wreck a video (down to $-53$ quality points). Picking among the model's own futures is safe, but only \emph{slows} the decay. So we stopped trying to fix the decay and started measuring it.}
+{\scriptsize Test-time interventions on Wan2.1 Self/Rolling Forcing, each compared with doing nothing on the same clips. Blue: 11 families of methods that \emph{edit} the video as it is made (one point per family, the median of its variants). Tan: 11 results from methods that \emph{pick} among the model's own futures.}
+\take{Editing the trajectory can wreck a video (down to $-28$ quality points). Picking among the model's own futures is safe, but only \emph{slows} the decay. So we stopped trying to fix the decay and started measuring it.}
 \end{frame}
 
 % =====================================================================
