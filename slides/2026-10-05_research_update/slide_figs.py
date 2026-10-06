@@ -683,6 +683,53 @@ def fig_fixes():
         save(fig, f"bar_fixes_{k}")
 
 
+def fig_rqa_gap():
+    """Excess temporal structure = DET(real) - DET(phase-randomized), per video; whole video and matched windows."""
+    bar_style()
+    G = json.load(open(os.path.join(A, "results_long", "rqa_gap.json")))
+    S, PR = G["summary"], G["per_run"]
+    COL = {"sf": DS_LGRAY, "rf": DS_BLUE, "ll": DS_LBLUE}
+    HAT = {"sf": None, "rf": "////", "ll": "////"}
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.45), gridspec_kw={"width_ratios": [1, 1.55]})
+    ax = axs[0]; bar_axes(ax)
+    rng = np.random.default_rng(0)
+    for i, m in enumerate(MODELS):
+        st = S[f"{m}_whole"]
+        g = np.array([r["whole"][0] - r["whole"][1] for r in PR[m]])
+        ax.bar(i, st["gap"], 0.6, color=COL[m], hatch=HAT[m], edgecolor="white", lw=0, zorder=2)
+        ax.errorbar(i, st["gap"], yerr=[[st["gap"] - st["lo"]], [st["hi"] - st["gap"]]], color="k", lw=0.7, capsize=2, zorder=4)
+        ax.scatter(i + rng.uniform(-0.18, 0.18, len(g)), g, s=4, color="#333333", alpha=0.5, zorder=3, lw=0)
+        ax.text(i, 0.262, f"raw {st['det']:.2f}\nvs {st['sur']:.2f}", ha="center", va="bottom", fontsize=5.2, color="#555555")
+    ax.set_xticks(range(3)); ax.set_xticklabels([MLABEL[m].replace(" ", "\n") for m in MODELS], fontsize=6.0)
+    ax.set_ylim(0, 0.31)
+    ax.set_ylabel("DET(real) − DET(scrambled)", fontsize=6.4)
+    ax.set_title("(a) Whole 3-minute video", fontsize=7.0, pad=10)
+    ax.annotate("collapse trend inflates both\nscores: raw 0.93 is not\nevidence of rich dynamics", xy=(0, S["sf_whole"]["hi"] + 0.005),
+                xytext=(0.15, 0.2), fontsize=5.3, color="#555555", ha="left",
+                arrowprops=dict(arrowstyle="->", lw=0.5, color="#888888"))
+    ax = axs[1]; bar_axes(ax)
+    xt, xl, x0 = [], [], 0
+    for gi, (lab, key) in enumerate((("First 60 s", "early"), ("Last 60 s", "late"))):
+        for i, m in enumerate(MODELS):
+            st = S[f"{m}_{key}"]; x = x0 + i * 0.7
+            ax.bar(x, st["gap"], 0.6, color=COL[m], hatch=HAT[m], edgecolor="white", lw=0, zorder=2,
+                   label=MLABEL[m] if gi == 0 else None)
+            ax.errorbar(x, st["gap"], yerr=[[st["gap"] - st["lo"]], [st["hi"] - st["gap"]]], color="k", lw=0.7, capsize=2, zorder=4)
+        xt.append(x0 + 0.7); xl.append(lab); x0 += 2.6
+    for j, key in enumerate(("pre", "post")):
+        st = S[f"sf_{key}"]; x = x0 + j * 0.7
+        ax.bar(x, st["gap"], 0.6, color=COL["sf"], edgecolor="#999999" if key == "pre" else "white", lw=0.4, zorder=2)
+        ax.errorbar(x, st["gap"], yerr=[[st["gap"] - st["lo"]], [st["hi"] - st["gap"]]], color="k", lw=0.7, capsize=2, zorder=4)
+        ax.text(x, st["hi"] + 0.008, "before" if key == "pre" else "after", ha="center", fontsize=5.6)
+    xt.append(x0 + 0.35); xl.append("Self Forcing,\nbefore vs. after\nits own collapse")
+    ax.set_xticks(xt); ax.set_xticklabels(xl, fontsize=6.0)
+    ax.set_ylim(0, 0.31)
+    ax.set_title("(b) Matched 60-s windows: all three keep structure", fontsize=7.0, pad=10)
+    ax.legend(loc="upper center", ncol=3, fontsize=5.8, frameon=False, bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(w_pad=1.2)
+    save(fig, "bar_rqa_gap")
+
+
 def main():
     D, names = load_long()
     res = fig_convergence(D)
@@ -693,6 +740,7 @@ def main():
     fig_twins()
     fig_bifurcation()
     fig_rqa()
+    fig_rqa_gap()
     fig_tta()
     fig_atlas()
     fig_fixes()

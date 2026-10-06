@@ -267,15 +267,17 @@ Two more tools from physics, and this one gives a ``no''.
 So the decay is a slow ramp, not a cliff. That's a negative result and we'll report it, because it rules out a whole class of ``detect the tipping point and rescue'' methods.
 
 % ---------------------------------------------------------------
-\slide{21}{The motion is structured, not noise}{21.jpg}
-\goal{a short positive check: the trajectories have real structure.}
+\slide{21}{Temporal structure beyond collapse}{21.jpg}
+\goal{use the gap, not the raw score; show what collapse does to structure.}
 
-A quick positive check. Recurrence analysis asks how often a video comes back to a state it was in before, and whether those revisits repeat as whole sequences, the way a pendulum swings back through the same path. That property is called determinism.
+A quick but careful check of whether these trajectories have real temporal structure. The tool is recurrence analysis, and I'll define it in plain terms, as the box on the right does. Recurrence determinism asks: when a video comes back to a state it was in before, does it then repeat a whole \emph{sequence}, like a pendulum retracing its path, or is it just an isolated match? The control is a scrambled copy of each video, called phase randomization. It keeps the same frequency content, the same mix of fast and slow change, but destroys the timing. So the gap between the real video and its scrambled copy is the structure that only the true ordering provides. That gap is what we plot. The raw score on its own is hard to interpret.
 
-\cue{bars} Blue is each model's real rollout. Grey is the same rollout after phase randomization, which keeps its frequency content but scrambles the timing. For every model, the real rollouts are more structured than their scrambled copies: 0.93 against 0.89 for Self Forcing, 0.72 against 0.60 for Rolling Forcing, 0.78 against 0.67 for LongLive. That holds in 100\% of runs. So these trajectories are structured dynamics, not noise, which is what justifies using dynamical-systems tools in the first place.
+\cue{panel a} Panel (a) is the whole three-minute video. Rolling Forcing and LongLive lose about 0.11 when scrambled. Self Forcing loses only 0.04, even though its raw score is the highest at 0.93. That raw 0.93 shouldn't be read as rich dynamics. Most of it comes from the slow three-minute collapse, which the scrambled copy reproduces just as well. That's why it's greyed out.
 
-% ---------------------------------------------------------------
-% ---------------------------------------------------------------
+\cue{panel b} But a small whole-video gap doesn't mean Self Forcing has no structure, so panel (b) compares matched 60-second windows. In the first minute all three models show clear structure: Self Forcing 0.17, Rolling Forcing 0.13, LongLive 0.20. In the last minute it's 0.11 to 0.16. The rightmost pair splits each Self Forcing video at its own collapse time. Before collapse the gap is 0.17; after collapse it halves to 0.09.
+
+\cue{takeaway} So the message is precise. Compare the gap, not the raw score. All three generators produce temporally ordered trajectories, not noise. Self Forcing's high raw score is a collapse artefact. And collapse itself destroys about half of the structure. I'm deliberately not claiming that Rolling Forcing and LongLive are more structured overall, because over matched windows they aren't.
+
 \slide{22}{Checking a rival claim: periodic ``snap-back''}{22.jpg}
 \goal{show we take competing findings seriously and test them.}
 

@@ -239,7 +239,7 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 
 \begin{frame}{One knob flips the attractor: all 8 prompts}
 \centering
-\figh{0.54}{line_bifurcation}\\[2pt]
+\figh{0.50}{line_bifurcation}\\[2pt]
 {\scriptsize Same four settings, 8 prompts at seed 0 (the 28 prompt pairs, which share the same input noise; on the main runs, same-seed and cross-seed pairs give the same curve, 0.636 vs.\ 0.628 at 3 min). (a) Mean cosine distance between DINOv2 [CLS] vectors of different prompts. (b) Cosine similarity of each video to its own first 2\,s.}
 \take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). One knob switches a \emph{global} attractor into \emph{prompt-anchored} ones: a bifurcation.}
 \end{frame}
@@ -251,18 +251,19 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \take{Collapse is a slow ramp, not a tipping point. That is a negative result we will report.}
 \end{frame}
 
-\begin{frame}{The motion is structured, not noise}
-\begin{columns}[c]
-\column{0.55\textwidth}
-\figh{0.62}{bar_rqa}
-\column{0.43\textwidth}
-\small
-\begin{itemize}
-  \item \textbf{Recurrence analysis} asks how often a video revisits an earlier state, and whether those revisits repeat as whole sequences, like a pendulum swinging back.
-  \item We compare each rollout with a copy that keeps its frequency content but scrambles its timing (phase randomization).
-  \item Every model is more structured than its scrambled copy, in 100\% of runs.
-\end{itemize}
+\begin{frame}{Temporal structure beyond collapse}
+\begin{columns}[T]
+\column{0.70\textwidth}
+\figh{0.58}{bar_rqa_gap}
+\column{0.28\textwidth}
+\scriptsize\raggedright
+\textbf{Recurrence determinism (DET):} share of revisits to an earlier state that continue as a repeated sequence ($\geq$3\,s), not isolated matches.\\[3pt]
+\textbf{Scrambled:} phase-randomized copy, same frequency content, timing destroyed.\\[3pt]
+\textbf{Plotted:} the gap DET(real) $-$ DET(scrambled). Mean of 16 videos, 95\% CI; dots = videos.
 \end{columns}
+\vspace{2pt}
+{\tiny Per-second DINOv2 [CLS] vectors, 10 principal components per segment; revisit threshold = closest 10\% of state pairs; 5 scrambled copies per segment. Collapse time = when a video stays nearer the shared end state than its opening for 10\,s.\par}
+\take{\footnotesize Compare the gap, not the raw score. Over whole videos, Self Forcing's raw 0.93 is inflated by its slow collapse and its gap is only 0.04. In matched 60-s windows all three models keep 0.11--0.20 of structure that scrambling removes, and Self Forcing's gap halves after it collapses (0.17 $\to$ 0.09).}
 \end{frame}
 
 \begin{frame}{Checking a rival claim: periodic ``snap-back''}
