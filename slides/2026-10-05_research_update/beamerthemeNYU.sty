@@ -1,0 +1,53 @@
+% Recreation of the Overleaf "New York University (NYU) presentation template" theme,
+% matched to its rendered PDF: purple miniframe header with section names and dots,
+% grey frame-title bar with white bold title, purple footline (short title | author),
+% title in a grey rounded box, NYU logo as title graphic.
+\mode<presentation>
+
+\useoutertheme[subsection=false]{miniframes}
+\useinnertheme{rounded}
+\usefonttheme{default}
+
+\definecolor{nyupurple}{HTML}{57068C}
+\definecolor{nyugreybar}{RGB}{191,191,191}
+\definecolor{nyugreybox}{RGB}{216,216,216}
+
+\setbeamercolor{section in head/foot}{fg=white!75!nyupurple,bg=nyupurple}
+\setbeamercolor{subsection in head/foot}{fg=white,bg=nyupurple}
+\setbeamercolor{mini frame}{fg=white,bg=nyupurple}
+\setbeamercolor{headline}{bg=nyupurple}
+\setbeamercolor{frametitle}{fg=white,bg=nyugreybar}
+\setbeamercolor{title}{fg=black,bg=nyugreybox}
+\setbeamercolor{author in head/foot}{fg=white,bg=nyupurple}
+\setbeamercolor{title in head/foot}{fg=white,bg=nyupurple}
+\setbeamercolor{structure}{fg=nyupurple}
+\setbeamercolor{block title}{fg=nyupurple,bg=white}
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{item}{fg=nyupurple}
+\setbeamercolor{caption name}{fg=nyupurple}
+
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{section in head/foot}{size=\tiny}
+\setbeamerfont{title}{size=\Large}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=3.0ex,dp=1.4ex,leftskip=0.35cm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}}
+
+\setbeamertemplate{footline}{%
+  \leavevmode\hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.2ex,dp=0.9ex,leftskip=0.35cm]{title in head/foot}%
+    \usebeamerfont{section in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.2ex,dp=0.9ex,rightskip=0.35cm]{author in head/foot}%
+    \hfill\usebeamerfont{section in head/foot}\insertshortauthor\quad\insertframenumber
+  \end{beamercolorbox}}}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{itemize item}[triangle]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+
+\mode<all>
