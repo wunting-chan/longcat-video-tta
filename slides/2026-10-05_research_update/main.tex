@@ -270,12 +270,7 @@ DET is a recurrence statistic: 0.93 does not mean the generator is ``93\% determ
 \take{\footnotesize The gap, not the raw score, carries the information. Over whole videos, Self Forcing's raw 0.93 is inflated by its slow collapse and its gap is only 0.04. In matched 60-s windows all three models keep 0.11--0.20 of structure that scrambling removes, and Self Forcing's gap halves after it collapses (0.17 $\to$ 0.09).}
 \end{frame}
 
-\begin{frame}{Checking a rival claim: periodic ``snap-back''}
-\centering
-\figh{0.36}{line_lol}\\[2pt]
-{\scriptsize LoL (arXiv 2601.16914) reports LongLive snapping back to its first frames at the same moments in every video. For each video we track sudden rises in similarity to its own first second, average them across the 16 videos of a model, and take the strongest moment (red line). Histogram: the same statistic after shifting each video randomly in time, which destroys any shared timing (500 times).}
-\take{No synchronized snap-back within 3 minutes for any model ($p \geq 0.8$). LoL studies hour-long videos, so a longer LongLive run is still open.}
-\end{frame}
+
 
 \begin{frame}{Has anyone done this already?}
 \small
@@ -288,7 +283,7 @@ About 60 targeted searches of work from 2024 to October 2026. Long-horizon degra
 Closest work & What it shows & Relation to ours \\
 \midrule
 VBench-Long, Relax Forcing, In-Distribution Forcing (2610.03120) & Quality, consistency, colour and motion drift over minutes & measure symptoms; we model dynamics \\
-LoL (2601.16914) & Sink-collapse loops at hour scale & partial; their videos run an hour, ours 3 min \\
+LoL (2601.16914) & Sink-collapse loops at hour scale & not seen in our 3-min runs (backup slide); theirs run an hour \\
 Deep / Rolling Sink, FreqForcing (2607.27110) & A sink slows drift; drift as spectral-energy shift & partial: we show a \emph{type switch} \\
 Effective-rank collapse (2607.27036) & Abrupt representation collapse at drift onset & abrupt, where we see a gradual ramp \\
 Meta-ARVDM (2503.10704) & Theory of history forgetting & frames, not the prompt \\
@@ -345,6 +340,15 @@ If the shared end state is real, steering \emph{away} from it should keep prompt
 \vspace{2pt}
 {\footnotesize\textbf{Setup:} Self Forcing, 8 held-out prompts $\times$ 2 seeds, 120\,s; attractor estimated from 8 other prompts and frozen beforehand. \textbf{Measured:} time until the prompt can no longer be identified (primary); VBench++ image quality and flicker within 1 point of doing nothing, and visual inspection.\par}
 \take{\footnotesize If kicked videos relax back, toward-steering speeds collapse, and away-steering delays it at no quality cost, the analysis and the method become one story: the measured attractor is a usable control signal.}
+\end{frame}
+
+\appendix
+\section*{Backup}
+\begin{frame}{Backup: no periodic ``snap-back'' within 3 minutes}
+\centering
+\figh{0.36}{line_lol}\\[2pt]
+{\scriptsize LoL (arXiv 2601.16914) reports LongLive snapping back to its first frames at the same moments in every video. For each video we track sudden rises in similarity to its own first second, average them across the 16 videos of a model, and take the strongest moment (red line). Histogram: the same statistic after shifting each video randomly in time, which destroys any shared timing (500 times).}
+\take{No synchronized snap-back within 3 minutes for any model ($p \geq 0.8$). LoL studies hour-long videos, so a longer LongLive run is still open.}
 \end{frame}
 
 \end{document}

@@ -116,6 +116,15 @@ def main():
     ap.add_argument("--perturb-block", type=int, default=None, help="twin run: perturb the noise of this 3-latent block")
     ap.add_argument("--perturb-eps", type=float, nargs="+", default=[0.0],
                     help="twin perturbation sizes; 0 = exact rerun (numerical-noise control)")
+    ap.add_argument("--prompt-offset", type=int, default=0, help="use prompts [offset, offset + n-prompts)")
+    ap.add_argument("--drift", choices=["none", "repel", "anchor", "both", "random", "kick_away", "kick_toward", "kick_random"], default="none",
+                    help="sf only: drift correction applied to every denoised block (see drift.py)")
+    ap.add_argument("--alpha", type=float, default=1.0, help="drift-correction strength")
+    ap.add_argument("--attractor", default=None, help="repel/both/random: (C,H,W) end-state latent from OTHER prompts")
+    ap.add_argument("--opening-blocks", type=int, default=3, help="blocks averaged into the prompt-specific opening")
+    ap.add_argument("--kick-unit", type=float, default=0.0, help="kick_*: latent norm of a 1x kick (kick_unit_p0-7.json)")
+    ap.add_argument("--drift-window", type=float, nargs=2, default=None, metavar=("START_S", "END_S"),
+                    help="apply corrections only for blocks starting in [START_S, END_S) seconds (one-shot ablation)")
     a = ap.parse_args()
     assert a.latents % 3 == 0
     os.makedirs(a.out, exist_ok=True)
@@ -126,12 +135,28 @@ def main():
     t0 = time.time()
     pipe, run = build(a.model, a.local_attn, a.sink)
     print(f"[{a.model}] pipeline ready {time.time() - t0:.0f}s", flush=True)
-    prompts = [l.strip() for l in open(a.prompts) if l.strip()][: a.n_prompts]
-    for pi, prompt in enumerate(prompts):
+    corr = None
+    if a.drift != "none":
+        assert a.model == "sf", "drift correction is implemented for the Self Forcing pipeline only"
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import drift
+        drift.install(type(pipe))
+        att = torch.load(a.attractor, map_location="cuda") if a.drift != "anchor" else None
+        lo, hi = (0, 10**9) if a.drift_window is None else (int(a.drift_window[0] * 4), int(a.drift_window[1] * 4))
+        corr = drift.DriftCorrector(a.drift, a.alpha, att, opening_blocks=a.opening_blocks, win_lo=lo, win_hi=hi,
+                                    kick_unit=a.kick_unit)
+        pipe._drift_hook = corr
+    dtag = "" if a.drift == "none" else f"_{a.drift}{a.alpha:g}"
+    if a.drift_window is not None and a.drift != "none":
+        dtag += f"_w{a.drift_window[0]:g}-{a.drift_window[1]:g}"
+    allp = [l.strip() for l in open(a.prompts) if l.strip()]
+    prompts = allp[a.prompt_offset: a.prompt_offset + a.n_prompts]
+    for pi0, prompt in enumerate(prompts):
+        pi = a.prompt_offset + pi0
         for seed in a.seeds:
           for eps in (a.perturb_eps if a.perturb_block is not None else [None]):
             tag = "" if eps is None else f"_twin{a.perturb_block}e{eps:g}"
-            stem = f"{a.model}_p{pi:02d}_s{seed}{tag}"
+            stem = f"{a.model}_p{pi:02d}_s{seed}{tag}{dtag}"
             mp4 = os.path.join(a.out, stem + ".mp4")
             if os.path.exists(mp4) and os.path.getsize(mp4) > 10_000:
                 print("skip", stem, flush=True)
@@ -146,6 +171,8 @@ def main():
                 blk = noise[:, b0:b0 + 3].float()
                 delta = torch.randn(blk.shape, device="cuda", generator=g)
                 noise[:, b0:b0 + 3] = ((blk + eps * delta) / (1 + eps ** 2) ** 0.5).to(noise.dtype)
+            if corr is not None:
+                corr.reset(rand_seed=100_003 * pi + seed)
             t1 = time.time()
             video, latents = run(noise, [prompt])
             gen_s = time.time() - t1
@@ -161,6 +188,9 @@ def main():
             json.dump({"model": a.model, "prompt_index": pi, "prompt": prompt, "seed": seed, "latents": a.latents,
                        "local_attn": a.local_attn, "sink": a.sink, "perturb_block": a.perturb_block, "perturb_eps": eps,
                        "frames": int(v.shape[0]), "gen_seconds": gen_s,
+                       "drift": a.drift, "alpha": a.alpha if corr is not None else None, "attractor": a.attractor,
+                       "opening_blocks": a.opening_blocks, "drift_window": a.drift_window, "kick_unit": a.kick_unit,
+                       "drift_log": corr.log if corr is not None else None,
                        "noise_sha_head": float(noise.float().flatten()[:1000].sum())},
                       open(os.path.join(a.out, stem + ".json"), "w"))
             print(f"{stem} frames={v.shape[0]} gen={gen_s:.0f}s total={time.time() - t0:.0f}s", flush=True)

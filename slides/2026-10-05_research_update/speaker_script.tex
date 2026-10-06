@@ -19,7 +19,7 @@
 
 {\LARGE\bfseries Where do videos go to die?}\\[3pt]
 {\large Speaker script for the research update, October 5, 2026}\\[2pt]
-{\small Wun Ting Chan \quad·\quad 25 slides \quad·\quad about 26 minutes}
+{\small Wun Ting Chan \quad·\quad 24 slides + 1 backup \quad·\quad about 25 minutes}
 
 \vspace{6pt}
 \noindent\textbf{The arc in one paragraph.} We open with a striking picture: long AI videos all die the same death. We turn that into a question anyone can follow: where do long videos go, how fast, and which design choice decides? Then we explain how we got here. A year of trying to \emph{fix} the decay failed in an instructive way, and that failure is why we switched to \emph{measuring} it. The rest of the talk builds the case one piece at a time, each slide answering the doubt the previous one raises. Is this real? (Real video doesn't do it.) Is it one phenomenon? (No, three distinct fates.) Can we measure it? (Yes: a shared attracting regime, a one-minute half-life.) Is it fixed by the weights? (No: a memory setting changes the regime.) Can simple statistics predict collapse? (Not the ones we tried.) We close with what is new, stated carefully against prior measurement work, and what comes next.
@@ -278,25 +278,12 @@ A quick but careful check of whether these trajectories have real temporal struc
 
 \cue{takeaway} So the informative quantity is the gap, not the raw score. In all three generators, temporal ordering adds recurrence structure beyond what the frequency spectrum explains. Self Forcing's high raw score is a collapse artefact. And collapse itself destroys about half of the structure. And Rolling Forcing and LongLive are not more structured overall: over matched windows they aren't.
 
-\slide{22}{Checking a rival claim: periodic ``snap-back''}{22.jpg}
-\goal{show we take competing findings seriously and test them.}
-
-Part of doing this properly is taking competing findings seriously. A recent paper, LoL, reported that LongLive periodically ``snaps back'' to its opening frames at the same moments in every video. That would contradict our claim that LongLive stays alive, so we tested it.
-
-The logic: if every video snaps back at the same moments, then sudden jumps back toward the opening should line up across videos. For each video we track sudden rises in its similarity to its own first second, average those across the 16 videos of a model, and take the strongest moment. That's the red line. Then we build a reference: shift each video randomly in time, which destroys any shared timing, recompute, and repeat 500 times. That's the blue histogram, what chance alignment looks like.
-
-\cue{histograms} If snap-back were real, the red line would sit far to the right of the histogram. For all three models it sits inside it, with p-values of 0.8 and above. Individual jumps do happen, but at scattered times.
-
-One caveat: LoL studied hour-long videos and we've only gone to three minutes. So the honest statement is ``not within three minutes'', and a longer LongLive run is on our list.
-
-% ---------------------------------------------------------------
-% ---------------------------------------------------------------
-\slide{23}{Has anyone done this already?}{23.jpg}
+\slide{22}{Has anyone done this already?}{22.jpg}
 \goal{novelty, stated precisely.}
 
 The natural question is whether this has been done. We ran about 60 targeted literature searches, covering 2024 up to this week, and rechecked them today.
 
-Be precise about the answer. Long-horizon degradation is \emph{measured widely}. VBench-Long scores quality and consistency over long videos. Papers from the last few months report colour and motion drift over minutes, spectral drift, a collapse in the model's internal representations at drift onset, and the sink collapse I just tested. What we did not find is anyone treating these streaming generators as dynamical systems: asking where trajectories converge, how fast the prompt is lost, how perturbations grow, and which settings change the attractor.
+Be precise about the answer. Long-horizon degradation is \emph{measured widely}. VBench-Long scores quality and consistency over long videos. Papers from the last few months report colour and motion drift over minutes, spectral drift, a collapse in the model's internal representations at drift onset, and sink collapse, which we also checked for in our own runs; that check is in the backup slides. What we did not find is anyone treating these streaming generators as dynamical systems: asking where trajectories converge, how fast the prompt is lost, how perturbations grow, and which settings change the attractor.
 
 \cue{table} The table lists the closest work and how it relates to ours. Several sink papers already show that a sink slows drift, so our claim is the stronger one: it changes the \emph{type} of attractor. The representation-collapse paper finds something abrupt where we see a slow ramp, and how the two fit together is an open question. There is also attractor language elsewhere. Biroli and colleagues in \emph{Nature Communications} describe attractor-like regimes inside the denoising steps that generate a single image. That's a different time axis from ours, which is time within the video. And looping image models are known to collapse to about a dozen attractors.
 
@@ -304,7 +291,7 @@ Be precise about the answer. Long-horizon degradation is \emph{measured widely}.
 
 % ---------------------------------------------------------------
 % ---------------------------------------------------------------
-\slide{24}{Next: planned experiments}{24.jpg}
+\slide{23}{Next: planned experiments}{23.jpg}
 \goal{be clear that these are plans; end on the one-sentence version of the paper.}
 
 Everything on this slide is planned. None of it has results yet.
@@ -315,7 +302,7 @@ Everything on this slide is planned. None of it has results yet.
 
 \cue{final box} If you remember one sentence: we characterize long-horizon video generators as prompt-conditioned stochastic dynamical systems. Different generators occupy distinct long-run conditioning regimes, with measurable rates of prompt forgetting, perturbation growth and recurrence structure, and memory settings can move a model between regimes.
 
-\slide{25}{Closing the loop: can the attractor steer generation?}{25.jpg}
+\slide{24}{Closing the loop: can the attractor steer generation?}{24.jpg}
 \goal{end on the experiment that turns the analysis into a method.}
 
 The last step closes the loop between analysis and method. If the shared end state is real, steering away from it should keep prompts apart for longer, and steering toward it should speed up collapse.
@@ -327,5 +314,17 @@ The last step closes the loop between analysis and method. If the shared end sta
 \cue{bottom} All of this runs on prompts the attractor estimate never saw, with the estimate frozen beforehand. The main measurement is how long the prompt stays identifiable, and a result only counts if video quality stays within one VBench point and looks right by eye. If kicked videos relax back, toward-steering speeds collapse, and away-steering delays it at no quality cost, then the analysis and the method become one story: the attractor we measured is a usable control signal.
 
 Thank you. Happy to take questions.
+
+% ---------------------------------------------------------------
+\slide{B1}{Backup: no periodic ``snap-back'' within 3 minutes}{25.jpg}
+\goal{only if someone asks whether LongLive collapses, as LoL reports.}
+
+Part of doing this properly is taking competing findings seriously. A recent paper, LoL, reported that LongLive periodically ``snaps back'' to its opening frames at the same moments in every video. That would contradict our claim that LongLive stays alive, so we tested it.
+
+The logic: if every video snaps back at the same moments, then sudden jumps back toward the opening should line up across videos. For each video we track sudden rises in its similarity to its own first second, average those across the 16 videos of a model, and take the strongest moment. That's the red line. Then we build a reference: shift each video randomly in time, which destroys any shared timing, recompute, and repeat 500 times. That's the blue histogram, what chance alignment looks like.
+
+\cue{histograms} If snap-back were real, the red line would sit far to the right of the histogram. For all three models it sits inside it, with p-values of 0.8 and above. Individual jumps do happen, but at scattered times.
+
+One caveat: LoL studied hour-long videos and we've only gone to three minutes. So the honest statement is ``not within three minutes'', and a longer LongLive run is on our list.
 
 \end{document}
