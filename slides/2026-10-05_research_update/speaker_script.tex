@@ -19,10 +19,10 @@
 
 {\LARGE\bfseries Where do videos go to die?}\\[3pt]
 {\large Speaker script for the research update, October 5, 2026}\\[2pt]
-{\small Wun Ting Chan \quad·\quad 21 slides \quad·\quad about 22 minutes}
+{\small Wun Ting Chan \quad·\quad 24 slides \quad·\quad about 24 minutes}
 
 \vspace{6pt}
-\noindent\textbf{The arc in one paragraph.} We open with a striking picture: long AI videos all die the same death. We turn that into a question anyone can follow: where do long videos go, how fast, and which design choice decides? Then we explain how we got here. A year of trying to \emph{fix} the decay failed in an instructive way, and that failure is why we switched to \emph{measuring} it. The rest of the talk builds the case one piece at a time, each slide answering the doubt the previous one raises. Is this real? (Real video doesn't do it.) Is it one phenomenon? (No, three distinct fates.) Can we measure it? (Yes: one global attractor, a one-minute memory.) Is it a property of the weights? (No: one knob flips it.) Can you see it coming? (No, it's a ramp.) We close with what is new and what comes next.
+\noindent\textbf{The arc in one paragraph.} We open with a striking picture: long AI videos all die the same death. We turn that into a question anyone can follow: where do long videos go, how fast, and which design choice decides? Then we explain how we got here. A year of trying to \emph{fix} the decay failed in an instructive way, and that failure is why we switched to \emph{measuring} it. The rest of the talk builds the case one piece at a time, each slide answering the doubt the previous one raises. Is this real? (Real video doesn't do it.) Is it one phenomenon? (No, three distinct fates.) Can we measure it? (Yes: one global attractor, a one-minute memory.) Is it a property of the weights? (No: one knob flips it.) Can you see it coming? (No, it's a ramp.) We close with what is new, stated carefully against prior measurement work, and what comes next.
 
 \vspace{4pt}
 \noindent\cue{Bracketed grey text is stage direction: where to point, when to pause.}
@@ -46,7 +46,7 @@ Here's the setting. A new family of video models, called \emph{streaming} or \em
 So the obvious experiment is: what happens if we just keep going? We let three of these models run for three full minutes, roughly 2,900 frames each.
 
 % ---------------------------------------------------------------
-\slide{3}{\ldots but they all die the same death}{03.jpg}
+\slide{3}{\ldots but on Self Forcing, they all die the same death}{03.jpg}
 \goal{the hook. Let the image do the work.}
 
 \cue{pause, let people look for a few seconds}
@@ -67,22 +67,26 @@ So here is the research question in one sentence. Long videos decay: \emph{where
 
 The picture to keep in mind is a marble on a hilly landscape. Wherever you drop it, it rolls downhill and settles in a valley. Physicists call that valley an \textbf{attractor}: a state the system is pulled toward and stays in.
 
-\cue{point at the three panels} This plot is our first evidence that the analogy is more than a metaphor. Its job is to show, in one picture, that the three models have differently shaped landscapes. We take every frame, describe its content with a standard image encoder, and squash that description down to two dimensions. Each coloured line is then one three-minute video: the dot is where it starts, the cross is where it ends.
+\cue{point at the three panels} This plot is our first evidence that the analogy is more than a metaphor. Its job is to show, in one picture, that the three models have differently shaped landscapes. Here is how to read it. For every frame of a video, an image encoder called DINOv2 gives a list of 768 numbers describing what's in the frame. We average those once per second, so a three-minute video becomes a path through that 768-dimensional space. To draw it, we find the two directions along which all the frames, from all 48 videos, vary the most. Those are the two principal components on the axes, and we project each path onto them. So each coloured line is the frame-by-frame trajectory of one generated video: the dot is its first frame, the cross is its last, and the colour tells you the prompt.
 
-On the left, Self Forcing: the lines start all over the map and converge into one corner. That's a single valley everyone falls into. In the middle and on the right, Rolling Forcing and LongLive: each video barely moves from where it started. Every prompt has its own little valley. Same question, three different landscapes.
+On the left, Self Forcing: the lines start all over the map and converge into one corner. That's a single valley everyone falls into. In the middle and on the right, Rolling Forcing and LongLive: each video barely moves from where it started. Every prompt has its own little valley.
+
+One honest caveat, which is also in the caption: squashing 768 dimensions into two keeps only about 19\% of the variation, so this map is a sketch. The actual claim rests on distances measured in the full space, which you'll see on slide 13.
 
 % ---------------------------------------------------------------
+% ---------------------------------------------------------------
 \slide{5}{Why this matters}{05.jpg}
-\goal{make it everyone's problem, then say what we contribute.}
+\goal{place the work precisely: a common problem with different outcomes, already measured as symptoms, not yet as dynamics.}
 
 Why should anyone care beyond pretty failure pictures?
 
-Because everyone building on these models hits this wall. Streaming video, generative game engines and world models all produce output one step at a time, feeding their own output back in. They all drift, wash out or freeze eventually. The standard response is a new trick that patches one symptom: a different attention window, an anchor frame, a fine-tuning recipe.
+Everyone building streaming video, generative game engines or world models faces the same structural risk: the model feeds on its own output, so small errors can compound. Long rollouts often accumulate drift, and much of the recent literature is about reducing it, with anchor frames called sinks or extra training on long videos. As you'll see in a moment, it works to a large degree. Two of our three models hold up well for three minutes. So the honest framing isn't that every model collapses. It's that how a long video ends depends strongly on the model and how you run it, and we don't have a good way to describe that dependence.
 
-What's missing is measurement. Nobody has said, with numbers, what the end state is, how long the model remembers the prompt, or which knob moves the destination. That's the gap.
+That brings me to the second box. This problem is already \emph{measured}, quite a lot: long-video benchmarks like VBench-Long, and recent papers that quantify colour drift, motion drift, spectral drift, representation collapse and sink collapse. What those papers measure are symptoms, one quality score at a time. What we couldn't find is a characterization of the \emph{dynamics}: where trajectories converge, how fast the prompt is lost, how a small perturbation grows, and which design change moves the end state.
 
-So our contribution is a set of measurements: a map of each model's end states, a memory half-life for the prompt, a test of how sensitive the trajectory is to tiny nudges, and the discovery that one design knob can flip the end state. All of it is packaged as tools anyone can run on a new model.
+That's our contribution, on the right: a map of each model's end states, a memory half-life for the prompt, a sensitivity test, the finding that one design knob can flip the end state, and tools anyone can run on a new model.
 
+% ---------------------------------------------------------------
 % ---------------------------------------------------------------
 \slide{6}{Where we started: fixing videos at test time}{06.jpg}
 \goal{be honest about the starting point; the null result is what motivates the pivot.}
@@ -205,72 +209,97 @@ So there are two clocks running: motion dies fast, appearance drifts slowly. And
 
 % ---------------------------------------------------------------
 \slide{16}{Twins: same video, one tiny nudge}{16.jpg}
+\goal{set up the twin experiment visually before quantifying it.}
+
+Now a classic physics experiment: twins. These models are bit-for-bit reproducible: run the same prompt with the same seed twice and you get identical videos. So we make exactly one tiny change. At 29 seconds we nudge a single block of the random noise the model is fed, and let both copies continue.
+
+\cue{photo strip} Top row is the original, bottom row is the twin, both Self Forcing on the Tokyo street. At 20 and 30 seconds they're identical, as they should be. By 60 seconds there are small differences in the streaks and colours. By two minutes they're telling different stories and collapsing in different ways. For this model, a tiny nudge changes the outcome. The next slide asks whether that's true for every model.
+
+% ---------------------------------------------------------------
+\slide{17}{Twins: sensitive is not the same as unstable}{17.jpg}
 \goal{separate being sensitive from being unstable; that distinction is the surprise.}
 
-Now a classic physics experiment: twins. These models are bit-for-bit reproducible, so if I run the same prompt with the same seed twice I get identical videos. Then I make one tiny change: at 29 seconds I nudge a single block of random noise, and let both copies continue.
+This slide quantifies the twins for all three models, across all 8 prompts.
 
-\cue{photo strip} The photos show Self Forcing. At 20 and 30 seconds the twins are identical. By 60 seconds small differences appear, and by two minutes they're telling different stories and collapsing in different ways.
+\cue{panel a} Panel (a) tracks how far apart the twins are over time, on a log scale, using the same content distance as before. Before 29 seconds the twins are identical. That's why the lines sit on the floor of the plot: a log axis can't show zero. Right after the nudge, the gap for every model grows about thirtyfold within roughly ten seconds, then levels off. Solid lines are the larger nudge and dashed lines the ten-times smaller one, and they rise at the same rate. The growth rate is a property of the model, not of how hard you push it. That's the hallmark of what physicists call a Lyapunov exponent.
 
-\cue{left plot} The left plot measures how far apart the twins get, on a log scale. Before 29 seconds the distance is zero. Then, for every model, the tiny difference grows about thirtyfold within roughly ten seconds and then levels off. Dashed and solid lines are a ten-times smaller and a larger nudge, and they rise at the same rate. The growth rate is a property of the model, not of how hard you push it. That's the hallmark of what physicists call a Lyapunov exponent.
+\cue{panel b} Panel (b) gives that growth rate per model, measured in the model's own latent space over the first seven and a half seconds. LongLive is the \emph{most} sensitive, at 0.40 per second, then Self Forcing at 0.31, then Rolling Forcing at 0.22.
 
-\cue{right plot} The right plot carries the surprising part. The hatched bars are growth rates: LongLive is the \emph{most} sensitive, at 0.40 per second. The tan bars show how different the twins' content is at the end. Here LongLive's twins end up no further apart than Rolling Forcing's, around 0.22, while Self Forcing's end up much further, at 0.37.
+\cue{panel c} Panel (c) holds the surprise: how far apart the twins' content ends up, over the last ten seconds. Self Forcing's twins end furthest apart, at 0.37. LongLive's end at 0.23, no further apart than Rolling Forcing's at 0.22.
 
-So being sensitive is not the same as being unstable. LongLive reacts quickly to small changes but keeps telling the same story. Only Self Forcing lets a tiny nudge change the plot.
-
-% ---------------------------------------------------------------
-\slide{17}{One knob flips the attractor}{17.jpg}
-\goal{the strongest result. The end state is decided by a design knob, not by the weights.}
-
-This is the slide I'd most like you to remember.
-
-So far I've compared different models. A sceptic could say they differ in training data, training time and a dozen other things. So here we hold the weights fixed: every row is the \emph{same} Self Forcing model. We change only how it runs at inference time.
-
-\cue{photo strip} The top row is the default, and it collapses into streaks as usual. The second row adds a tiny ``sink'', keeping the first three frames permanently in memory. Look at the end: the woman and the street are still there at three minutes. The third row shortens the memory window instead. It still collapses, but into a different-looking state, a bright kaleidoscope pattern instead of streaks. The fourth row does both, and it's anchored again.
-
-\cue{left plot} The plots quantify that across all 8 prompts. Left: distance between prompts. The default, in red, falls to about 0.67, the global attractor. With the sink, in blue and green, it stays above 0.9: prompts stay separate. \cue{right plot} Right: how similar each video stays to its own opening. Default and short-window runs fall to about 0.2. With the sink they hold around 0.7.
-
-The point: one small change, three frames of anchor, switches the system from one global attractor to separate prompt-anchored ones. In dynamical-systems language, that's a bifurcation. It also tells us the window controls what the collapse \emph{looks} like, while the sink controls \emph{whether} it happens.
+So being sensitive is not the same as being unstable. LongLive reacts fastest to small changes but keeps telling the same story. Only Self Forcing lets a tiny nudge change the plot.
 
 % ---------------------------------------------------------------
-\slide{18}{Structure, but no early warning}{18.jpg}
+\slide{18}{One knob flips the attractor}{18.jpg}
+\goal{the strongest result. Show it on one prompt first.}
+
+This is the result I'd most like you to remember.
+
+So far I've compared different models, and a sceptic could say they differ in training data, training time and a dozen other things. So here we hold the weights fixed: every row is the \emph{same} Self Forcing model, same prompt, same seed. We change only two settings of how it runs, both counted in what the model calls latent frames. One latent frame is four video frames, a quarter of a second.
+
+\cue{rows} The top row is the default: the model looks back over 21 latent frames, about five seconds, with no sink. It collapses into streaks as usual. The second row adds a sink of 3 latent frames: the first three quarters of a second of video stay in memory permanently. Look at the end: the woman and the street are still there at three minutes. The third row shortens the window to 12 latent frames, three seconds, with no sink. It still collapses, but into a different-looking state, a bright kaleidoscope instead of streaks. The fourth row does both, and it stays anchored.
+
+% ---------------------------------------------------------------
+\slide{19}{One knob flips the attractor: all 8 prompts}{19.jpg}
+\goal{prove the single-prompt picture holds across prompts, and name it a bifurcation.}
+
+One prompt could be luck, so here are the same four settings averaged over all 8 prompts.
+
+\cue{panel a} Panel (a) is the distance between videos of different prompts, the measure we used to detect the global attractor. Without a sink, the red default and the purple short-window lines fall: prompts merge, ending around 0.67 for the default. With a sink, the blue and green lines stay above 0.9 for the whole three minutes: prompts stay apart.
+
+\cue{panel b} Panel (b) asks how similar each video stays to its own first two seconds. Without a sink, similarity falls to about 0.2: the opening is forgotten. With a sink it holds around 0.7.
+
+The point: three quarters of a second of permanent anchor switches the system from one global attractor to separate, prompt-anchored ones. In dynamical-systems language, a small change in a parameter that changes the type of attractor is a bifurcation. It also separates the roles of the two knobs: the sink controls \emph{whether} the prompts merge, and the window controls what the collapse \emph{looks} like.
+
+% ---------------------------------------------------------------
+\slide{20}{Collapse is a slow ramp, with no early warning}{20.jpg}
 \goal{report the negative result honestly; it is informative.}
 
-Two more physics tools, and one of them gives a ``no''.
+Two more tools from physics, and this one gives a ``no''.
 
-\cue{left plot} The left plot asks whether collapse is a sudden tipping point or a slow slide. Each faint red line is one Self Forcing video, lined up so that its moment of collapse sits at zero. The vertical axis measures how strongly the video is being pulled toward the shared end state. If collapse were a tipping point, you'd see flat lines that jump at zero. Instead you see a long, smooth ramp: going from 10\% to 90\% of the way takes about 90 seconds.
+\cue{panel a} Panel (a) asks whether collapse is a sudden tipping point or a slow slide. Each faint red line is one Self Forcing video. The vertical axis compares how similar the current frame is to the shared end state with how similar it is to the video's own opening: above zero means it is closer to the end state. We shift each video in time so that its moment of collapse, the point after which it stays on the end-state side, sits at zero. If collapse were a tipping point, you'd see flat lines that jump at zero. Instead you see a long, smooth ramp: going from 10\% to 90\% of the way takes about 90 seconds.
 
-\cue{middle bars} In ecology and climate science, tipping points are often announced by warning signs, for example rising autocorrelation as the system slows down. The bars test that. Blue is the 60 seconds before a Self Forcing collapse; grey is the same window in videos that never collapse. If there were an early warning, the blue bars would be much higher. They're about equal: 71\% against 59\% for one signal, and for motion it's actually reversed. No reliable early warning.
+\cue{panel b} In ecology and climate science, tipping points are often announced by warning signs. A standard one is rising autocorrelation: the system gets sluggish and each moment looks more like the last. Panel (b) tests that. Blue is the 60 seconds before each Self Forcing collapse; grey is the same window in the other two models, which never collapse. A real warning sign would make the blue bars much taller. They aren't: 71\% against 59\% for the pull toward the end state, 57 against 41 for saturation, and for motion it's reversed. With 14 and 32 videos, none of that is a usable warning.
 
-\cue{right bars} The right chart is a positive check. Recurrence analysis asks whether the motion has structure, like a pendulum, or is just noise. For every model the real rollouts (blue) score higher than shuffled copies (grey), in 100\% of runs.
-
-So the decay is structured, but it's a slow ramp, not a cliff. That's a negative result, and we'll report it: it rules out a whole class of ``detect and rescue'' methods.
+So the decay is a slow ramp, not a cliff. That's a negative result and we'll report it, because it rules out a whole class of ``detect the tipping point and rescue'' methods.
 
 % ---------------------------------------------------------------
-\slide{19}{Checking a rival claim: periodic ``snap-back''}{19.jpg}
+\slide{21}{The motion is structured, not noise}{21.jpg}
+\goal{a short positive check: the trajectories have real structure.}
+
+A quick positive check. Recurrence analysis asks how often a video comes back to a state it was in before, and whether those revisits repeat as whole sequences, the way a pendulum swings back through the same path. That property is called determinism.
+
+\cue{bars} Blue is each model's real rollout. Grey is the same rollout after phase randomization, which keeps its frequency content but scrambles the timing. For every model, the real rollouts are more structured than their scrambled copies: 0.93 against 0.89 for Self Forcing, 0.72 against 0.60 for Rolling Forcing, 0.78 against 0.67 for LongLive. That holds in 100\% of runs. So these trajectories are structured dynamics, not noise, which is what justifies using dynamical-systems tools in the first place.
+
+% ---------------------------------------------------------------
+% ---------------------------------------------------------------
+\slide{22}{Checking a rival claim: periodic ``snap-back''}{22.jpg}
 \goal{show we take competing findings seriously and test them.}
 
-Part of doing this properly is taking competing findings seriously. A recent paper, LoL, reported that LongLive periodically ``snaps back'' to its opening frames at the same moments in every video. That would contradict our claim that LongLive stays alive. So we tested it.
+Part of doing this properly is taking competing findings seriously. A recent paper, LoL, reported that LongLive periodically ``snaps back'' to its opening frames at the same moments in every video. That would contradict our claim that LongLive stays alive, so we tested it.
 
-The idea: if all videos snap back at the same moments, then jumps back toward the opening should line up across videos. We measure how well they line up, then compare against 500 fake versions where each video is shifted randomly in time, which destroys any shared timing.
+The logic: if every video snaps back at the same moments, then sudden jumps back toward the opening should line up across videos. For each video we track sudden rises in its similarity to its own first second, average those across the 16 videos of a model, and take the strongest moment. That's the red line. Then we build a reference: shift each video randomly in time, which destroys any shared timing, recompute, and repeat 500 times. That's the blue histogram, what chance alignment looks like.
 
-\cue{histograms} The blue histogram is what chance alignment looks like. The red line is what we actually observe. If snap-back were real, the red line would sit far to the right. For all three models it sits inside the histogram, with p-values of 0.8 or above. Individual jumps do happen, but at scattered times.
+\cue{histograms} If snap-back were real, the red line would sit far to the right of the histogram. For all three models it sits inside it, with p-values of 0.8 and above. Individual jumps do happen, but at scattered times.
 
-One caveat: LoL studied hour-long videos and we've only gone to three minutes. So this is ``not within three minutes'', and a longer LongLive run is on our list.
-
-% ---------------------------------------------------------------
-\slide{20}{Has anyone done this already?}{20.jpg}
-\goal{novelty, stated precisely, and an honest list of the closest work.}
-
-The natural question is whether this has been done. We ran about 60 targeted literature searches covering 2024 up to this month.
-
-The short answer: the \emph{symptoms} are well documented, but nobody has treated these models as dynamical systems and measured attractors, half-lives, twins or bifurcations.
-
-\cue{table} The closest work is in this table, along with how much it overlaps with ours. LoL I just covered. Several papers show that adding a sink slows drift. That's known, so our claim is the stronger one that it changes the \emph{type} of attractor. One paper finds a sudden collapse in the model's internal representations at drift onset. That sits awkwardly with our ``slow ramp'', and reconciling the two is a to-do. There's a theory paper on history forgetting, but it's about frames, not the prompt. And there's a nice precedent in image generation, where looping image models collapse to about a dozen attractors.
-
-The grey box is how we'll position the paper. Safe claims are the attractor types, the half-life, twins on video, the negative early-warning result and the real-video control. What we won't claim: that sinks prevent drift, or that ours is the first dynamical view of generative models. Both would be overreach.
+One caveat: LoL studied hour-long videos and we've only gone to three minutes. So the honest statement is ``not within three minutes'', and a longer LongLive run is on our list.
 
 % ---------------------------------------------------------------
-\slide{21}{Next two weeks}{21.jpg}
+% ---------------------------------------------------------------
+\slide{23}{Has anyone done this already?}{23.jpg}
+\goal{novelty, stated precisely and defensibly.}
+
+The natural question is whether this has been done. We ran about 60 targeted literature searches, covering 2024 up to this week, and rechecked them today.
+
+Be precise about the answer. Long-horizon degradation is \emph{measured widely}. VBench-Long scores quality and consistency over long videos. Papers from the last few months report colour and motion drift over minutes, spectral drift, a collapse in the model's internal representations at drift onset, and the sink collapse I just tested. What we did not find is anyone treating these streaming generators as dynamical systems: asking where trajectories converge, how fast the prompt is lost, how perturbations grow, and which settings change the attractor.
+
+\cue{table} The table lists the closest work and how it relates to ours. Several sink papers already show that a sink slows drift, so our claim is the stronger one: it changes the \emph{type} of attractor. The representation-collapse paper finds something abrupt where we see a slow ramp, and reconciling the two is a to-do. There is also attractor language elsewhere. Biroli and colleagues in \emph{Nature Communications} describe attractor-like regimes inside the denoising steps that generate a single image. That's a different time axis from ours, which is time within the video. And looping image models are known to collapse to about a dozen attractors.
+
+\cue{grey box} So here is the claim we'll make in the paper: existing work measures degradation and specific failure modes; we characterize the dynamics. What we won't claim: that nobody has measured long-video decay, that every model collapses, or that sinks prevent drift. All three would be easy to knock down.
+
+% ---------------------------------------------------------------
+% ---------------------------------------------------------------
+\slide{24}{Next two weeks}{24.jpg}
 \goal{a concrete plan and one sentence to take home.}
 
 Where this goes next.

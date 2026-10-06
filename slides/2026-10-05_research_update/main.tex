@@ -48,41 +48,33 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{\ldots but they all die the same death}
+\begin{frame}{\ldots but on Self Forcing, they all die the same death}
 \centering
 \figh{0.66}{photo_sf_converge}\\[2pt]
 {\scriptsize One model (Self Forcing), six prompts, frames from 0 to 178 s. Mammoths, waves, a monster, a pigeon, pirate ships: after three minutes they all become the same purple-blue streaks.}
 \end{frame}
 
 \begin{frame}{The question, in one sentence}
-\begin{columns}[c]
-\column{0.42\textwidth}
-\take{\large Long videos \emph{decay}. \\[3pt] \normalsize \textbf{Where} do they go, \textbf{how fast}, and \\ \textbf{which design choice} decides it?}
-\vspace{2pt}
-\begin{itemize}\small
-  \item Think of a marble on a landscape: wherever you drop it, it rolls into a valley.
-  \item Physicists call such a valley an \textbf{attractor}.
-  \item Our claim: video generators have attractors, and each model has its own kind.
-\end{itemize}
-\column{0.56\textwidth}
+\take{\large Long videos \emph{decay}. \textbf{Where} do they go, \textbf{how fast}, and \textbf{which design choice} decides it?}
+\vspace{-6pt}
 \centering
-\fig{line_phase_portrait}\\[-1pt]
-{\scriptsize Each line is one 3-minute video, drawn in a 2-D map of its content (dot = start, $\times$ = end). Self Forcing: all lines run into one corner. The others stay where they started.}
-\end{columns}
+\figh{0.56}{line_phase_portrait}\\[-1pt]
+{\scriptsize Frame-by-frame trajectories of generated videos, one line per video, colour = prompt. A marble dropped on a landscape rolls into a valley, an \emph{attractor}. Self Forcing's videos all roll into one valley; the other models' videos each stay in their own. The 2-D map keeps 19\% of the variation, so slide 13 measures distances in the full embedding.}
 \end{frame}
 
 \begin{frame}{Why this matters}
+\vspace{-6pt}
 \begin{columns}[T]
 \column{0.5\textwidth}
-\begin{block}{Everyone hits this wall}
-Streaming video, game engines and world models all generate one step at a time. They all drift, wash out or freeze. Each new method patches a symptom.
+\begin{block}{A common problem, with very different outcomes}
+\footnotesize Streaming video, game engines and world models generate one step at a time from their own output. Long rollouts often accumulate drift, and recent designs (sinks, long-video tuning) reduce it a lot. In our runs, how a video ends depends strongly on the model and its inference settings.
 \end{block}
-\begin{block}{Nobody has measured it}
-Papers list failure symptoms. No one asks, with numbers, what the end state is, how long the prompt is remembered, or which knob changes the destination.
+\begin{block}{Measured as symptoms, not as dynamics}
+\footnotesize Benchmarks and recent papers already quantify degradation: quality and consistency over long videos (VBench-Long), colour and motion drift, spectral drift, representation collapse, sink collapse. What we have not found is a characterization of the \emph{dynamics}: where trajectories converge, how fast the prompt is lost, how perturbations grow, which design change alters the end state.
 \end{block}
 \column{0.48\textwidth}
 \begin{block}{What we provide}
-\begin{itemize}\small
+\begin{itemize}\footnotesize
   \item A map of each model's \textbf{end states}
   \item A \textbf{memory half-life} for the prompt
   \item \textbf{Sensitivity}: does a tiny nudge change the story?
@@ -171,7 +163,7 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \begin{frame}{Control: real video does not decay}
 \centering
 \figh{0.55}{line_phase_m1}\\[2pt]
-{\scriptsize 128 Panda-70M clips continued for 30\,s. (a) How different the 128 clips are from each other: generated ensembles contract, real video stays put. (b) Generated colour saturation creeps up; real video does not. Best-of-4 search (purple) slows the slide but does not stop it.}
+{\scriptsize 128 Panda-70M clips: each model sees a clip's opening and continues it for 30\,s; black is what really happened next. (a) Mean content distance between all pairs of the 128 clips at each moment: generated sets become more alike, real video does not. (b) Median colour saturation. Best-of-4 search (purple, dashed) slows the slide but does not stop it.}
 \end{frame}
 
 \begin{frame}{Three models, three fates}
@@ -190,7 +182,7 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 \begin{frame}{Self Forcing has one global attractor}
 \centering
 \figh{0.42}{line_convergence}\\[2pt]
-{\scriptsize (a) Distance between videos of different prompts. Solid: different prompts. Dashed: same prompt, other seed. (b) Share of videos whose prompt can still be identified from the current frame (8 prompts, chance 12.5\%).}
+{\scriptsize (a) Content distance between two videos at each second (1 $-$ cosine similarity of their DINOv2 embeddings; 0 = identical content, 1 = unrelated). Solid: pairs with different prompts. Dashed: same prompt, different seed, the spread due to randomness alone. (b) For each video and second, we find the most similar video from the other seed at the same second; the share of matches with the correct prompt (chance = 1 in 8).}
 \take{Self Forcing: distance falls 0.97 $\to$ 0.64 and identification falls 100\% $\to$ 34\%. Rolling Forcing and LongLive keep every prompt (100\% and 98\%). This is not shared noise: the seeds differ.}
 \end{frame}
 
@@ -209,62 +201,88 @@ Early warning & Can we see collapse coming? & Rising variance and autocorrelatio
 
 \begin{frame}{What the decay looks like}
 \centering
-\figh{0.38}{line_observables}\\[2pt]
-{\scriptsize Median over 16 videos per model, band = interquartile range.}
+\figh{0.56}{line_observables}\\[2pt]
+{\scriptsize Low-level measurements per frame, averaged per second, for the 16 videos of each model (8 prompts $\times$ 2 seeds).}
 \take{Self Forcing gets darker, more saturated and streaky. Rolling Forcing brightens toward glare. LongLive holds its look. Motion collapses fast (seconds); appearance drifts slowly (minutes).}
 \end{frame}
 
 \begin{frame}{Twins: same video, one tiny nudge}
 \centering
-\figh{0.22}{photo_twins_sf}\\[2pt]
-\figh{0.36}{line_twins}\\[-2pt]
-{\scriptsize Runs are bit-for-bit reproducible, so the only difference between the twins is one perturbed noise block at 29\,s. (a) Their distance grows at a model-specific rate, whatever the size of the nudge. (b) LongLive is the \emph{most} sensitive, yet its twins end as close in content as Rolling Forcing's. Only Self Forcing's twins end up in a different story.}
+\figh{0.38}{photo_twins_sf}\\[4pt]
+{\scriptsize Self Forcing, ``Tokyo street''. The runs are bit-for-bit reproducible, so the only difference between the two rows is one block of input noise nudged at 29\,s. Identical at 20 and 30\,s, slightly different by 60\,s, telling different stories by 120\,s.}
+\take{Does a tiny nudge change the story? For Self Forcing, yes.}
+\end{frame}
+
+\begin{frame}{Twins: sensitive is not the same as unstable}
+\centering
+\figh{0.54}{line_twins}\\[2pt]
+{\scriptsize All 8 prompts per model, seed 0. $\varepsilon$ = relative size of the nudge to one noise block. (a) Content distance between twins over time, log scale; the twins are identical before 29\,s. (b) How fast the gap grows in the model's latent space in the first 7.5\,s: the same rate for both nudge sizes. (c) Content gap in the last 10\,s.}
+\take{LongLive is the \emph{most} sensitive, yet its twins end as close as Rolling Forcing's. Only Self Forcing lets a tiny nudge change the story.}
 \end{frame}
 
 \begin{frame}{One knob flips the attractor}
 \centering
-\figh{0.34}{photo_bifurcation_p0}\\[1pt]
-\figh{0.30}{line_bifurcation}\\[-2pt]
-{\scriptsize Same Self Forcing weights; only the inference settings change. Adding a 3-frame sink switches the \emph{global} attractor to \emph{prompt-anchored} fixed points. A shorter window alone changes how the collapse looks, not whether it happens.}
+\figh{0.52}{photo_bifurcation_p0}\\[3pt]
+{\scriptsize Same Self Forcing weights, same prompt and seed; only two inference settings change, both counted in latent frames (1 latent frame = 4 video frames = 0.25\,s). \emph{Window}: how far back the model attends (21 $\approx$ 5.3\,s, 12 = 3\,s). \emph{Sink}: the first latent frames kept in memory permanently (3 = the first 0.75\,s).}
+\take{A sink of 3 latent frames keeps the scene alive for 3 minutes. A shorter window alone still collapses, just into a different pattern.}
 \end{frame}
 
-\begin{frame}{Structure, but no early warning}
-\begin{columns}[c]
-\column{0.62\textwidth}
-\fig{line_ews}
-\column{0.36\textwidth}
-\fig{bar_rqa}
-\end{columns}
-\vspace{2pt}
-{\scriptsize Left: 16 Self Forcing videos aligned at their collapse time. The transition from 10\% to 90\% takes about 90\,s. Classic warning signals (rising autocorrelation) are no more common before collapse than in videos that never collapse. Right: every model's motion is more structured than shuffled surrogates (100\% of runs).}
+\begin{frame}{One knob flips the attractor: all 8 prompts}
+\centering
+\figh{0.54}{line_bifurcation}\\[2pt]
+{\scriptsize Same four settings, averaged over all 8 prompts. (a) Content distance between videos of different prompts. (b) How similar each video stays to its own first 2\,s.}
+\take{Without a sink, prompts merge and openings are forgotten (distance $\to$ 0.67, similarity $\to$ 0.2). With a sink, prompts stay apart ($>$0.9) and openings are kept ($\approx$0.7). One knob switches a \emph{global} attractor into \emph{prompt-anchored} ones: a bifurcation.}
+\end{frame}
+
+\begin{frame}{Collapse is a slow ramp, with no early warning}
+\centering
+\figh{0.53}{line_ews}\\[2pt]
+{\scriptsize (a) Each line is one Self Forcing video, shifted so its collapse (the first second after which it stays closer to the shared end state than to its own opening for 10\,s) sits at 0. Going from 10\% to 90\% of the way takes about 90\,s. (b) Share of videos whose lag-1 autocorrelation rises during the 60\,s before collapse (blue) versus the same window in models that never collapse (grey). A real early warning would make blue far higher.}
 \take{Collapse is a slow ramp, not a tipping point. That is a negative result we will report.}
+\end{frame}
+
+\begin{frame}{The motion is structured, not noise}
+\begin{columns}[c]
+\column{0.55\textwidth}
+\figh{0.62}{bar_rqa}
+\column{0.43\textwidth}
+\small
+\begin{itemize}
+  \item \textbf{Recurrence analysis} asks how often a video revisits an earlier state, and whether those revisits repeat as whole sequences, like a pendulum swinging back.
+  \item We compare each rollout with a copy that keeps its frequency content but scrambles its timing (phase randomization).
+  \item Every model is more structured than its scrambled copy, in 100\% of runs.
+\end{itemize}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Checking a rival claim: periodic ``snap-back''}
 \centering
 \figh{0.36}{line_lol}\\[2pt]
-{\scriptsize LoL (arXiv 2601.16914) reports LongLive snapping back to its first frames at the same moments in every video. We test for synchronized returns toward the opening across the 16 runs per model, against 500 time-shifted surrogates (red line = observed).}
+{\scriptsize LoL (arXiv 2601.16914) reports LongLive snapping back to its first frames at the same moments in every video. For each video we track sudden rises in similarity to its own first second, average them across the 16 videos of a model, and take the strongest moment (red line). Histogram: the same statistic after shifting each video randomly in time, which destroys any shared timing (500 times).}
 \take{No synchronized snap-back within 3 minutes for any model ($p \geq 0.8$). LoL studies hour-long videos, so a longer LongLive run is still open.}
 \end{frame}
 
 \begin{frame}{Has anyone done this already?}
 \small
-About 60 targeted searches (2024--Oct 2026): \textbf{no paper treats streaming video generators as dynamical systems}. The symptoms are well documented. The characterization is new.
-\vspace{4pt}
-\renewcommand{\arraystretch}{1.15}
-\begin{tabularx}{\linewidth}{l X l}
+About 60 targeted searches (2024 to Oct 2026), rechecked Oct 6. Long-horizon degradation is \textbf{measured widely}. What we did not find is any work that treats streaming video generators as \textbf{dynamical systems}.
+\vspace{2pt}
+\scriptsize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.30\linewidth} X >{\raggedright\arraybackslash}p{0.24\linewidth}}
 \toprule
-Closest work & What it shows & Overlap \\
+Closest work & What it shows & Relation to ours \\
 \midrule
+VBench-Long, Relax Forcing, In-Distribution Forcing (2610.03120) & Quality, consistency, colour and motion drift over minutes & measure symptoms; we model dynamics \\
 LoL (2601.16914) & Sink-collapse loops at hour scale & partial: test longer \\
-Deep / Rolling Sink, FreqForcing & A sink slows drift & partial: we show a \emph{type switch} \\
+Deep / Rolling Sink, FreqForcing (2607.27110) & A sink slows drift; drift as spectral-energy shift & partial: we show a \emph{type switch} \\
 Effective-rank collapse (2607.27036) & Abrupt representation collapse at drift onset & reconcile with ``slow ramp'' \\
-Meta-ARVDM (2503.10704) & Theory of history forgetting & conceptual, frames not prompt \\
-Hintze et al., Patterns 2025 & Image loops collapse to $\sim$12 attractors & concept, not video \\
+Meta-ARVDM (2503.10704) & Theory of history forgetting & frames, not the prompt \\
+Biroli et al., Nat.\ Commun.\ 2024 & Attractor-like regimes \emph{inside} the denoising steps & other time axis \\
+Hintze et al., Patterns 2025 & Iterated image loops collapse to $\sim$12 attractors & concept, not video \\
 \bottomrule
 \end{tabularx}
-\vspace{3pt}
-\take{Safe claims: attractor types, prompt half-life, twins on video, RQA plus no early warning, real-video control. Avoid: ``sinks prevent drift'' (known), ``first dynamical view of generative models'' (too broad).}
+\vspace{1pt}
+\take{\footnotesize Safe claim: existing work measures long-horizon degradation and specific failure modes; we characterize where trajectories converge, how fast prompt information is lost, how perturbations grow, and which inference settings change the attractor. Avoid: ``nobody has measured it'', ``every model collapses'', ``sinks prevent drift'' (known).}
 \end{frame}
 
 % =====================================================================

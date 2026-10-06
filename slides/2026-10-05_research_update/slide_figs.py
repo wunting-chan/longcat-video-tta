@@ -167,6 +167,9 @@ def image_grid(rows, times, row_labels, name, title_times=True, wfig=W, row_labe
             if j == 0:
                 ax.text(-0.06, 0.5, row_labels[i], transform=ax.transAxes, ha="right", va="center",
                         fontsize=6.9, color=DS_TEXT)
+                if i == 0 and title_times:
+                    ax.text(-0.06, 1.0, "time into the video →", transform=ax.transAxes, ha="right",
+                            va="bottom", fontsize=6.2, color="#666666", style="italic")
     save(fig, name)
 
 
@@ -183,7 +186,7 @@ def fig_photo_grids():
         tags = [f"main__sf__sf_p0{p}_s0", f"bif_w21_s3__sf__sf_p0{p}_s0",
                 f"bif_w12_s0__sf__sf_p0{p}_s0", f"bif_w12_s3__sf__sf_p0{p}_s0"]
         image_grid(tags, ["0.5", "30", "60", "120", "178"],
-                   ["native (window 21, no sink)", "+ sink 3", "window 12", "window 12 + sink 3"],
+                   ["default: window 21, no sink", "window 21 + sink 3", "window 12, no sink", "window 12 + sink 3"],
                    f"photo_bifurcation_p{p}", row_label_w=1.45)
     # twins: same run, one noise block perturbed at 40 s
     for m in MODELS:
@@ -202,7 +205,7 @@ def fig_end_states():
     cw = (W - lw) / 8
     fig = plt.figure(figsize=(W, 4 * cw * ar + 0.28))
     rows = [("start", "sf", "0.5"), ("sf", "sf", "178"), ("rf", "rf", "178"), ("ll", "ll", "178")]
-    labels = ["Opening (SF)", "Self Forcing, 3 min", "Rolling Forcing, 3 min", "LongLive, 3 min"]
+    labels = ["Opening frame (0 s)", "Self Forcing at 178 s", "Rolling Forcing at 178 s", "LongLive at 178 s"]
     gs = fig.add_gridspec(4, 8, left=lw / W, right=1, top=1 - 0.26 / fig.get_figheight(), bottom=0,
                           wspace=0.03, hspace=0.06)
     for i, (_, m, t) in enumerate(rows):
@@ -240,7 +243,7 @@ def fig_openings():
 # =========================================================================== line plots
 def fig_convergence(D):
     line_style()
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.15))
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.35))
     res = {}
     for m in MODELS:
         dp, dn, acc = prompt_metrics(D[m])
@@ -249,16 +252,23 @@ def fig_convergence(D):
         axs[0].plot(t, dp, color=MCOL[m], label=MLABEL[m], marker=MMARK[m], markevery=15)
         axs[0].plot(t, dn, color=MCOL[m], ls=(0, (3, 2)), lw=0.7)
         axs[1].plot(t, acc * 100, color=MCOL[m], label=MLABEL[m], marker=MMARK[m], markevery=15)
-    axs[0].set_xlabel("Time (s)"); axs[0].set_ylabel("Distance between videos (1 − cos)")
-    axs[0].set_title("(a) Different prompts become the same video")
-    axs[0].plot([], [], color="k", ls=(0, (3, 2)), lw=0.7, label="same prompt, other seed")
-    axs[0].legend(loc="lower left")
+    axs[0].set_xlabel("Time into the video (s)")
+    axs[0].set_ylabel("Content distance between two videos\n(1 − cosine similarity, DINOv2)")
+    axs[0].set_title("(a) Distance between videos, per second")
+    from matplotlib.lines import Line2D
+    h1 = [Line2D([], [], color=MCOL[m], marker=MMARK[m], label=MLABEL[m]) for m in MODELS]
+    h2 = [Line2D([], [], color="k", label="solid: pairs with different prompts"),
+          Line2D([], [], color="k", ls=(0, (3, 2)), lw=0.7, label="dashed: same prompt, different seed")]
+    l1 = axs[0].legend(handles=h1, loc="lower left", fontsize=5.8)
+    axs[0].add_artist(l1)
+    axs[0].legend(handles=h2, loc="lower right", fontsize=5.4)
     axs[1].axhline(100 / 8, color="#777777", lw=0.7, ls=":")
-    axs[1].text(178, 100 / 8 + 2, "chance", ha="right", fontsize=6.2, color="#555555")
-    axs[1].set_xlabel("Time (s)"); axs[1].set_ylabel("Prompt identifiable from frame (%)")
-    axs[1].set_title("(b) The prompt is forgotten")
+    axs[1].text(178, 100 / 8 + 2, "chance (1 in 8 prompts)", ha="right", fontsize=6.0, color="#555555")
+    axs[1].set_xlabel("Time into the video (s)")
+    axs[1].set_ylabel("Frames matched to the correct prompt (%)")
+    axs[1].set_title("(b) Can the prompt be identified from the frame?")
     axs[1].set_ylim(0, 105)
-    axs[1].legend(loc="lower left")
+    axs[1].legend(loc="lower left", fontsize=5.8)
     fig.tight_layout(w_pad=1.5)
     save(fig, "line_convergence")
     return res
@@ -271,14 +281,15 @@ def fig_halflife(res):
     f = lambda t, a, tau, c: c + a * np.exp(-t / tau)
     (a, tau, c), _ = curve_fit(f, t, dp, p0=(0.4, 80, 0.6))
     hl = tau * np.log(2)
-    fig, ax = plt.subplots(figsize=(W * 0.62, 2.1))
-    ax.plot(t, dp, color=MCOL["sf"], marker="o", markevery=15, label="Self Forcing, different prompts")
+    fig, ax = plt.subplots(figsize=(W * 0.62, 2.25))
+    ax.plot(t, dp, color=MCOL["sf"], marker="o", markevery=15, label="Self Forcing: pairs with different prompts")
     ax.plot(t, f(t, a, tau, c), color="k", lw=0.8, ls="--", label=f"exponential fit, half-life {hl:.0f} s")
-    ax.plot(t, dn, color="#777777", lw=0.8, label="noise floor: same prompt, other seed")
+    ax.plot(t, dn, color="#777777", lw=0.8, label="noise floor: same prompt, different seed")
     ax.axhline(c, color="#999999", lw=0.6, ls=":")
-    ax.text(2, c - 0.035, f"asymptote {c:.2f}", fontsize=6.2, color="#555555")
-    ax.set_xlabel("Time (s)"); ax.set_ylabel("Distance between videos (1 − cos)")
-    ax.legend(loc="upper right")
+    ax.text(2, c - 0.035, f"fitted level it decays to: {c:.2f}", fontsize=6.0, color="#555555")
+    ax.set_xlabel("Time into the video (s)")
+    ax.set_ylabel("Content distance between two videos\n(1 − cosine similarity, DINOv2)")
+    ax.legend(loc="upper right", fontsize=5.8)
     fig.tight_layout()
     save(fig, "line_halflife")
     return {"a": a, "tau": tau, "c": c, "half_life": hl, "noise_floor_end": float(np.mean(dn[-20:]))}
@@ -286,10 +297,12 @@ def fig_halflife(res):
 
 def fig_observables(D, names):
     line_style()
-    feats = [("saturation", "Saturation"), ("brightness", "Brightness"), ("sharpness", "Sharpness"),
-             ("flow_mag", "Motion (optical flow)")]
-    fig, axs = plt.subplots(1, 4, figsize=(W, 1.75))
-    for ax, (k, lab) in zip(axs, feats):
+    feats = [("saturation", "Colour saturation", "mean HSV saturation (0–1)"),
+             ("brightness", "Brightness", "mean grey level (0–1)"),
+             ("sharpness", "Sharpness", "variance of the Laplacian"),
+             ("flow_mag", "Motion", "optical flow (pixels per frame)")]
+    fig, axs = plt.subplots(1, 4, figsize=(W, 2.25))
+    for ax, (k, title, ylab) in zip(axs, feats):
         j = names.index(k)
         for m in MODELS:
             X = np.array([v["low"][:178, j] for v in D[m].values()])
@@ -300,10 +313,12 @@ def fig_observables(D, names):
             t = np.arange(len(med))
             ax.plot(t, med, color=MCOL[m], label=MLABEL[m], marker=MMARK[m], markevery=30)
             ax.fill_between(t, lo, hi, color=MCOL[m], alpha=0.10, lw=0)
-        ax.set_title(lab); ax.set_xlabel("Time (s)")
+        ax.set_title(title); ax.set_ylabel(ylab, fontsize=6.0); ax.set_xlabel("Time into video (s)", fontsize=6.2)
         ax.set_xticks([0, 60, 120, 180])
-    axs[0].legend(loc="upper left", fontsize=5.8)
-    fig.tight_layout(w_pad=0.8)
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l + [], loc="lower center", ncol=3, fontsize=5.8, frameon=False, bbox_to_anchor=(0.5, -0.02),
+               title="line = median of 16 videos per model, band = middle 50%", title_fontsize=5.6)
+    fig.tight_layout(rect=(0, 0.12, 1, 1), w_pad=0.6)
     save(fig, "line_observables")
 
 
@@ -311,18 +326,18 @@ def fig_phase_m1():
     """30 s V2V on 128 Panda clips: generators contract, real video does not; search delays it."""
     line_style()
     P = json.load(open(os.path.join(A, "results", "probes.json")))
-    meth = [("real", "Real video (ground truth)", (0, 0, 0), "-"),
+    meth = [("real", "Real video (what actually happened)", (0, 0, 0), "-"),
             ("notta", "Self Forcing", MCOL["sf"], "-"),
             ("rolling_notta", "Rolling Forcing", MCOL["rf"], "-"),
             ("sf_always_search", "Self Forcing + best-of-4 search", (0.75, 0, 0.75), "--")]
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.0))
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.2))
     for k, lab, col, ls in meth:
         sp = np.array(P["convergence"][k]["spread"])
         axs[0].plot(np.arange(len(sp)) / (len(sp) / 30), sp, color=col, ls=ls, label=lab)
-    axs[0].set_title("(a) Ensemble spread across 128 clips")
-    axs[0].set_xlabel("Time (s)"); axs[0].set_ylabel("Mean pairwise distance")
-    axs[0].legend(loc="lower left", fontsize=5.8)
-    # saturation drift from per-clip observables
+    axs[0].set_title("(a) How different the 128 clips are from each other")
+    axs[0].set_xlabel("Time into the continuation (s)")
+    axs[0].set_ylabel("Mean content distance between clips\n(1 − cosine similarity, DINOv2)")
+    axs[0].legend(loc="lower left", fontsize=5.6)
     for k, lab, col, ls in meth:
         fs = sorted(glob.glob(os.path.join(A, "obs", k, "*.npz")))
         rows = []
@@ -335,8 +350,8 @@ def fig_phase_m1():
             rows.append(s[: int(n * fps)].reshape(n, -1).mean(1)[:30] if n >= 30 else None)
         rows = np.array([r for r in rows if r is not None])
         axs[1].plot(np.arange(rows.shape[1]), np.median(rows, 0), color=col, ls=ls, label=lab)
-    axs[1].set_title("(b) Colour saturation (median clip)")
-    axs[1].set_xlabel("Time (s)"); axs[1].set_ylabel("Saturation")
+    axs[1].set_title("(b) Colour saturation, median over 128 clips")
+    axs[1].set_xlabel("Time into the continuation (s)"); axs[1].set_ylabel("Mean HSV saturation (0–1)")
     fig.tight_layout(w_pad=1.5)
     save(fig, "line_phase_m1")
 
@@ -345,95 +360,104 @@ def fig_twins():
     line_style()
     T = json.load(open(os.path.join(A, "results_long", "twins_dino.json")))
     J = json.load(open(os.path.join(A, "results_long", "twins.json")))
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.05), gridspec_kw={"width_ratios": [1.5, 1]})
+    fig, axs = plt.subplots(1, 3, figsize=(W, 2.15), gridspec_kw={"width_ratios": [1.6, 0.8, 0.8]})
     for m in MODELS:
         for e, ls in (("0.005", (0, (3, 2))), ("0.05", "-")):
             y = np.array(T[f"{m}_{e}"])
-            t = np.arange(len(y))
-            axs[0].plot(t, np.clip(y, 1e-4, None), color=MCOL[m], ls=ls,
-                        label=f"{MLABEL[m]}, ε={e}" if True else None)
+            axs[0].plot(np.arange(len(y)), np.clip(y, 1e-4, None), color=MCOL[m], ls=ls)
+    from matplotlib.lines import Line2D
+    h = [Line2D([], [], color=MCOL[m], label=MLABEL[m]) for m in MODELS] + \
+        [Line2D([], [], color="k", label="large nudge (ε = 0.05)"),
+         Line2D([], [], color="k", ls=(0, (3, 2)), label="small nudge (ε = 0.005)")]
+    fig.legend(handles=h, loc="lower center", ncol=5, fontsize=5.6, frameon=False, bbox_to_anchor=(0.5, -0.02))
     axs[0].axvline(29, color="#777777", lw=0.6, ls=":")
-    axs[0].text(30, 1.2e-4, "one noise block\nperturbed (29 s)", fontsize=6.0, color="#555555", va="bottom")
+    axs[0].text(31, 1.3e-4, "nudge at 29 s", fontsize=5.6, color="#555555", va="bottom")
     axs[0].set_yscale("log"); axs[0].set_ylim(1e-4, 1.5)
-    axs[0].set_xlabel("Time (s)"); axs[0].set_ylabel("Twin distance (1 − cos, DINOv2)")
-    axs[0].set_title("(a) A tiny nudge grows, then saturates")
-    axs[0].legend(loc="lower right", fontsize=5.4, ncol=1)
+    axs[0].set_xlabel("Time into the video (s)")
+    axs[0].set_ylabel("Content distance between twins\n(1 − cosine similarity, DINOv2)")
+    axs[0].set_title("(a) The twins separate after the nudge")
     bar_style()
-    ax = axs[1]
-    bar_axes(ax)
     lam = [J[m]["0.05"]["lambda_per_s_first_7.5s"] for m in MODELS]
     end = [float(np.mean(T[f"{m}_0.05"][-10:])) for m in MODELS]
-    x = np.arange(3)
-    ax.bar(x - 0.19, lam, 0.36, color=DS_BLUE, hatch="////", edgecolor="white", lw=0, label="growth rate in latent space (1/s)")
-    ax.bar(x + 0.19, end, 0.36, color=DS_TAN, edgecolor="white", lw=0, label="final semantic distance (DINOv2)")
-    for i in range(3):
-        ax.text(x[i] - 0.19, lam[i] + 0.01, f"{lam[i]:.2f}", ha="center", fontsize=6.0)
-        ax.text(x[i] + 0.19, end[i] + 0.01, f"{end[i]:.2f}", ha="center", fontsize=6.0)
-    ax.set_xticks(x); ax.set_xticklabels([MLABEL[m].replace(" ", "\n") for m in MODELS])
-    ax.set_title("(b) Sensitive ≠ unstable", fontsize=7.6)
-    ax.legend(loc="upper left", fontsize=5.8, frameon=False)
-    ax.set_ylim(0, 0.62)
-    fig.tight_layout(w_pad=1.5)
+    for ax, vals, col, hatch, title, ylab in (
+            (axs[1], lam, DS_BLUE, "////", "(b) How fast they separate", "growth rate of the twin gap\n(per second, first 7.5 s, latent space)"),
+            (axs[2], end, DS_TAN, None, "(c) How far apart they end", "content distance in the last 10 s\n(1 − cosine similarity, DINOv2)")):
+        bar_axes(ax)
+        x = np.arange(3)
+        ax.bar(x, vals, 0.6, color=col, hatch=hatch, edgecolor="white", lw=0)
+        for i in range(3):
+            ax.text(x[i], vals[i] + 0.01, f"{vals[i]:.2f}", ha="center", fontsize=6.0)
+        ax.set_xticks(x); ax.set_xticklabels([MLABEL[m].replace(" ", "\n") for m in MODELS], fontsize=5.8)
+        ax.set_title(title, fontsize=7.0); ax.set_ylabel(ylab, fontsize=5.8)
+        ax.set_ylim(0, max(vals) * 1.25)
+    fig.tight_layout(rect=(0, 0.08, 1, 1), w_pad=1.0)
     save(fig, "line_twins")
 
 
 def fig_bifurcation():
     line_style()
     B = json.load(open(os.path.join(A, "results_long", "bif.json")))
-    lab = {"w21 s0 (native)": ("native (window 21, no sink)", (1, 0, 0), "o"),
-           "w21 s3": ("+ sink 3", (0, 0, 1), "s"),
-           "w12 s0": ("window 12", (0.75, 0, 0.75), "D"),
+    lab = {"w21 s0 (native)": ("default: window 21, no sink", (1, 0, 0), "o"),
+           "w21 s3": ("window 21 + sink 3", (0, 0, 1), "s"),
+           "w12 s0": ("window 12, no sink", (0.75, 0, 0.75), "D"),
            "w12 s3": ("window 12 + sink 3", (0, 0.5, 0), "^")}
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.0))
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.25))
     for k, (l, c, mk) in lab.items():
         axs[0].plot(B[k]["D_prompt"], color=c, marker=mk, markevery=20, label=l)
         axs[1].plot(B[k]["sim_to_own_opening"], color=c, marker=mk, markevery=20, label=l)
-    axs[0].set_title("(a) Do different prompts merge?")
-    axs[0].set_ylabel("Distance between prompts"); axs[0].set_xlabel("Time (s)")
-    axs[1].set_title("(b) Does the video remember its opening?")
-    axs[1].set_ylabel("Similarity to own opening"); axs[1].set_xlabel("Time (s)")
-    axs[0].legend(loc="lower left", fontsize=5.8)
+    axs[0].set_title("(a) Do videos of different prompts merge?")
+    axs[0].set_ylabel("Content distance, different prompts\n(1 − cosine similarity, DINOv2)")
+    axs[0].set_xlabel("Time into the video (s)")
+    axs[1].set_title("(b) Does each video still resemble its opening?")
+    axs[1].set_ylabel("Content similarity to the video's first 2 s\n(cosine similarity, DINOv2)")
+    axs[1].set_xlabel("Time into the video (s)")
+    axs[0].legend(loc="lower left", fontsize=5.6,
+                  title="Self Forcing weights; window and sink\nin latent frames (1 latent = 0.25 s)", title_fontsize=5.2)
     fig.tight_layout(w_pad=1.5)
     save(fig, "line_bifurcation")
 
 
 def fig_phase_portrait(D):
-    """PCA of per-second DINOv2 states: each line is one 3-minute video."""
+    """PCA of per-second DINOv2 states: each line is one 3-minute video's trajectory."""
     line_style()
-    fig, axs = plt.subplots(1, 3, figsize=(W, 2.0))
+    fig, axs = plt.subplots(1, 3, figsize=(W, 3.0))
     cmap = plt.get_cmap("tab10")
     allX = np.concatenate([v["cls"][:178] for m in MODELS for v in D[m].values()])
     mu = allX.mean(0)
     U, S, Vt = np.linalg.svd(allX - mu, full_matrices=False)
+    ev = S ** 2 / np.sum(S ** 2)
     V = Vt[:2].T
-    lim = None
     for ax, m in zip(axs, MODELS):
         for (p, s), v in sorted(D[m].items()):
             if s != 0:
                 continue
             Y = (v["cls"][:178] - mu) @ V
             Ys = np.array([np.convolve(Y[:, i], np.ones(9) / 9, "valid") for i in range(2)]).T
-            ax.plot(Ys[:, 0], Ys[:, 1], color=cmap(p), lw=0.8, alpha=0.9)
+            ax.plot(Ys[:, 0], Ys[:, 1], color=cmap(p), lw=0.8, alpha=0.9, label=PROMPTS[p] if m == "sf" else None)
             ax.plot(*Ys[0], "o", color=cmap(p), ms=3.2, mec="white", mew=0.4)
-            ax.plot(*Ys[-1], "X", color=cmap(p), ms=4.2, mec="black", mew=0.4)
+            ax.plot(*Ys[-1], "X", color=cmap(p), ms=4.4, mec="black", mew=0.4)
         ax.set_title(MLABEL[m])
         ax.set_xticklabels([]); ax.set_yticklabels([])
-        ax.set_xlabel("PC 1"); ax.set_ylabel("PC 2" if m == "sf" else "")
+        ax.set_xlabel(f"Principal component 1\n({ev[0] * 100:.1f}% of variance)", fontsize=6.0)
+    axs[0].set_ylabel(f"Principal component 2\n({ev[1] * 100:.1f}% of variance)", fontsize=6.0)
     xs = [a.get_xlim() for a in axs]; ys = [a.get_ylim() for a in axs]
     for a in axs:
         a.set_xlim(min(x[0] for x in xs), max(x[1] for x in xs)); a.set_ylim(min(y[0] for y in ys), max(y[1] for y in ys))
-    axs[0].plot([], [], "o", color="gray", ms=3.2, label="start"); axs[0].plot([], [], "X", color="gray", ms=4.2, mec="k", label="3 min")
-    axs[0].legend(loc="lower left", fontsize=5.8)
-    fig.tight_layout(w_pad=0.6)
+    from matplotlib.lines import Line2D
+    marks = [Line2D([], [], marker="o", color="gray", ls="", ms=3.2, label="video starts (0 s)"),
+             Line2D([], [], marker="X", color="gray", mec="k", ls="", ms=4.4, label="video ends (178 s)")]
+    handles = [Line2D([], [], color=cmap(p), label=PROMPTS[p]) for p in range(8)] + marks
+    fig.legend(handles=handles, loc="lower center", ncol=5, fontsize=5.6, frameon=False, bbox_to_anchor=(0.5, -0.02))
+    fig.suptitle("Each line is one 3-minute video: its per-second DINOv2 embedding (768-D) projected onto the two\n"
+                 "directions of largest variation (PCA, fit jointly on all 48 videos; seed 0 shown)", fontsize=6.6, y=1.0)
+    fig.tight_layout(rect=(0, 0.11, 1, 0.95), w_pad=0.6)
     save(fig, "line_phase_portrait")
 
 
 def fig_ews(D, names):
     import deep
     line_style()
-    sf = D["sf"]
-    fig, axs = plt.subplots(1, 2, figsize=(W, 2.0), gridspec_kw={"width_ratios": [1.4, 1]})
-    # (a) attractor proximity aligned at collapse time
+    fig, axs = plt.subplots(1, 2, figsize=(W, 2.25), gridspec_kw={"width_ratios": [1.4, 1]})
     os.chdir(A)
     Dd, _ = deep.load()
     for k in sorted(Dd["sf"]):
@@ -441,30 +465,31 @@ def fig_ews(D, names):
         tc = deep.collapse_time(prox)
         if tc is None:
             continue
-        tt = np.arange(len(prox)) - tc
-        axs[0].plot(tt, prox, color=(1, 0, 0), alpha=0.35, lw=0.7)
+        axs[0].plot(np.arange(len(prox)) - tc, prox, color=(1, 0, 0), alpha=0.35, lw=0.7)
     axs[0].axvline(0, color="k", lw=0.6, ls=":")
     axs[0].axhline(0, color="#777777", lw=0.5)
     axs[0].set_xlim(-90, 90)
-    axs[0].set_xlabel("Time relative to collapse (s)")
-    axs[0].set_ylabel("Pull toward end state")
-    axs[0].set_title("(a) Collapse is a slow ramp (16 SF videos)")
+    axs[0].set_xlabel("Seconds before (−) / after (+) the video's collapse")
+    axs[0].set_ylabel("↑ closer to shared end state\n↓ closer to own first 2 s\n(difference of cosine similarities)", fontsize=5.8)
+    axs[0].set_title("(a) 16 Self Forcing videos, aligned at collapse")
     bar_style()
     ax = axs[1]; bar_axes(ax)
     B = json.load(open(os.path.join(A, "results_long", "deep.json")))["B_early_warning"]
-    sig = [("attractor_proximity", "proximity"), ("saturation", "saturation"), ("flow", "motion")]
+    sig = [("attractor_proximity", "pull toward\nend state"), ("saturation", "colour\nsaturation"), ("flow", "motion\n(optical flow)")]
     x = np.arange(len(sig))
     pre = [B[k]["frac_pre_ac1_rising"] * 100 for k, _ in sig]
     ctl = [B[k]["frac_ctrl_ac1_rising"] * 100 for k, _ in sig]
-    ax.bar(x - 0.19, pre, 0.36, color=DS_BLUE, hatch="////", edgecolor="white", lw=0, label="before SF collapse")
-    ax.bar(x + 0.19, ctl, 0.36, color=DS_GRAY, edgecolor="white", lw=0, label="matched window, RF/LL")
+    ax.bar(x - 0.19, pre, 0.36, color=DS_BLUE, hatch="////", edgecolor="white", lw=0,
+           label="last 60 s before a Self Forcing collapse (n = 14)")
+    ax.bar(x + 0.19, ctl, 0.36, color=DS_GRAY, edgecolor="white", lw=0,
+           label="same 60 s in Rolling Forcing / LongLive,\nwhich never collapse (n = 32)")
     ax.axhline(50, color="#777777", lw=0.6, ls=":")
-    ax.set_xticks(x); ax.set_xticklabels([l for _, l in sig])
-    ax.set_ylabel("Rising autocorrelation (%)")
-    ax.set_ylim(0, 100)
-    ax.set_title("(b) No early warning", fontsize=7.6)
-    ax.legend(loc="upper right", fontsize=5.6, frameon=False)
-    fig.tight_layout(w_pad=1.5)
+    ax.set_xticks(x); ax.set_xticklabels([l for _, l in sig], fontsize=5.8)
+    ax.set_ylabel("Videos where the signal's lag-1\nautocorrelation rises over time (%)", fontsize=6.0)
+    ax.set_ylim(0, 115)
+    ax.set_title("(b) The classic warning sign does not appear", fontsize=7.0)
+    ax.legend(loc="upper center", fontsize=5.0, frameon=False)
+    fig.tight_layout(w_pad=1.2)
     save(fig, "line_ews")
 
 
@@ -472,7 +497,7 @@ def fig_lol():
     """Synchronized snap-back test (LoL 2601.16914) with circular-shift surrogates."""
     line_style()
     rng = np.random.default_rng(0)
-    fig, axs = plt.subplots(1, 3, figsize=(W, 1.6), sharey=True)
+    fig, axs = plt.subplots(1, 3, figsize=(W, 1.85), sharey=True)
     for ax, m in zip(axs, MODELS):
         R = []
         for f in sorted(glob.glob(os.path.join(A, "lobs", "main", m, "*.npz"))):
@@ -486,11 +511,13 @@ def fig_lol():
         stat = lambda X: np.convolve(X.mean(0), np.ones(8) / 8, "same")[FPS * 10:].max()
         obs = stat(R)
         sur = np.array([stat(np.array([np.roll(r, rng.integers(L)) for r in R])) for _ in range(500)])
-        ax.hist(sur, bins=30, color=DS_LBLUE, edgecolor="white", lw=0.3)
-        ax.axvline(obs, color=(1, 0, 0), lw=1.0)
+        ax.hist(sur, bins=30, color=DS_LBLUE, edgecolor="white", lw=0.3,
+                label="500 surrogates\n(each video shifted\nrandomly in time)")
+        ax.axvline(obs, color=(1, 0, 0), lw=1.0, label="observed")
         ax.set_title(f"{MLABEL[m]}  (p = {np.mean(sur >= obs):.2f})")
-        ax.set_xlabel("Peak synchronized snap-back")
-    axs[0].set_ylabel("Surrogates")
+        ax.set_xlabel("Strongest moment when many videos\njump back toward their opening together", fontsize=5.8)
+    axs[0].set_ylabel("Number of surrogates")
+    axs[2].legend(loc="upper right", fontsize=5.2)
     fig.tight_layout(w_pad=0.6)
     save(fig, "line_lol")
 
@@ -499,18 +526,20 @@ def fig_lol():
 def fig_rqa():
     bar_style()
     R = json.load(open(os.path.join(A, "results_long", "deep4.json")))["rqa"]
-    fig, ax = plt.subplots(figsize=(W * 0.5, 1.9))
+    fig, ax = plt.subplots(figsize=(W * 0.5, 2.0))
     bar_axes(ax)
     x = np.arange(3)
     a = [R[m]["DET"] for m in MODELS]; b = [R[m]["DET_sur"] for m in MODELS]
-    ax.bar(x - 0.19, a, 0.36, color=DS_BLUE, hatch="////", edgecolor="white", lw=0, label="generated")
-    ax.bar(x + 0.19, b, 0.36, color=DS_GRAY, edgecolor="white", lw=0, label="phase-randomized surrogate")
+    ax.bar(x - 0.19, a, 0.36, color=DS_BLUE, hatch="////", edgecolor="white", lw=0, label="generated video")
+    ax.bar(x + 0.19, b, 0.36, color=DS_GRAY, edgecolor="white", lw=0, label="same video, phase-randomized")
     for i in range(3):
         ax.text(x[i] - 0.19, a[i] + 0.01, f"{a[i]:.2f}", ha="center", fontsize=6.0)
         ax.text(x[i] + 0.19, b[i] + 0.01, f"{b[i]:.2f}", ha="center", fontsize=6.0)
-    ax.set_xticks(x); ax.set_xticklabels([MLABEL[m] for m in MODELS])
-    ax.set_ylabel("Determinism (RQA)"); ax.set_ylim(0.5, 1.0)
-    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=5.8, frameon=False)
+    ax.set_xticks(x); ax.set_xticklabels([MLABEL[m].replace(" ", "\n") for m in MODELS])
+    ax.set_ylabel("Recurrence determinism: share of\nrevisits that repeat as sequences", fontsize=6.0)
+    ax.set_ylim(0.5, 1.0)
+    ax.set_title("Is the motion structured? (recurrence analysis)", fontsize=7.0)
+    ax.legend(loc="upper right", fontsize=5.6, frameon=False)
     save(fig, "bar_rqa")
 
 
@@ -531,7 +560,7 @@ def fig_tta():
         ax.set_ylim(min(vals) - 12, max(vals) + 4)
         ax.set_xticks(x); ax.set_xticklabels(meth, fontsize=6.0)
         ax.set_title(title, fontsize=7.4)
-    axs[0].set_ylabel("FVD (lower is better)")
+    axs[0].set_ylabel("Fréchet Video Distance (FVD)\nlower = more realistic")
     fig.tight_layout(w_pad=1.5)
     save(fig, "bar_tta_null")
 
@@ -558,17 +587,17 @@ def fig_atlas():
         jit = rng.uniform(-0.17, 0.17, len(v))
         ax.scatter(v, y + jit, s=16, color=col, edgecolor="#555555", lw=0.3, marker=mk, zorder=3)
     ax.annotate("", xy=(-55, 1.28), xytext=(-15, 1.28), arrowprops=dict(arrowstyle="-", lw=0.6, color="#888888"))
-    ax.text(-29, 1.33, "broke the video: AdaSteer on Wan, noise warp,\npred-slide persist, fast-weight write",
-            ha="center", va="bottom", fontsize=5.8, color=DS_TEXT)
+    ax.text(-62, 1.33, "these broke the video: AdaSteer on Wan, noise warp,\npred-slide persist, fast-weight write",
+            ha="left", va="bottom", fontsize=5.8, color=DS_TEXT)
     ax.text(0, -0.42, "|ΔIQ| < 1", ha="center", fontsize=5.8, color="#666666")
     ax.axvline(0, color="#555555", lw=0.6)
     ax.axvspan(-1, 1, color="#EEEEEE", zorder=0)
     ax.set_xscale("symlog", linthresh=1)
     ax.set_xticks([-50, -20, -10, -5, -2, -1, 0, 1, 2]); ax.set_xticklabels(["−50", "−20", "−10", "−5", "−2", "−1", "0", "+1", "+2"])
-    ax.set_yticks([0, 1]); ax.set_yticklabels(["Select among\nown outputs", "Edit the\ntrajectory"])
+    ax.set_yticks([0, 1]); ax.set_yticklabels(["Select among the\nmodel's own outputs\n(11 methods)", "Edit the video\nwhile generating\n(28 variants)"])
     ax.set_ylim(-0.5, 1.75)
     ax.set_xlim(-70, 4)
-    ax.set_xlabel("Δ imaging quality vs. doing nothing (VBench, 0–100)")
+    ax.set_xlabel("Change in VBench image quality vs. doing nothing (points on a 0–100 scale; axis compressed beyond ±1)")
     ax.xaxis.grid(True, ls=(0, (4, 3)), color="#E8E8E8", lw=0.6); ax.set_axisbelow(True)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
