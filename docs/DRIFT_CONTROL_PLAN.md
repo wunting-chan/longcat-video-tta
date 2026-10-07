@@ -77,3 +77,41 @@ Negative outcomes are reported as results. Strengths are not tuned after seeing 
 
 About 112 continuous rollouts plus 24 one-shot rollouts at about 3.5 A100-minutes per 120 s
 rollout: about 8 A100-hours. Features take about 0.5 L40S-hour.
+
+## Revision, 2026-10-07: the method is a memory correction; selection is a baseline
+
+User decision: best-of-K selection is well established (our always-search, CachedSearch,
+EvoSearch and others), so it is no longer the proposed method. It remains only as a
+compute-heavy baseline.
+
+**Evidence from the one-chunk kicks** (held-out prompts 8–15, seed 0):
+
+- A kick toward the attractor sticks, and more so the bigger the kick. At 4×, the latent shift
+  at 60–118 s is +0.93 units [0.40, 1.50]. In DINOv2, distance to the attractor falls by 0.09 and
+  prompt identity drops from 87% to 59%.
+- Kicks away from the attractor, and random kicks, are undone within one attention window
+  (half-life 2.7–4.5 s).
+- The drift rate after a kick is unchanged, so a kick shifts the video along a fixed track.
+- Baseline drift is a small push at every chunk, concentrated in the first minute. About 56% of
+  its latent energy is a global colour cast.
+
+The fast restoring pull acts through the model's memory, which motivates the method.
+
+**Method: attractor-aware memory correction.** At every chunk, remove the component of drift
+toward the attractor (latent axis u = (c − o)/‖c − o‖, the part with p > 0) from the block
+written to the KV cache only. The displayed block is the model's own output
+(`--hook-target memory`). No extra samples and no training.
+
+**Stage A arms** (prompts 8–15 × seeds 0 and 1, 120 s):
+
+1. baseline
+2. memory correction, continuous (α = 1)
+3. memory correction, early only (2.25–60 s, then off)
+4. memory correction with a random direction of matched norm
+5. the same correction applied to the displayed output (tests whether memory specifically matters)
+6. best-of-2 selection with the attractor score (baseline)
+7. best-of-2 selection, random pick (matched-compute control)
+
+**Deferred:** tolerance band, colour-only correction, correction before the last denoising step,
+front-loaded schedules, stripe filter. Decision rules and endpoints are as above. Selection
+toward the attractor is dropped, because the kick experiment already answers that question.
