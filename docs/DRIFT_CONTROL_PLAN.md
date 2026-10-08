@@ -162,3 +162,18 @@ the model's own outputs, never an added vector.
   - aesthetic quality is the only dimension that tracks diversity across arms (rho 0.75–0.86, n = 7 arms, low power);
   - subject consistency correlates negatively with diversity (−0.29 to −0.54).
   - This supports reporting VBench alongside semantic metrics, never on its own. `attractors/results/free_round2*.json`.
+
+### 2026-10-08 (night): state transplant and prompt switch
+Adoption = projection of the video onto the line from its own baseline to the donor's (new prompt's) baseline, at the same absolute seconds. 0 = unchanged, 1 = the donor's own video. Mean over held-out prompts 8–15, seed 0, with bootstrap 95% CI.
+- **Prompt switch, Self Forcing: the prompt is a weak control at every time.**
+  - Adoption is 0.05–0.15 in the first 10 s after the switch and 0.24–0.31 after 10–30 s, for switches at 10, 30, 60 and 90 s alike.
+  - It never passes 0.5 by 120 s.
+  - It doesn't fall as the video collapses: SF is weakly prompt-driven from 10 s on.
+- **Prompt switch, LongLive: about 0.5 within 10 s and 0.61–0.68 after 10–30 s, also at every switch time.**
+  - Caveat: LongLive is trained for interactive prompt switching. Our switch resets only the cross-attention cache (no KV re-cache), so this is a lower bound for LL and the comparison is not recipe-neutral.
+- **Transplant at 30 s, Self Forcing: the newest frames carry most of the state.**
+  - Donor's newest block only (own older memory): adoption 0.46 [0.22, 0.71] immediately.
+  - Donor's older 20-latent memory only (own newest block): 0.13 [0.07, 0.20].
+  - Both persist to 120 s (0.38 and 0.31): the video does not return to its own trajectory.
+  - Together with the memory swap (whole window restored → clean snap-back), this suggests the state is concentrated in the most recent frames and the prompt contributes little steering force in SF.
+- Results: `attractors/results/mech_analysis.json`; normalised adoption computed ad hoc from the same features (to be folded into mech_analysis.py).
