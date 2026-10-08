@@ -149,3 +149,8 @@ the model's own outputs, never an added vector.
 - Cost: about 4–6 A100-h.
 - Expected odds: about 30%.
 - If it only matches a sink, it is reported as an explanation of why sinks work.
+
+### 2026-10-08 (late): gates passed, mechanism runs launched
+- Smoke 19441287–89: transplant (kv, at 10 s) and prompt switch (at 10 s) are bit-identical to the baseline through 10.5 s and diverge afterwards (max |Δ| 1.4–4.9 latent units). Both mechanisms work as intended.
+- Memory-swap visual gate: re-encoding the opening into the 21-latent window at 60 s gives a clean, artifact-free return to the opening scene on all 4 checked prompts (9, 11, 13, 15). It then re-collapses within ~30 s. Purified memory goes ahead as planned (time-boxed, behind the main experiments). Frame grids: `MemorySwap_frame_grids_fullres.pdf`.
+- Launched SF, held-out prompts 8–15, seed 0, 120 s: transplant kv/latest at 30 s (19441737/39); prompt switch at 10/30/60/90 s (19441741/42/44/46). LL/RF prompt switch waits on a hook check.
