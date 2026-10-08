@@ -154,3 +154,11 @@ the model's own outputs, never an added vector.
 - Smoke 19441287–89: transplant (kv, at 10 s) and prompt switch (at 10 s) are bit-identical to the baseline through 10.5 s and diverge afterwards (max |Δ| 1.4–4.9 latent units). Both mechanisms work as intended.
 - Memory-swap visual gate: re-encoding the opening into the 21-latent window at 60 s gives a clean, artifact-free return to the opening scene on all 4 checked prompts (9, 11, 13, 15). It then re-collapses within ~30 s. Purified memory goes ahead as planned (time-boxed, behind the main experiments). Frame grids: `MemorySwap_frame_grids_fullres.pdf`.
 - Launched SF, held-out prompts 8–15, seed 0, 120 s: transplant kv/latest at 30 s (19441737/39); prompt switch at 10/30/60/90 s (19441741/42/44/46). LL/RF prompt switch waits on a hook check.
+
+### 2026-10-08: free analyses (no generation)
+- **End states form a continuum, not a few basins.** DINOv2 end states (last 10 s) of 336 rollouts: silhouette 0.14–0.23 for k = 2–8, rising slowly with k and never clearly peaking. Self Forcing end states sit much closer together (mean cosine distance 0.605) than Rolling Forcing (0.925) or LongLive (0.912). This is consistent with one shared attracting region for SF only.
+- **VBench mostly does not track semantic retention once time is held fixed.** Pooled over windows, everything correlates because everything declines with time. Within a window:
+  - imaging quality vs prompt identification: rho +0.06 (55 s) and −0.12 (110 s); vs an arm's cross-prompt diversity: −0.32 at 110 s;
+  - aesthetic quality is the only dimension that tracks diversity across arms (rho 0.75–0.86, n = 7 arms, low power);
+  - subject consistency correlates negatively with diversity (−0.29 to −0.54).
+  - This supports reporting VBench alongside semantic metrics, never on its own. `attractors/results/free_round2*.json`.
