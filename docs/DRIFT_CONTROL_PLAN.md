@@ -115,3 +115,37 @@ written to the KV cache only. The displayed block is the model's own output
 **Deferred:** tolerance band, colour-only correction, correction before the last denoising step,
 front-loaded schedules, stripe filter. Decision rules and endpoints are as above. Selection
 toward the attractor is dropped, because the kick experiment already answers that question.
+
+## Revision, 2026-10-08: reviewer-driven priorities, and memory purification
+
+**Results that set the direction:**
+
+- The linear steering arms are complete. They change which collapsed state a video reaches, not
+  whether it collapses: the observed drift axis is a readout of the dynamics, not a control
+  vector.
+- The memory swap shows that the video's position along the drift is set by the content of its
+  21-latent memory window. Re-encoding the opening at 60 s takes it from 1.56 to 0.17 units. From
+  clean context the model then drifts again at about 1.0 units per 30 s.
+
+**Priorities, following the cross-platform review:**
+
+1. State transplant: A's current chunk with B's memory, and the reverse.
+2. Prompt-switch susceptibility at 10, 30, 60 and 90 s, with identical future noise.
+3. A second backbone: LongSANA, with and without its sink.
+4. Sink sweep {0, 1, 2, 3, 4, 6, 8} at a fixed 21-latent budget. In Self Forcing the sink already
+   sits inside the window.
+5. A second representation (CLIP or SigLIP).
+6. Interventional attention masking and denoising-step attribution.
+
+No new steering variants.
+
+**Memory purification (time-boxed, after 1–2).** The test is gated on the swap continuations
+looking visually clean. When the attracting-regime readout passes a threshold, the memory
+chunks are partially re-noised and re-denoised by the model with the clean opening as context.
+The result keeps the scene layout but removes the accumulated drift, and the memory holds only
+the model's own outputs, never an added vector.
+
+- Comparisons: sink, periodic hard refresh, baseline.
+- Cost: about 4–6 A100-h.
+- Expected odds: about 30%.
+- If it only matches a sink, it is reported as an explanation of why sinks work.
