@@ -134,3 +134,48 @@ Everything respects the 2-way H200 cap.
 - **Correctors don't collapse, but CausVid or Krea does:** the attractor belongs to the DMD / self-rollout recipe, not to autoregression.
 - **Different models fall into the same region:** a shared bias of the data or the base model, not just of the recipe. The cross-model distance measures this directly.
 - **Non-Wan models collapse differently** (freezing for FramePack, prompt erasure without colour drift): the mode depends on the backbone, and the taxonomy is the result.
+
+## Revision 2026-10-10: Phase A approved; model set chosen by baseline frequency
+
+Wun Ting Chan approved Phase A and asked for the models other papers use as baselines, kept cheap
+(not LongCat-Video). I counted the baselines in the long-video tables (≥30 s) of 16 recent papers:
+LongLive, Rolling Forcing, Self-Forcing++, Infinity-RoPE, Reward Forcing, Deep Forcing, LoL,
+Relax Forcing, MemRoPE, Helios, PackForcing, Steady-Forcing, FreqForcing, Recency Forcing,
+ID-Forcing and BlockVid.
+
+| Model | Long tables it appears in | Status |
+|---|---|---|
+| Self Forcing | 16 | have |
+| LongLive | 12 | have |
+| CausVid | 10 | **Phase A** |
+| Rolling Forcing | 9 | have |
+| SkyReels-V2-DF | 8 | **Phase A** (1.3B) |
+| Deep Forcing | 7 | **Phase A** (training-free on the Self Forcing checkpoint) |
+| MAGI-1 | 6 | **Phase A** (4.5B-distill; the only non-Wan T2V chunk-AR model that fits one GPU) |
+| Infinity-RoPE | 5 | **Phase A** (training-free on the Self Forcing checkpoint) |
+| NOVA | 4 | **Phase A** (0.6B, non-Wan, non-quantized AR) |
+| Causal Forcing | 3 | optional later (cheap, Wan-1.3B) |
+| Reward Forcing, Infinite Forcing, FramePack, Self-Forcing++ | 2 | not now |
+| Pyramid Flow, Krea 14B, LongCat-Video, InfinityStar, SANA-Video | 1 | dropped |
+
+Dropped from the 2026-10-08 shortlist:
+- Helios-14B, Krea-14B and LongCat-Video: each is used once and costs 10× more.
+- FramePack: image-to-video only.
+- LongSANA: used once.
+- Pyramid Flow: capped at 10 s by its code, and fails at 50 s in Self-Forcing++.
+- Self-Forcing++: no weights or code released.
+
+The set now covers four things:
+- the forcing family on Wan-1.3B: Self Forcing, CausVid, Rolling Forcing, LongLive;
+- the two most-cited training-free correctors: Deep Forcing, Infinity-RoPE;
+- diffusion forcing: SkyReels-V2-DF;
+- two non-Wan backbones: MAGI-1, NOVA.
+
+**Phase A mechanics** (`attractors/multimodel/`):
+- **Environments.**
+  - `va_wan`: torch 2.5.1, cu124, prebuilt flash-attn 2.7.4. Used for CausVid, Deep Forcing, Infinity-RoPE, SkyReels-V2 and NOVA.
+  - `va_magi`: torch 2.4.0 with flash-attn 2.6.3. MagiAttention is not installed; the README marks it optional off Hopper.
+- **Probe.** `probe.sbatch` runs each repo's own inference script, unmodified, on held-out prompt 8 with seed 0, on one A100. It records wall time, peak GPU memory and the actual video length.
+- **Exceptions to "unmodified":**
+  - CausVid's script does not seed, so `seeded_run.py` seeds it.
+  - MAGI-1 runs at 480×832 to match the Wan models; its config default is 720×720.
